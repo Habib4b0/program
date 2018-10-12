@@ -6,7 +6,7 @@
 
 package com.stpl.app.gtnforecasting.dto;
 
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.ifs.util.HelperDTO;
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class SQlUtil {
 
 	private final Map<String, String> queryMap = new HashMap<>();
-	private static SQlUtil sqlUtil = null;
+	private static volatile SQlUtil sqlUtil = null;
 	private static final Logger LOGGER = LoggerFactory.getLogger(SQlUtil.class);
 
 	private SQlUtil() {

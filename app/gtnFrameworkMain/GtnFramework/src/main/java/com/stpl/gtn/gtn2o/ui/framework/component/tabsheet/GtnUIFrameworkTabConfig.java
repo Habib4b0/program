@@ -7,11 +7,16 @@ import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 
 public class GtnUIFrameworkTabConfig {
 
+	public GtnUIFrameworkTabConfig() {
+		super();
+	}
+
 	private String componentId = null;
 	private String tabCaption = null;
 	private GtnUIFrameworkTabSheetLoadType tabloadingType = GtnUIFrameworkTabSheetLoadType.EARLY_LOAD;
 	private List<GtnUIFrameworkComponentConfig> tabLayoutComponentConfigList = null;
 	private boolean isDefaultTab = false;
+	private int tabIndex;
 
 	public String getComponentId() {
 		return componentId;
@@ -53,6 +58,14 @@ public class GtnUIFrameworkTabConfig {
 
 	public void setDefaultTab(boolean isDefaultTab) {
 		this.isDefaultTab = isDefaultTab;
+	}
+
+	public int getTabIndex() {
+		return tabIndex;
+	}
+
+	public void setTabIndex(int tabIndex) {
+		this.tabIndex = tabIndex;
 	}
 
 }

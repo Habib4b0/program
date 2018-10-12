@@ -15,10 +15,10 @@ import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.ui.dataSelection.form.DataSelection;
-import com.stpl.app.cff.ui.fileSelection.form.FileSelection;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.form.ProjectionVariance;
+import com.stpl.app.cff.ui.dataselection.form.DataSelection;
+import com.stpl.app.cff.ui.fileselection.form.FileSelection;
+import com.stpl.app.cff.ui.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionvariance.form.ProjectionVariance;
 import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
@@ -26,6 +26,7 @@ import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.security.permission.model.AppPermission;
+import com.stpl.app.util.service.thread.ThreadPool;
 import com.stpl.ifs.ui.CustomFieldGroup;
 import com.stpl.ifs.ui.forecastds.dto.DataSelectionDTO;
 import com.stpl.ifs.ui.util.CommonUIUtils;
@@ -137,6 +138,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
      */
     private ProjectionVariance projectionVariance;
     private CustomFieldGroup cffSearchBinder;
+    private final ThreadPool threadpool = ThreadPool.getInstance();
     private CFFLogic cffLogic = new CFFLogic();
     private boolean isApproved = false;
     public static final String CFF = "CFF";
@@ -369,7 +371,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             });
 
             if (dto.getStatusDesc() != null && !StringUtils.EMPTY.equals(dto.getStatusDesc())) {
-                if (Constants.APPROVED.equals(dto.getStatusDesc())) {
+                if ((Constants.APPROVED.equals(dto.getStatusDesc())) || ("Cancelled".equals(dto.getStatusDesc()) || "Canceled".equals(dto.getStatusDesc()))) {
 
                     approveBtn.setEnabled(false);
                     rejectBtn.setEnabled(false);
@@ -397,15 +399,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                     deleteBtn.setEnabled(true);
                     cancelBtn.setEnabled(true);
                     submitBtn.setEnabled(true);
-                } else if ("Cancelled".equals(dto.getStatusDesc()) || "Canceled".equals(dto.getStatusDesc())) {
-
-                    approveBtn.setEnabled(false);
-                    rejectBtn.setEnabled(false);
-                    deleteBtn.setEnabled(false);
-                    cancelBtn.setEnabled(false);
-                    submitBtn.setEnabled(false);
-                }
-
+                } 
             } else {
                 approveBtn.setEnabled(false);
                 rejectBtn.setEnabled(false);
@@ -563,7 +557,12 @@ public class CffApprovalDetailsForm extends CustomWindow {
                         if (!result.equals(CommonUtils.FAIL)) {
                             if ((Boolean) resultList.get(1)) {
                                 Object[] obj = {dto.getCffMasterSid()};
-                                CommonLogic.callProcedureUpdate("PRC_CFF_OUTBOUND", obj);
+                                threadpool.submitRunnable(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        CommonLogic.callProcedureUpdate("PRC_CFF_OUTBOUND", obj);
+                                    }
+                                });
                             }
                             notestab.getApprovalWindow().close();
                             CommonUIUtils.getMessageNotification("Approved Successfully");

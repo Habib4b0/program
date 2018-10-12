@@ -29,6 +29,7 @@ import com.stpl.gtn.gtn2o.ws.report.bean.GtnWsReportDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.report.constants.GtnWsReportConstants;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import java.util.Arrays;
 
 /**
  *
@@ -107,6 +108,11 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 				grid.getTableConfig().getGtnReportDataRefreshBean().getComparisonProjectionBeanList());
 		dashBoardBean.setSelectFreqString(grid.getTableConfig().getGtnReportDataRefreshBean().getFrequencyName());
 
+                dataSelectionBean.setFrequency(GtnUIFrameworkGlobalUI
+				.getVaadinBaseComponent(params.get(7).toString(), componentId).getIntegerFromV8ComboBox());
+                dataSelectionBean.setVariablesList(Arrays.asList(selectedVariable));
+                dataSelectionBean.setComparisonProjectionBeanList(dashBoardBean.getComparisonProjectionBeanList());
+                
 		componentData.getCurrentGtnComponent().reloadComponent(null, componentId, (String) params.get(1), null);
 	}
 
@@ -199,12 +205,15 @@ public class GtnFrameworkUIReportDasboardTableLoadAction
 	private boolean checkBothComparisonList(
 			List<GtnReportComparisonProjectionBean> dataselectionComparisonProjectionBeanList,
 			List<GtnReportComparisonProjectionBean> comparisonProjectionBeanList) {
-		for (GtnReportComparisonProjectionBean dsComparison : dataselectionComparisonProjectionBeanList) {
-			for (GtnReportComparisonProjectionBean rdComparison : comparisonProjectionBeanList) {
-				if ((dsComparison.getProjectionMasterSid() != rdComparison.getProjectionMasterSid())
-						|| (!dsComparison.getProjectionType().equals(rdComparison.getProjectionType()))) {
-					return true;
-				}
+		if (dataselectionComparisonProjectionBeanList.size() != comparisonProjectionBeanList.size()) {
+			return true;
+		}
+		for (int i = 0; i < dataselectionComparisonProjectionBeanList.size(); i++) {
+			GtnReportComparisonProjectionBean dsComparison = dataselectionComparisonProjectionBeanList.get(i);
+			GtnReportComparisonProjectionBean rdComparison = comparisonProjectionBeanList.get(i);
+			if ((dsComparison.getProjectionMasterSid() != rdComparison.getProjectionMasterSid())
+					|| (!dsComparison.getProjectionType().equals(rdComparison.getProjectionType()))) {
+				return true;
 			}
 		}
 		return false;

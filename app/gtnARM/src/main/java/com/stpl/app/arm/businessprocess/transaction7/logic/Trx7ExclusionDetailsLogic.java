@@ -43,7 +43,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Gopinath.Mathiyalaga
+ * @author Gopinath.M
  */
 public class Trx7ExclusionDetailsLogic {
 
@@ -75,13 +75,16 @@ public class Trx7ExclusionDetailsLogic {
             return finalList;
         }
     }
-
+    
     public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
         LOGGER.debug("--Inside saveORUpdate_Exclusion_Details_LookUp--{}", projectionSid);
         StringBuilder sbQuery = new StringBuilder();
         boolean isView = sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL);
         String saveQuery = isView ? SQlUtil.getQuery("saveORUpdateQuery") : SQlUtil.getQuery("saveORUpdateQueryEdit");
         saveQuery = saveQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
+        if(!isView) {
+            saveQuery = saveQuery.replace(CommonConstant.TABLE_IN_SQUARE_BRACKET, "" + sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_EXCLUSION_DETAILS));
+        }
         saveQuery = saveQuery.replace("@USER_ID", "" + sessionDTO.getUserId());
         saveQuery = saveQuery.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
         sbQuery.append(saveQuery);
@@ -96,6 +99,7 @@ public class Trx7ExclusionDetailsLogic {
         query = query.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
         query = query.replace("@USER_ID", "" + sessionDTO.getUserId());
         query = query.replace("@SESSION_ID", "" + sessionDTO.getSessionId());
+        query = query.replace(CommonConstant.TABLE_IN_SQUARE_BRACKET, "" + sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_EXCLUSION_DETAILS));
         sbQuery.append(" ; ").append(query);
         LOGGER.debug("--Exit saveORUpdate_Exclusion_Details_LookUp--{}", sbQuery);
         DAO.executeUpdate(sbQuery.toString());

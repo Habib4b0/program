@@ -27,7 +27,7 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchCriteriaDTO;
 import com.stpl.app.adminconsole.abstractsearch.dto.SearchResultsDTO;
 import com.stpl.app.adminconsole.abstractsearch.logic.AbstractSearchLogic;
-import com.stpl.app.adminconsole.abstractsearch.logic.tableLogic.AbstractSearchTableLogic;
+import com.stpl.app.adminconsole.abstractsearch.logic.tablelogic.AbstractSearchTableLogic;
 import com.stpl.app.adminconsole.abstractsearch.util.MessageUtil;
 import com.stpl.app.adminconsole.abstractsearch.util.ValidationUtil;
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
@@ -784,6 +784,7 @@ public class AbstractSearchForm extends CustomComponent {
      * @throws Exception
      */
     private void loadExcelTable(String moduleName, ErrorfulFieldGroup binder, String searchCriteria) throws  ParseException, PortalException {
+        LOGGER.debug("searchCriteria = {}",searchCriteria);
         excelTableBean.removeAllItems();
         if (resultTable.size() != 0) {
             int count = searchLogic.getCountBasedOnModules(binder, 0, true, null, null, moduleName);

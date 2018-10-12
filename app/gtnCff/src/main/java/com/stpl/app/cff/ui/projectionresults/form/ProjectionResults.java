@@ -8,13 +8,13 @@ package com.stpl.app.cff.ui.projectionresults.form;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.cff.abstractCff.ForecastProjectionResults;
+import com.stpl.app.cff.abstractcff.ForecastProjectionResults;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.lazyLoad.ResultsTableLogic;
+import com.stpl.app.cff.lazyload.ResultsTableLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
-import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
+import com.stpl.app.cff.ui.dataselection.dto.ForecastDTO;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.ui.projectionresults.logic.PRExcelLogic;
 import com.stpl.app.cff.ui.projectionresults.logic.ProjectionResultsLogic;
@@ -370,11 +370,12 @@ public class ProjectionResults extends ForecastProjectionResults {
      *
      * @return
      */
-    private ForecastDTO getHistoricalPeriods(DataSelectionDTO dataSelectionDTO) {
+    private ForecastDTO getHistoricalPeriods(DataSelectionDTO dataSelectionDtoParam) {
         Date dbDateTO;
         SimpleDateFormat format = new SimpleDateFormat(Constants.CommonConstants.DATE_FORMAT.getConstant());
-        if (dataSelectionDTO == null) {
-            dataSelectionDTO = new DataSelectionDTO();
+        DataSelectionDTO dataSelectionDtoo = dataSelectionDtoParam;
+        if (dataSelectionDtoo == null) {
+            dataSelectionDtoo = new DataSelectionDTO();
         }
 
         String sql = "SELECT\n"
@@ -418,14 +419,14 @@ public class ProjectionResults extends ForecastProjectionResults {
             } catch (ParseException pe) {
                 LOGGER.error(pe.getMessage());
             }
-            dataSelectionDTO.setFromDate(dbDateFrom);
-            dataSelectionDTO.setToDate(dbDateTO);
+            dataSelectionDtoo.setFromDate(dbDateFrom);
+            dataSelectionDtoo.setToDate(dbDateTO);
         }
-        dataSelectionDTO.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDTO.getFromDate()));
-        dataSelectionDTO.setToDate(CommonLogic.toDateIsNull(dataSelectionDTO.getToDate()));
+        dataSelectionDtoo.setFromDate(CommonLogic.fromDateIsNull(dataSelectionDtoo.getFromDate()));
+        dataSelectionDtoo.setToDate(CommonLogic.toDateIsNull(dataSelectionDtoo.getToDate()));
         ForecastDTO dto = new ForecastDTO();
         try {
-                dto = DataSelectionUtil.getForecastDTO(dataSelectionDTO, session);
+                dto = DataSelectionUtil.getForecastDTO(dataSelectionDtoo, session);
         } catch (Exception exp) {
             LOGGER.error(exp.getMessage());
         }
@@ -711,6 +712,7 @@ public class ProjectionResults extends ForecastProjectionResults {
 
     private String getParentKeyforCustom(ProjectionResultsDTO itemId, String key, String parentKey) {
         String parentKeyCustom = parentKey;
+        LOGGER.debug("parentKeyCustom = {}",parentKeyCustom);
         if (itemId.getParentHierarchyNo() == null) {
             parentKeyCustom = key.substring(0, key.lastIndexOf('.'));
         } else {

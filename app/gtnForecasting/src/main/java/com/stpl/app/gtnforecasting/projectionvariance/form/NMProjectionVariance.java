@@ -9,7 +9,7 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastProjectionVariance;
 import com.stpl.app.gtnforecasting.dao.DataSelectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
-import static com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection.ANULL;
+import static com.stpl.app.gtnforecasting.discountprojection.form.NMDiscountProjection.ANULL;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
@@ -22,7 +22,7 @@ import com.stpl.app.gtnforecasting.projectionvariance.form.lookup.NMComparisonLo
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMPVExcelLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.NMProjectionVarianceLogic;
 import com.stpl.app.gtnforecasting.projectionvariance.logic.tablelogic.ProjectionVarianceTableLogic;
-import com.stpl.app.gtnforecasting.queryUtils.PVQueryUtils;
+import com.stpl.app.gtnforecasting.queryutils.PVQueryUtils;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.ui.ForecastUI;
 import com.stpl.app.gtnforecasting.ui.form.ForecastForm;
@@ -30,7 +30,9 @@ import com.stpl.app.gtnforecasting.utils.AbstractNotificationUtils;
 import com.stpl.app.gtnforecasting.utils.ChangeCustomMenuBarValueUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
+import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
+import com.stpl.app.gtnforecasting.utils.Constant.PVVariables;
 import com.stpl.app.gtnforecasting.utils.DataSelectionUtil;
 import com.stpl.app.gtnforecasting.utils.FunctionNameUtil;
 import com.stpl.app.gtnforecasting.utils.HeaderUtils;
@@ -42,6 +44,8 @@ import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.ForecastConfigLocalServiceUtil;
 import com.stpl.app.utils.Constants;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_EDIT;
+import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.SELECT_ONE;
 import static com.stpl.app.utils.Constants.HeaderConstants.HEADER_LEVEL;
 import static com.stpl.app.utils.Constants.LabelConstants.*;
@@ -70,8 +74,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -79,6 +85,7 @@ import org.apache.commons.lang.StringUtils;
 import org.asi.container.ExtContainer;
 import org.asi.container.ExtTreeContainer;
 import org.asi.ui.custommenubar.CustomMenuBar;
+import org.asi.ui.custommenubar.MenuItemDTO;
 import org.asi.ui.extfilteringtable.ExtCustomTable;
 import org.asi.ui.extfilteringtable.ExtDemoFilterDecorator;
 import org.asi.ui.extfilteringtable.ExtFilterTreeTable;
@@ -171,6 +178,7 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
     private final DataSelectionLogic dsLogic = new DataSelectionLogic();
     protected DataSelectionDTO dataSelectionDto = new DataSelectionDTO();
     public static final String EACH = "EACH";
+    protected boolean pvFlag = true;
 
     private final CustomMenuBar.SubMenuCloseListener deductionlistener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -1063,7 +1071,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
         }
     }
      public void checkPvFrequency(){
-        boolean pvFlag = true;
         if(pvFlag && (!session.getDsFrequency().equals(frequency.getValue()))){            
             pvFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
@@ -1869,7 +1876,6 @@ public class NMProjectionVariance extends ForecastProjectionVariance {
                     ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(deductionFilterDdlb, deductionMenuItemValue);
                     generateDiscountToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(SID);
                     generateDiscountNamesToBeLoaded = commonLogic.getFilterValues(deductionFilterValues).get(CAPTION);
-                }
                 security();
                 flag = false;
             } catch (PortalException | SystemException ex) {

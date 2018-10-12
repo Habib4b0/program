@@ -52,7 +52,10 @@ public class GtnWsReportRightTableLoadDataService {
 
 			String hierarchyNo = bean.getHierarchyNo();
 			int levelNo = bean.getLevelNo();
+			String freqStr = gtnWsRequest.getGtnWsReportRequest().getGtnWsReportDashboardBean().getSelectFreqString();
+
 			ResultTransformer transformer = rowTransformer;
+			rowTransformer.setAnnual("Annual".equals(freqStr));
 
 			String customViewType = "";
 			if (customViewTypeDataArray.length == 3) {
@@ -60,7 +63,7 @@ public class GtnWsReportRightTableLoadDataService {
 				if (customViewTypeDataArray[2].equals("Columns")) {
 					customViewType = "VARIABLE";
 					transformer = columnTransFormer;
-
+					columnTransFormer.setAnnual("Annual".equals(freqStr));
 				}
 			}
 

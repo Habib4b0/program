@@ -635,7 +635,7 @@ public class DataSelectionLogic {
 				projectionId);
 		String endLevelsQury;
 		Map<String, Object> parameters = new HashMap<>();
-		String insertQuery = StringUtils.EMPTY;
+		StringBuilder insertQuery = new StringBuilder();
 		parameters.put(Constant.PROJECTION_ID, projectionId);
 		parameters.put(RL_SIDS, endLevelSids);
 		parameters.put(Constant.TABLE_NAME, "PROJECTION_CUST_HIERARCHY");
@@ -646,12 +646,11 @@ public class DataSelectionLogic {
 				int listSize = addLevels.size();
 				for (int i = 0; i < listSize; i++) {
 					if (i == 0) {
-						insertQuery = "Insert into PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID ) ";
+                                            insertQuery.append("Insert into PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID ) ");
 					}
-					insertQuery += SELECT_CAPS + projectionId + " , "
-							+ UiUtils.parseStringToInteger(String.valueOf(addLevels.get(i)));
+                                        insertQuery.append(SELECT_CAPS).append(projectionId).append(" , ").append(UiUtils.parseStringToInteger(String.valueOf(addLevels.get(i))));
 					if (i != listSize - 1) {
-						insertQuery += UNION_ALL;
+                                            insertQuery.append(UNION_ALL);
 					}
 				}
 
@@ -659,23 +658,23 @@ public class DataSelectionLogic {
 				int listSize = levelList.size();
 				for (int i = 0; i < listSize; i++) {
 					if (i == 0) {
-						insertQuery = "Insert into PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
+                                            insertQuery.append("Insert into PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ");
 					}
-					insertQuery += SELECT_CAPS + projectionId + " , " + levelList.get(i).getRelationshipLevelSid();
+                                        insertQuery.append(SELECT_CAPS).append(projectionId).append( " , " ).append(levelList.get(i).getRelationshipLevelSid());
 					if (i != listSize - 1) {
-						insertQuery += UNION_ALL;
+						insertQuery.append(UNION_ALL);
 					}
 				}
 			}
-			if (insertQuery.isEmpty()) {
-				insertQuery = "Insert into PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ";
-				insertQuery += endLevelsQury;
+			if (insertQuery.toString().isEmpty()) {
+				insertQuery.append("Insert into PROJECTION_CUST_HIERARCHY (PROJECTION_MASTER_SID, RELATIONSHIP_LEVEL_SID) ");
+				insertQuery.append(endLevelsQury);
 			} else {
-				insertQuery += UNION_ALL + endLevelsQury;
+				insertQuery.append(UNION_ALL).append(endLevelsQury);
 			}
 
-			if (!insertQuery.isEmpty()) {
-				HelperTableLocalServiceUtil.executeUpdateQuery(insertQuery);
+			if (!insertQuery.toString().isEmpty()) {
+				HelperTableLocalServiceUtil.executeUpdateQuery(insertQuery.toString());
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());

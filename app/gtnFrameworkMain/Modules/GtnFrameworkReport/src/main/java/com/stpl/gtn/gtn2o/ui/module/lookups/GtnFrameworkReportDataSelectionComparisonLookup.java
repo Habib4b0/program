@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonClearSortOrderAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportDashboardComparisonResultsSearchAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -124,7 +125,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		componentList.add(resultsMainLayout);
 
 		GtnUIFrameworkComponentConfig resultsMainLayoutConfig = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.RESULTS_MAIN_LAYOUT_CONFIG, true, "resultsMainLayout");
+				GtnFrameworkReportStringConstants.REPORT_RESULTS_MAIN_LAYOUT_CONFIG, true, "resultsMainLayout");
 		resultsMainLayoutConfig.setComponentWidth("100%");
 
 		List<String> resultsMainLayoutStyleList = new ArrayList<>();
@@ -139,7 +140,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 
 	private void addResultPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig resultPanel = configProvider.getPanelConfig("resultPanel", true,
-				GtnFrameworkReportStringConstants.RESULTS_MAIN_LAYOUT_CONFIG);
+				GtnFrameworkReportStringConstants.REPORT_RESULTS_MAIN_LAYOUT_CONFIG);
 		resultPanel.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		resultPanel.setAuthorizationIncluded(true);
 		resultPanel.setComponentWidth("100%");
@@ -283,7 +284,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		GtnUIFrameworkComponentConfig publicViewsLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		publicViewsLayoutConfig.setAddToParent(true);
 		publicViewsLayoutConfig.setSpacing(true);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -302,7 +303,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		workflowStatus.setAddToParent(true);
 		workflowStatus.setCustomReference("integerId");
 		workflowStatus.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 
 		workflowStatus.setComponentWsFieldId("workflowStatus");
 
@@ -323,7 +324,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupBusinessUnitLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonLookupBusinessUnitLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
+						+ GtnFrameworkReportStringConstants.REPORT_BUSINESS_UNIT_LAYOUT);
 		reportComparisonLookupBusinessUnitLayoutConfig.setAddToParent(true);
 		reportComparisonLookupBusinessUnitLayoutConfig.setSpacing(true);
 		reportComparisonLookupBusinessUnitLayoutConfig
@@ -340,7 +341,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupMarketType.setComponentName("Market Type: ");
 		reportComparisonLookupMarketType.setAddToParent(true);
 		reportComparisonLookupMarketType.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_BUSINESS_UNIT_LAYOUT);
 		reportComparisonLookupMarketType.setComponentStyle(
 				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		reportComparisonLookupMarketType.setComponentWsFieldId(GtnFrameworkReportStringConstants.MARKET_TYPE);
@@ -381,7 +382,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		GtnUIFrameworkComponentConfig publicViewsLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		publicViewsLayoutConfig.setAddToParent(true);
 		publicViewsLayoutConfig.setSpacing(true);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -397,7 +398,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		projectionName.setComponentName("Projection Name: ");
 		projectionName.setAddToParent(true);
 		projectionName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		projectionName.setComponentStyle(
 				Arrays.asList(new String[] { GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT }));
 		projectionName.setComponentWsFieldId(GtnFrameworkReportStringConstants.PROJECTION_NAME);
@@ -465,7 +466,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		GtnUIFrameworkComponentConfig publicViewsLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		publicViewsLayoutConfig.setAddToParent(true);
 		publicViewsLayoutConfig.setSpacing(true);
 		publicViewsLayoutConfig.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
@@ -480,7 +481,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		description.setComponentName("Description: ");
 		description.setAddToParent(true);
 		description.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		description.addComponentStyle(GtnFrameworkCssConstants.V_REPORT_COMPARSION_SEARCH_TOPLAYOUT);
 		description.setComponentWsFieldId(GtnFrameworkReportStringConstants.DESCRIPTION2);
 
@@ -879,7 +880,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 
 	private void addActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig actionButtonLayout = configProvider
-				.getCssLayoutConfig(GtnFrameworkReportStringConstants.ACTION_BUTTON_LAYOUT, false, null);
+				.getCssLayoutConfig(GtnFrameworkReportStringConstants.REPORT_ACTION_BUTTON_LAYOUT, false, null);
 		actionButtonLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(actionButtonLayout);
 		addSubmitButtonComponent(componentList, nameSpace);
@@ -932,6 +933,11 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		gridReloadAction.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_RESULTS_GRID);
 		resetActionConfigList.add(gridReloadAction);
 		reportDSResetButton.addGtnUIFrameWorkActionConfig(reportDSLowerConfirmResetAction);
+		GtnUIFrameWorkActionConfig clrSortOrder=new GtnUIFrameWorkActionConfig();
+		clrSortOrder.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		clrSortOrder.addActionParameter(GtnReportComparisonClearSortOrderAction.class.getName());
+		clrSortOrder.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_SEARCH_RESULTS_GRID);
+		resetActionConfigList.add(clrSortOrder);
 		componentList.add(reportDSResetButton);
 	}
 

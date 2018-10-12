@@ -6575,6 +6575,9 @@ WHERE  C.CUST_VIEW_MASTER_SID= ', @CUSTOM_VIEW_MASTER_SID, '
              AND @SCREEN_NAME = 'Variance'
              AND @VIEW IN ( 'C' )
             BEGIN
+			--set @sql=concat('update ',@CCP_PV_FILTERS,' set PV_FILTERS=1 ')
+			-- EXEC Sp_executesql
+              --    @sql
                 SET @sql =Concat('
 
        INSERT INTO ', @CUSTOMER_DISCOUNT_PV , ' (
@@ -6684,6 +6687,9 @@ GROUP BY C.CUST_HIERARCHY_NO,
              AND @SCREEN_NAME = 'Variance'
              AND @VIEW = 'P'
             BEGIN
+				--set @sql=concat('update ',@CCP_PV_FILTERS,' set PV_FILTERS=1 ')
+			 --EXEC Sp_executesql
+                  --@sql
                 SET @sql =Concat(' 
        INSERT INTO ', @PRODUCT_DISCOUNT_PV, '(
        HIERARCHY_NO,
@@ -6793,6 +6799,9 @@ GROUP BY c.PROD_HIERARCHY_NO,
              AND @SCREEN_NAME = 'Variance'
              AND @VIEW NOT IN ( 'C', 'P' )
             BEGIN
+				--set @sql=concat('update ',@CCP_PV_FILTERS,' set PV_FILTERS=1 ')
+			 --EXEC Sp_executesql
+                  --@sql
                 SET @sql =Concat(' 
        INSERT INTO ', @CUSTOM_DISCOUNT_PV , '(HIERARCHY_NO,
 RS_CONTRACT_SID

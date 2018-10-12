@@ -288,9 +288,7 @@ public class Exixtingcomponent extends CustomComponent {
 
         loadComponentResultsSection();
         componentInformationGrid.removeAllComponents();
-        if (componentResultsSearchTable != null) {
-            componentResultsSearchTable.removeAllItems();
-        }
+        componentResultsSearchTable.removeAllItems();
         if (resultsLazyContainer1 != null) {
             resultsLazyContainer1.removeAllItems();
         }

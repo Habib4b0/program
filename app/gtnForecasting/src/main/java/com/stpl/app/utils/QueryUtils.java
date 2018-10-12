@@ -62,7 +62,8 @@ public class QueryUtils {
             } else {
                 where = "where SEMI_ANNUAL = '" + startFreqNoValue + AND_YEAR_EQUAL + startYear + "'";
             }
-            String query = "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
+            String query = StringUtils.EMPTY;
+             query = query + "select " + order + "(PERIOD_SID) from \"PERIOD\" " + where;
             return query;
         }
         return StringUtils.EMPTY;

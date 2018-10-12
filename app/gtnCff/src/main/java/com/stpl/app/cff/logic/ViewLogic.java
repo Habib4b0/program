@@ -14,7 +14,7 @@ import com.liferay.portal.kernel.model.User;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.dto.SaveViewDTO;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.parttwo.model.CffViewMaster;
 import com.stpl.app.parttwo.service.CffViewMasterLocalServiceUtil;

@@ -3,12 +3,11 @@ package com.stpl.app.cff.ui.projectionresults.logic;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import static com.stpl.app.cff.util.CommonUtils.BOTH;
 import static com.stpl.app.cff.util.Constants.LabelConstants.*;
-import com.stpl.app.cff.util.ConstantsUtil;
 import static com.stpl.app.cff.util.HeaderUtils.getCommonColumnHeader;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
@@ -4239,8 +4238,10 @@ public class ProjectionResultsLogic {
         return ccps;
  } 
     
-    private List<ProjectionResultsDTO> getLevelListforNonmandated(int start, int offset, int started, ProjectionSelectionDTO projSelDTO, int neededRecord) {
+    private List<ProjectionResultsDTO> getLevelListforNonmandated(int start, int offset, int startedParam, ProjectionSelectionDTO projSelDTO, int neededRecordParam) {
         CommonLogic commonLogic = new CommonLogic();
+        int neededRecord = neededRecordParam;
+        int started = startedParam;
         List<ProjectionResultsDTO> resultList = new ArrayList<>();
     
         if (projSelDTO.isIsCustomHierarchy()) {

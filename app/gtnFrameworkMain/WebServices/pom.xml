@@ -16,7 +16,7 @@
 		<module>GTNWebServices</module>
 		<module>GtnWsBpmWebService</module>
 <!-- 	<module>GtnMethodologyCalculation</module> -->
-<!-- 	<module>GtnForecastWebServices</module> -->
+		<module>GtnForecastWebServices</module>
 		<module>GtnWsParentReportEngine</module>
 		<module>GtnServiceRegistryWebServices</module>
 		<module>GtnWsQueryEngineWebService</module>

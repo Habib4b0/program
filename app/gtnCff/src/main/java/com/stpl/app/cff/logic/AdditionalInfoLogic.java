@@ -11,7 +11,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.AdditionalInfoDAO;
 import com.stpl.app.cff.dao.impl.AdditionalInfoDAOImpl;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
 import com.stpl.app.cff.util.xmlparser.SQlUtil;
 import com.stpl.app.parttwo.model.CffAdditionalInfo;
 import com.stpl.app.parttwo.model.CffDocDetails;

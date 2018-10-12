@@ -12,20 +12,13 @@ GO
 
 CREATE PROCEDURE [dbo].[PRC_CFF_PROJECTION_RESULTS_DISCOUNT] @CFF_MASTER_SID VARCHAR(500),
 	                                                         @PROJ_FREQUENCY VARCHAR(20),
-
-
-
 	                                                         @FROM_PERIOD_SID INT,
 	                                                         @END_PERIOD_SID INT,
 	                                                         @PROGRAM VARCHAR(50) =NULL,
 	                                                         @SALES_INCLUSION BIT =NULL ,
 	                                                         @DEDUCTION_INCLUSION BIT = NULL,
-
-
-
 	                                                         @DISCOUNT NVARCHAR(MAX) = NULL,
 	                                                         @CUSTOM_VIEW_MASTER_SID INT = NULL,
-
 	                                                         --@CUSTOM_LEVEL_NO INT = NULL,
 	                                                         @SESSION_ID VARCHAR(50),
 	                                                         @USER_ID INT,
@@ -496,7 +489,7 @@ LEFT JOIN (
 	AND PFD.CFF_MASTER_SID = SPD.CFF_MASTER_SID
 	and pfd.INDICATOR=SPD.INDICATOR
 	and ri.DESCRIPTION=SPD.DESCRIPTION
-	where pfd.CFF_MASTER_SID=@FIRST_PROJ_SID and pfd.INDICATOR=0 and pfd.year<year(getdate())
+	where pfd.CFF_MASTER_SID=@FIRST_PROJ_SID and pfd.INDICATOR=0 
 GROUP BY PFD.CFF_MASTER_SID
 	,pfd.YEAR
 	,pfd.PERIOD
@@ -857,5 +850,4 @@ GROUP BY PFD.CFF_MASTER_SID
 END
 
 GO
-
 

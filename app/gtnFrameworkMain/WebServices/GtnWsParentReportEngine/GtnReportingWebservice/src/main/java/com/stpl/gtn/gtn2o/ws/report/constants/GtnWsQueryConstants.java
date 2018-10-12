@@ -1,5 +1,10 @@
 package com.stpl.gtn.gtn2o.ws.report.constants;
 
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
+
 public class GtnWsQueryConstants {
 
 	private GtnWsQueryConstants() {
@@ -166,4 +171,16 @@ public class GtnWsQueryConstants {
 	public static final String TOTAL = "Total";
 
 	public static final String WEIGHTED = "Weighted";
+
+	private static final List<String> VARIABLE_CHARATER_LIST = Arrays.asList(".A.", ".B.", ".C.", ".D.", ".E.", ".F.",
+			".G.", ".H.", ".I.", ".J.", ".K.", ".L.", ".M.", ".N.");
+
+	public static String getVariableFromHierarchy(String key) {
+		for (String element : VARIABLE_CHARATER_LIST) {
+			if (key.contains(element)) {
+				return String.valueOf(element.charAt(1));
+			}
+		}
+		return StringUtils.EMPTY;
+	}
 }

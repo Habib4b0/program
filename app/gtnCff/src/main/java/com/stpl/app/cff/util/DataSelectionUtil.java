@@ -7,8 +7,8 @@
 package com.stpl.app.cff.util;
 
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
-import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
+import com.stpl.app.cff.ui.dataselection.dto.ForecastDTO;
+import com.stpl.app.cff.ui.dataselection.logic.DataSelectionLogic;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CONTRACT;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_CUSTOMER;
 import static com.stpl.app.cff.util.Constants.IndicatorConstants.INDICATOR_LEVEL_NDC;
@@ -675,10 +675,6 @@ public class DataSelectionUtil {
     }
 
     public static String getDiscountName(String discountId) {
-        String userName = StringUtils.EMPTY;
-        if (discountMap != null) {
-            userName = discountMap.get(discountId);
-        }
-        return userName;
+        return discountMap.get(discountId);
     }
         }

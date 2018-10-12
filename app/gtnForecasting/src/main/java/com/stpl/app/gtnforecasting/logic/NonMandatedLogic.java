@@ -20,7 +20,7 @@ import com.stpl.app.gtnforecasting.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.PPAProjectionDaoImpl;
 import com.stpl.app.gtnforecasting.dao.impl.ProjectionVarianceDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.discountProjection.logic.SupplementalDiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.discountprojection.logic.SupplementalDiscountProjectionLogic;
 import com.stpl.app.gtnforecasting.dto.AlternateHistoryDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionVarianceDTO;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -660,47 +660,6 @@ public class NonMandatedLogic {
 
 		return projectionVarianceDAO.getContractHolderSummary(projectionId, indicator, comparisonProjections, frequency,
 				level, discountLevel);
-	}
-
-	/**
-	 * Search for projections in comparison lookup.
-	 *
-	 * @param workflowStatus
-	 *            the workflow status
-	 * @param marketType
-	 *            the market type
-	 * @param brand
-	 *            the brand
-	 * @param projName
-	 *            the proj name
-	 * @param contHldr
-	 *            the cont hldr
-	 * @param ndcNo
-	 *            the ndc no
-	 * @param ndcName
-	 *            the ndc name
-	 * @param desc
-	 *            the desc
-	 * @param contract
-	 *            the contract
-	 * @param from
-	 *            the from
-	 * @param to
-	 *            the to
-	 * @return the list
-	 * @throws SystemException
-	 *             the system exception
-	 * @throws PortalException
-	 *             the portal exception
-	 * @throws Exception
-	 *             the exception
-	 */
-	public List<DataSelectionDTO> searchForProjections(String workflowStatus, String marketType, String brand,
-			String projName, String contHldr, String ndcNo, String ndcName, String desc, String contract, String from,
-			String to) throws PortalException {
-
-		return projectionVarianceDAO.searchForProjections(workflowStatus, marketType, brand, projName, contHldr, ndcNo,
-				ndcName, desc, contract, from, to);
 	}
 
 	/**

@@ -29,7 +29,6 @@ import com.vaadin.ui.Notification;
 import com.vaadin.ui.Panel;
 import com.vaadin.ui.Window;
 import com.vaadin.v7.data.util.IndexedContainer;
-import com.vaadin.v7.shared.ui.label.ContentMode;
 import com.vaadin.v7.ui.Label;
 import com.vaadin.v7.ui.NativeSelect;
 import com.vaadin.v7.ui.OptionGroup;
@@ -66,7 +65,7 @@ public class UiUtils {
 	/**
 	 * Object for resource bundle
 	 */
-	private static ResourceBundle resourceBundle;
+	private static volatile ResourceBundle resourceBundle;
 
 	/**
 	 * Private constructor. This class should not be instantiated
@@ -141,16 +140,6 @@ public class UiUtils {
 		indexedNativeSelect.setContainerDataSource(indexedContainer);
 
 		return indexedNativeSelect;
-	}
-
-	/**
-	 * To add an empty space
-	 *
-	 * @return Label with empty space
-	 */
-	public static Label addSpaceLabel() {
-		final Label space = new Label("&nbsp;", ContentMode.HTML);
-		return space;
 	}
 
 	/**
@@ -536,8 +525,7 @@ public class UiUtils {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
 		String dateFormat = sdf.format(date);
 		String[] splitDate = dateFormat.split("/");
-		String formatedDate = splitDate[NumericConstants.TWO] + splitDate[1] + splitDate[0];
-		return formatedDate;
+		return splitDate[NumericConstants.TWO] + splitDate[1] + splitDate[0];
 	}
 
 public static int getDataSelectionFormattedLevelNo(String value) {

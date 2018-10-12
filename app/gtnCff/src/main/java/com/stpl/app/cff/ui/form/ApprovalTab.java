@@ -15,10 +15,10 @@ import com.stpl.app.cff.dto.CFFResultsDTO;
 import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.queryUtils.CFFQueryUtils;
+import com.stpl.app.cff.queryutils.CFFQueryUtils;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.ui.table.CFFPagedFilterTable;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
@@ -179,7 +179,6 @@ public class ApprovalTab extends CustomComponent {
     /**
      * Pagination Layout for Approval Tables
      */
-    private HorizontalLayout approvalPagination;
     /**
      * Pagination Layout for Result Tables
      */
@@ -368,7 +367,7 @@ public class ApprovalTab extends CustomComponent {
             if (dto.getStatusDesc() != null && !StringUtils.EMPTY.equals(dto.getStatusDesc())) {
                 status.setValue(dto.getStatusDesc());
 
-                if (Constants.APPROVED.equals(dto.getStatusDesc())) {
+                if ((Constants.APPROVED.equals(dto.getStatusDesc())) || ("Cancelled".equals(dto.getStatusDesc()))) {
 
                     latestEstimate.setReadOnly(true);
                     updateCycle.setReadOnly(true);
@@ -405,19 +404,7 @@ public class ApprovalTab extends CustomComponent {
                     cancelBtn.setEnabled(true);
                     submitBtn.setEnabled(true);
                     resetBtn.setEnabled(false);
-                } else if ("Cancelled".equals(dto.getStatusDesc())) {
-                    latestEstimate.setReadOnly(true);
-                    updateCycle.setReadOnly(true);
-                    latestEstimateName.setReadOnly(true);
-                    updateCycleName.setReadOnly(true);
-
-                    approveBtn.setEnabled(false);
-                    rejectBtn.setEnabled(false);
-                    deleteBtn.setEnabled(false);
-                    cancelBtn.setEnabled(false);
-                    submitBtn.setEnabled(false);
-                    resetBtn.setEnabled(false);
-                }
+                } 
 
             } else {
                 status.setValue(StringUtils.EMPTY);
@@ -455,10 +442,10 @@ public class ApprovalTab extends CustomComponent {
             approvalDetailsTable.setConverter("approvedDate", new StringToDateConverter() {
                 @Override
                 public DateFormat getFormat(Locale locale) {
-                    return new SimpleDateFormat("MM/dd/yyyy, HH/mm/ss");
+                    return new SimpleDateFormat("MM/dd/yyyy, HH:mm:ss");
                 }
             });
-            approvalPagination = ResponsiveUtils.getResponsiveControls(approvalDetailsTable.createControls());
+            HorizontalLayout approvalPagination = ResponsiveUtils.getResponsiveControls(approvalDetailsTable.createControls());
             approvalLayout.addComponent(approvalDetailsTable);
             approvalLayout.addComponent(approvalPagination);
 

@@ -20,13 +20,12 @@ public class BusinessRoleModuleMasterSearchView extends VerticalLayout implement
 	 */
 	private static final long serialVersionUID = 1L;
 	public static final String NAME = "";
-	private static  String userId = "";
+	private static  volatile String userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
         private static final Logger LOGGER = LoggerFactory.getLogger(BusinessRoleModuleMasterSearchView.class
 			.getName());
         
 	public BusinessRoleModuleMasterSearchView(){		
        super();
-         userId = String.valueOf(VaadinSession.getCurrent().getAttribute("userId"));
 		setSpacing(true);		
 		addComponent(new SearchForm(new BeanItemContainer<>(SearchBusinessRoleModuleForm.class),new BeanItemContainer<>(SearchBusinessRoleModuleForm.class),new ExtFilterTable(),new ExtFilterTable(),userId));
 		setComponentError(new UserError(""));

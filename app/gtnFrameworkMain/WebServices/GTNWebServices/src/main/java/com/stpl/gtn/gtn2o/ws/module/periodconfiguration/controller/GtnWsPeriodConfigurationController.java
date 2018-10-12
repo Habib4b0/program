@@ -76,7 +76,7 @@ public class GtnWsPeriodConfigurationController {
 		return gtnSqlQueryEngine;
 	}
 
-	private org.hibernate.SessionFactory getSessionFactory() {
+	public org.hibernate.SessionFactory getSessionFactory() {
 		return gtnSqlQueryEngine.getSessionFactory();
 	}
 
@@ -142,10 +142,6 @@ public class GtnWsPeriodConfigurationController {
 
 		GtnWsPeriodConfigurationRequest gtnRequest = gtnWsRequest.getGtnWsPeriodConfigurationRequest();
 		GtnUIFrameworkWebserviceResponse gtnResponse = new GtnUIFrameworkWebserviceResponse();
-
-		/*
-		 * To Check whether the data is already present in periodConfig Master table
-		 */
 
 		int sysId = 0;
 

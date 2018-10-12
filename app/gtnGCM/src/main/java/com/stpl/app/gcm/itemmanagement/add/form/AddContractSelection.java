@@ -1431,43 +1431,6 @@ public class AddContractSelection extends CustomComponent {
                             logic.updateBaseLineWacColumn(baseLineColumnName, baseLineValue, selection);
                         }
                         break;
-                    case Constants.BASELINE_NET_WAC_LABLE_NAME:
-                        tempDTO = (HelperDTO) massUpdateValueSelection.getValue();
-                        addItemTable.getItem(object).getItemProperty(Constants.BASELINE_NET_WAC_PROPERTY).setValue(tempDTO);
-                        columnName = Constants.BASELINE_NET_WAC_COLUMN_NAME;
-                        value = tempDTO.getId();
-                        break;
-                    case Constants.NET_BASELINE_WAC_FORMULA_LABLE_NAME:
-                        FormulaDTO netBaselineWACFormulaDto = (FormulaDTO) massUpdateTextSelection.getData();
-                        textValue = String.valueOf(netBaselineWACFormulaDto.getFormulaName());
-                        addItemTable.getItem(object).getItemProperty(Constants.NET_BASELINE_WAC_FORMULA_PROPERTY).setValue(textValue);
-                        columnName = Constants.NET_BASELINE_WAC_FORMULA_COLUMN_NAME;
-                        value = textValue;
-                        break;
-                    case Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_LABLE_NAME:
-                        value = massUpdateValueSelection.getValue();
-                        addItemTable.getItem(object).getItemProperty(Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_PROPERTY).setValue(value);
-                        columnName = Constants.SUBSEQUENT_PERIOD_PRICE_TYPE_COLUMN_NAME;
-                        break;
-                    case Constants.NET_SUBSEQUENT_PERIOD_PRICE_LABLE_NAME:
-                        tempDTO = (HelperDTO) massUpdateValueSelection.getValue();
-                        addItemTable.getItem(object).getItemProperty(Constants.NET_SUBSEQUENT_PERIOD_PRICE_PROPERTY).setValue(tempDTO);
-                        columnName = Constants.NET_SUBSEQUENT_PERIOD_PRICE_COLUMN_NAME;
-                        value = tempDTO.getId();
-                        break;
-                    case Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_LABLE_NAME:
-                        FormulaDTO netSubsequentPeriodPriceFormulaDto = (FormulaDTO) massUpdateTextSelection.getData();
-                        textValue = String.valueOf(netSubsequentPeriodPriceFormulaDto.getFormulaName());
-                        addItemTable.getItem(object).getItemProperty(Constants.NET_SUBSEQUENT_PERIOD_PRICE_FORMULA_PROPERTY).setValue(textValue);
-                        columnName = Constants.NET_SUBSEQUENT_PRICE_FORMULA_COLUMN_NAME;
-                        value = textValue;
-                        break;
-                    case Constants.PRICE_TOLERANCE_TYPE_LABEL:
-                        tempDTO = (HelperDTO) massUpdateValueSelection.getValue();
-                        addItemTable.getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_TYPE_PROPERTY).setValue(tempDTO);
-                        columnName = StringConstantsUtil.PRICE_TOLERANCE_TYPE_LABEL;
-                        value = tempDTO.getId();
-                        break;
                     case Constants.PRICE_TOLERANCE_LABEL:
                         textValue = massUpdateTextSelection.getValue();
                         addItemTable.getItem(object).getItemProperty(Constants.PRICE_TOLERANCE_PROPERTY).setValue(textValue);
@@ -1744,8 +1707,8 @@ public class AddContractSelection extends CustomComponent {
         List<Object[]> list = ItemQueries.getItemData(input, "Mass Update data check", null);
         if (!list.isEmpty()) {
             Object obj = list.get(0);
-            return obj == null ? Boolean.TRUE : (Integer) obj == 0 ? Boolean.TRUE : Boolean.FALSE;
-        }
+            return obj == null ? Boolean.TRUE : Boolean.FALSE;
+            }
         return BooleanConstant.getTrueFlag();
 
     }

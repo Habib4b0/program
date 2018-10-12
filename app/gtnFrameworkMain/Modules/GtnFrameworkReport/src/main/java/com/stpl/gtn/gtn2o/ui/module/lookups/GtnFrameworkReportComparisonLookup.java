@@ -31,6 +31,7 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkConditionalValidationType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkValidationType;
+import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonClearSortOrderAction;
 import com.stpl.gtn.gtn2o.ui.module.lookups.action.GtnReportComparisonEnableAddBtnAction;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonStringConstants;
@@ -121,7 +122,7 @@ public class GtnFrameworkReportComparisonLookup {
 		componentList.add(resultsMainLayout);
 
 		GtnUIFrameworkComponentConfig resultsMainLayoutConfig = configProvider.getHorizontalLayoutConfig(
-				GtnFrameworkReportStringConstants.RESULTS_MAIN_LAYOUT_CONFIG, true, "resultsMainLayout");
+				GtnFrameworkReportStringConstants.REPORT_RESULTS_MAIN_LAYOUT_CONFIG, true, "resultsMainLayout");
 		resultsMainLayoutConfig.setComponentWidth("100%");
 
 		List<String> resultsMainLayoutStyleList = new ArrayList<>();
@@ -136,7 +137,7 @@ public class GtnFrameworkReportComparisonLookup {
 
 	private void addCLResultPanel(List<GtnUIFrameworkComponentConfig> componentList) {
 		GtnUIFrameworkComponentConfig resultPanel = configProvider.getPanelConfig("resultPanel", true,
-				GtnFrameworkReportStringConstants.RESULTS_MAIN_LAYOUT_CONFIG);
+				GtnFrameworkReportStringConstants.REPORT_RESULTS_MAIN_LAYOUT_CONFIG);
 		resultPanel.setComponentName(GtnFrameworkCommonConstants.RESULTS);
 		resultPanel.setAuthorizationIncluded(true);
 		resultPanel.setComponentWidth("100%");
@@ -237,7 +238,7 @@ public class GtnFrameworkReportComparisonLookup {
 		GtnUIFrameworkComponentConfig publicViewsCLLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsCLLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsCLLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		publicViewsCLLayoutConfig.setAddToParent(true);
 		publicViewsCLLayoutConfig.setSpacing(true);
 		publicViewsCLLayoutConfig.addComponentStyle("stpl-margin-top-15");
@@ -254,7 +255,7 @@ public class GtnFrameworkReportComparisonLookup {
 		clWorkflowStatus.setCustomReference("integerId");
 		clWorkflowStatus.setAddToParent(true);
 		clWorkflowStatus.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		clWorkflowStatus.setComponentWsFieldId("workflowStatus");
 
 		GtnUIFrameworkComboBoxConfig clWorkflowStatusConfig = new GtnUIFrameworkComboBoxConfig();
@@ -274,7 +275,7 @@ public class GtnFrameworkReportComparisonLookup {
 		reportComparisonCLLookupBusinessUnitLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		reportComparisonCLLookupBusinessUnitLayoutConfig
 				.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-						+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
+						+ GtnFrameworkReportStringConstants.REPORT_BUSINESS_UNIT_LAYOUT);
 		reportComparisonCLLookupBusinessUnitLayoutConfig.setAddToParent(true);
 		reportComparisonCLLookupBusinessUnitLayoutConfig.setSpacing(true);
 		reportComparisonCLLookupBusinessUnitLayoutConfig
@@ -292,7 +293,7 @@ public class GtnFrameworkReportComparisonLookup {
 		reportCLComparisonLookupMarketType.setComponentName("Market Type: ");
 		reportCLComparisonLookupMarketType.setAddToParent(true);
 		reportCLComparisonLookupMarketType.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.BUSINESS_UNIT_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_BUSINESS_UNIT_LAYOUT);
 		reportCLComparisonLookupMarketType.setComponentWsFieldId(GtnFrameworkReportStringConstants.MARKET_TYPE);
 
 		componentList.add(reportCLComparisonLookupMarketType);
@@ -328,7 +329,7 @@ public class GtnFrameworkReportComparisonLookup {
 		GtnUIFrameworkComponentConfig publicViewsCLLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsCLLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsCLLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		publicViewsCLLayoutConfig.setAddToParent(true);
 		publicViewsCLLayoutConfig.setSpacing(true);
 		publicViewsCLLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
@@ -344,7 +345,7 @@ public class GtnFrameworkReportComparisonLookup {
 		clProjectionName.setComponentName("Projection Name: ");
 		clProjectionName.setAddToParent(true);
 		clProjectionName.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		clProjectionName.setComponentWsFieldId(GtnFrameworkReportStringConstants.PROJECTION_NAME);
 
 		componentList.add(clProjectionName);
@@ -405,7 +406,7 @@ public class GtnFrameworkReportComparisonLookup {
 		GtnUIFrameworkComponentConfig publicViewsCLLayoutConfig = new GtnUIFrameworkComponentConfig();
 		publicViewsCLLayoutConfig.setComponentType(GtnUIFrameworkComponentType.LAYOUT);
 		publicViewsCLLayoutConfig.setComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		publicViewsCLLayoutConfig.setAddToParent(true);
 		publicViewsCLLayoutConfig.setSpacing(true);
 		publicViewsCLLayoutConfig.addComponentStyle(GtnFrameworkReportStringConstants.STPL_PADDING_10);
@@ -420,7 +421,7 @@ public class GtnFrameworkReportComparisonLookup {
 		clDescription.setComponentName("Description: ");
 		clDescription.setAddToParent(true);
 		clDescription.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
-				+ GtnFrameworkReportStringConstants.PUBLIC_VIEW_LAYOUT);
+				+ GtnFrameworkReportStringConstants.REPORT_PUBLIC_VIEW_LAYOUT);
 		clDescription.setComponentWsFieldId(GtnFrameworkReportStringConstants.DESCRIPTION2);
 
 		componentList.add(clDescription);
@@ -586,7 +587,8 @@ public class GtnFrameworkReportComparisonLookup {
 		componentList.add(clSearchButtonConfig);
 
 		List<GtnUIFrameWorkActionConfig> clSearchActionConfigList = new ArrayList<>();
-
+		
+		
 		GtnUIFrameWorkActionConfig clProjectionTypeValidationActionConfig = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 		clProjectionTypeValidationActionConfig.setFieldValues(Arrays.asList(nameSpace
@@ -622,6 +624,8 @@ public class GtnFrameworkReportComparisonLookup {
 				Arrays.asList(GtnUIFrameworkValidationType.AND, Arrays.asList(clWorkFlowStatusAlertActionConfig)));
 		clSearchActionConfigList.add(clWorkflowStatusValidationActionConfig);
 
+		
+		
 		GtnUIFrameWorkActionConfig clLoadDataGridAction = configProvider
 				.getUIFrameworkActionConfig(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		clLoadDataGridAction.setActionParameterList(
@@ -652,6 +656,7 @@ public class GtnFrameworkReportComparisonLookup {
 		clEnableAddAction
 				.addActionParameter(nameSpace + GtnFrameworkReportStringConstants.UNDERSCORE + "addButtonConfig");
 		clSearchActionConfigList.add(clEnableAddAction);
+		
 
 		clSearchButtonConfig.setGtnUIFrameWorkActionConfigList(clSearchActionConfigList);
 
@@ -844,7 +849,7 @@ public class GtnFrameworkReportComparisonLookup {
 
 	private void addCLActionButtonLayout(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		GtnUIFrameworkComponentConfig actionButtonLayout = configProvider
-				.getCssLayoutConfig(GtnFrameworkReportStringConstants.ACTION_BUTTON_LAYOUT, false, null);
+				.getCssLayoutConfig(GtnFrameworkReportStringConstants.REPORT_ACTION_BUTTON_LAYOUT, false, null);
 		actionButtonLayout.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(actionButtonLayout);
 		addCLSubmitButtonComponent(componentList, nameSpace);
@@ -901,6 +906,11 @@ public class GtnFrameworkReportComparisonLookup {
 				GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG);
 		clResetActionConfigList.add(clGridReloadAction);
 		clResetButton.addGtnUIFrameWorkActionConfig(clLowerConfirmResetAction);
+		GtnUIFrameWorkActionConfig clrSortOrder=new GtnUIFrameWorkActionConfig();
+		clrSortOrder.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		clrSortOrder.addActionParameter(GtnReportComparisonClearSortOrderAction.class.getName());
+		clrSortOrder.addActionParameter(GtnFrameworkReportStringConstants.COMPARISON_LOOKUP_RESULTS_PAGED_TABLE_COMPONENT);
+		clResetActionConfigList.add(clrSortOrder);
 		componentList.add(clResetButton);
 	}
 

@@ -60,10 +60,12 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 	@Override
 	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
 			throws GtnFrameworkGeneralException {
+            try
+            {
 
 		List<Object> params = gtnUIFrameWorkActionConfig.getActionParameterList();
 		GtnWsReportDataSelectionBean dataSelectionBean = (GtnWsReportDataSelectionBean) params.get(1);
-
+                if (isForward((int) params.get(26))) {
 		if (params.get(2).equals("OK")) {
 			updateCustomer((boolean) params.get(14), dataSelectionBean, (List<GtnWsRecordBean>) params.get(3),
 					componentId);
@@ -88,8 +90,33 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 			loadDataSelectionTab(componentId, dataSelectionBean);
 
 		}
+                }
+                 else {
+            gtnLogger.info("Success");
+            if (params.get(2).equals("OK")) {
+                updateCustomViewInDataSelection((boolean) params.get(17), dataSelectionBean, componentId);
+                updateFrequencyInDataSelection((boolean) params.get(18), dataSelectionBean, componentId);
+                updateVariablesInDataSelection((boolean) params.get(19), dataSelectionBean, componentId);
+                loadComparisonInReportingDashboard(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_COMPARISON_LOOKUP,
+				componentId, dataSelectionBean);
+                addTabInDataAssumptions(dataSelectionBean, componentId);
+            } else {
+
+                loadDataSelectionTab(componentId, dataSelectionBean);
+
+            }
+
+        }
+            }
+            catch(Exception exception){
+                gtnLogger.info("Exception Occured while Updating Bean"+exception);
+            }
 
 	}
+         private boolean isForward(int indexValue) {
+        return indexValue < 0;
+    }
+
 
 	private void addTabInDataAssumptions(GtnWsReportDataSelectionBean dataSelectionBean, String componentId) {
 		try {
@@ -141,8 +168,8 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 				.setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
 
 		new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				"dataSelectionTab_displaySelectionTabCustomView", componentId, Arrays.asList(""));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabCustomView", componentId)
+                                    GtnFrameworkReportStringConstants.DATA_SELECTION_DISPLAY_CUSTOM_VIEW, componentId, Arrays.asList(""));
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_DISPLAY_CUSTOM_VIEW, componentId)
 				.loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomViewMasterSid()));
 		new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
 				GtnFrameworkReportStringConstants.REPORTING_DASHBOARD_TAB_DISPLAY_SELECTION_TAB_CUSTOM_VIEW,
@@ -160,7 +187,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 				.valueOf(customerRecordBean.getPropertyValueByIndex(customerRecordBean.getProperties().size() - 1)));
 
 		GtnUIFrameworkComboBoxConfig relationComboboxConfig = GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-				GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
+				GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
 				.getComponentConfig().getGtnComboboxConfig();
 
 		relationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -169,19 +196,19 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 
 		GtnUIFrameworkComboBoxComponent customerRelationshipCombobox = new GtnUIFrameworkComboBoxComponent();
 		customerRelationshipCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId,
+				GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId,
 				Arrays.asList(hierarchyDefinitionSid));
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-				GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
+				GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerRelationshipBuilderSid());
 
 		int relationshipValue = Integer.parseInt(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
-				GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
+				GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_CUSTOMER_SELECTION_RELATIONSHIP, componentId)
 				.getCaptionFromV8ComboBox());
 
 		GtnUIFrameworkComboBoxConfig customerRelationshipVersionComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(
-						GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION, componentId)
+						GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION, componentId)
 				.getComponentConfig().getGtnComboboxConfig();
 
 		customerRelationshipVersionComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -191,11 +218,11 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 
 		GtnUIFrameworkComboBoxComponent customerRelationshipVersionCombobox = new GtnUIFrameworkComboBoxComponent();
 		customerRelationshipVersionCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION, componentId,
+				GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_CUSTOMER_RELATIONSHIP_VERSION, componentId,
 				Arrays.asList(relationshipValue));
 
 		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL,
+				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_CUSTOMER_SELECTION_LEVEL,
 						componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerHierarchyForecastLevel());
 
@@ -224,7 +251,7 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 				.valueOf(productRecordBean.getPropertyValueByIndex(productRecordBean.getProperties().size() - 1)));
 
 		GtnUIFrameworkComboBoxConfig productRelationComboboxConfig = GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP, componentId)
+				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_RELATIONSHIP, componentId)
 				.getComponentConfig().getGtnComboboxConfig();
 
 		productRelationComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -233,19 +260,19 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 
 		GtnUIFrameworkComboBoxComponent productRelationshipCombobox = new GtnUIFrameworkComboBoxComponent();
 		productRelationshipCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP, componentId,
+				GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_RELATIONSHIP, componentId,
 				Arrays.asList(productHierarchyDefinitionSid));
 		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP, componentId)
+				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_RELATIONSHIP, componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getProductRelationshipBuilderSid());
 
 		int productrelationshipValue = Integer.parseInt(GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_RELATIONSHIP, componentId)
+				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_RELATIONSHIP, componentId)
 				.getCaptionFromV8ComboBox());
 
 		GtnUIFrameworkComboBoxConfig productRelationshipVersionComboboxConfig = GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(
-						GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION, componentId)
+						GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION, componentId)
 				.getComponentConfig().getGtnComboboxConfig();
 
 		productRelationshipVersionComboboxConfig.setLoadingUrl(GtnWebServiceUrlConstants.GTN_COMMON_GENERAL_SERVICE
@@ -255,11 +282,11 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 
 		GtnUIFrameworkComboBoxComponent productRelationshipVersionCombobox = new GtnUIFrameworkComboBoxComponent();
 		productRelationshipVersionCombobox.reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
-				GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION, componentId,
+				GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_PRODUCT_RELATIONSHIP_VERSION, componentId,
 				Arrays.asList(productrelationshipValue));
 
 		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_TAB_LEVEL, componentId)
+				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.REPORT_DATA_SELECTION_TAB_LEVEL, componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getProductHierarchyForecastLevel());
 
 		String dsProductTableId = "dataSelectionTab_productdualListBoxComp";
@@ -284,17 +311,17 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 
 		GtnWsReportVariablesType[] variableType = Arrays.copyOfRange(GtnWsReportVariablesType.values(), 0,
 				GtnWsReportVariablesType.values().length - 1);
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_DISPLAY_VARIABLE, componentId)
 				.addAllItemsToMultiSelect(
 						Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 								.collect(Collectors.toList()),
 						Arrays.stream(variableType).map(GtnWsReportVariablesType::toString)
 								.collect(Collectors.toList()));
-		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("dataSelectionTab_displaySelectionTabVariable", componentId)
+		GtnUIFrameworkGlobalUI.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_DISPLAY_VARIABLE, componentId)
 				.updateSelection(dataSelectionBean.getVariablesList());
 
 		GtnUIFrameworkGlobalUI
-				.getVaadinBaseComponent("dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig", componentId)
+				.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG, componentId)
 				.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
 	}
 
@@ -510,6 +537,17 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 					componentId).loadV8ComboBoxComponentValue(customViewName);
 		}
 	}
+        private void updateCustomViewInDataSelection(boolean isCustomView, GtnWsReportDataSelectionBean dataSelectionBean,
+            String componentId) throws GtnFrameworkValidationFailedException {
+        if (isCustomView) {
+            new GtnUIFrameworkComboBoxComponent().reloadComponent(GtnUIFrameworkActionType.V8_VALUE_CHANGE_ACTION,
+                    GtnFrameworkReportStringConstants.DATA_SELECTION_DISPLAY_CUSTOM_VIEW,
+                    componentId, Arrays.asList(""));
+            GtnUIFrameworkGlobalUI.getVaadinBaseComponent(
+                    GtnFrameworkReportStringConstants.DATA_SELECTION_DISPLAY_CUSTOM_VIEW,
+                    componentId).loadV8ComboBoxComponentValue(String.valueOf(dataSelectionBean.getCustomViewMasterSid()));
+        }
+    }
 
 	private void updateVariables(boolean isVariablesChanged, List<Object> variableList,
 			GtnWsReportDataSelectionBean dataSelectionBean, String componentId)
@@ -529,12 +567,21 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 		}
 	}
 
+         private void updateVariablesInDataSelection(boolean isVariablesChanged,
+            GtnWsReportDataSelectionBean dataSelectionBean, String componentId)
+            throws GtnFrameworkValidationFailedException {
+        if (isVariablesChanged) {
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_DISPLAY_VARIABLE, componentId)
+                    .updateSelection(dataSelectionBean.getVariablesList());
+        }
+        }
 	private void updateFrequency(boolean isFrequencyChanged, GtnWsReportDataSelectionBean dataSelectionBean,
 			String frequency, String componentId) throws GtnFrameworkValidationFailedException {
 		if (isFrequencyChanged) {
 			dataSelectionBean.setFrequency(Integer.valueOf(frequency));
 			dataSelectionBean.setFrequencyName(GtnUIFrameworkGlobalUI
-					.getVaadinBaseComponent("dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig",
+					.getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG,
 							componentId)
 					.getStringCaptionFromV8ComboBox());
 			GtnUIFrameworkGlobalUI
@@ -542,6 +589,14 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 					.loadV8ComboBoxComponentValue(Integer.valueOf(frequency));
 		}
 	}
+         private void updateFrequencyInDataSelection(boolean isFrequencyChanged, GtnWsReportDataSelectionBean dataSelectionBean,
+            String componentId) throws GtnFrameworkValidationFailedException {
+        if (isFrequencyChanged) {
+            GtnUIFrameworkGlobalUI
+                    .getVaadinBaseComponent(GtnFrameworkReportStringConstants.DATA_SELECTION_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG, componentId)
+                    .loadV8ComboBoxComponentValue(Integer.valueOf(String.valueOf(dataSelectionBean.getFrequency())));
+        }
+        }
 
 	private void updateCompany(boolean isCompanyChanged, String company,
 			GtnWsReportDataSelectionBean dataSelectionBean) {
@@ -622,4 +677,4 @@ public class GtnFrameworkReportDataSelectionRegenerateConfirmationAction
 					.setV8PopupFieldValue(displayValue);
 		}
 	}
-}
+        }

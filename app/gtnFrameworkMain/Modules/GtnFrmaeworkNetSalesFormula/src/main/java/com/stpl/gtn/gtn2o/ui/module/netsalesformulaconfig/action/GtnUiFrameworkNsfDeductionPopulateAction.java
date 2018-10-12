@@ -44,7 +44,7 @@ public class GtnUiFrameworkNsfDeductionPopulateAction implements GtnUIFrameWorkA
 			reloadTable(GtnFrameworkNSFCommonLogic.updateField("ruleSid", ruleSid, false, 0, false,
 					"/" + GtnWsNsfUriConstants.NSF_SERVICE + "/" + GtnWsNsfUriConstants.NS_UPDATE_SERVICE, true),
 					viewId);
-		} else {
+		} else {  
 			String indicatorValue = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(viewId + "selectedDeductionsAddSubtractDdlb").getCaptionFromComboBox();
 			reloadTable(GtnFrameworkNSFCommonLogic.updateField("indicator", indicatorValue, false, 0, false,

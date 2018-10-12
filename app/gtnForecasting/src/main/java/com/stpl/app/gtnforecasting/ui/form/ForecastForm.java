@@ -10,7 +10,7 @@ import com.stpl.app.gtnforecasting.bpm.persistance.WorkflowPersistance;
 import com.stpl.app.gtnforecasting.bpm.util.MessageUtils;
 import com.stpl.app.gtnforecasting.dataassumptions.form.DataAssumptions;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;
-import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
+import com.stpl.app.gtnforecasting.discountprojection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.discountprojectionresults.form.NMDiscountProjectionResults;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
@@ -51,8 +51,8 @@ import com.stpl.app.model.WorkflowMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.Constants;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.app.util.service.thread.ThreadPool;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_NEXT;
 import static com.stpl.app.utils.Constants.ButtonConstants.BTN_PREVIOUS;
@@ -1171,9 +1171,7 @@ public class ForecastForm extends AbstractForm {
 				|| Constant.ADD_FULL_SMALL.equalsIgnoreCase(session.getAction()) || session.getWorkflowId() != 0) {
 			NonMandatedLogic nmLogic = new NonMandatedLogic();
 			saveProjection(false);
-			if (screenName.equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
-				pushUpdate(INDICATOR_REFRESH_UPDATE.getConstant());
-			}
+			
 			String workflowStatus = nmLogic.getWorkflowStatus(session.getProjectionId(), screenName);
 			if (!workflowStatus.equals("R") && !workflowStatus.equals("W")) {
 				 List<String> roleList = new ArrayList<>();

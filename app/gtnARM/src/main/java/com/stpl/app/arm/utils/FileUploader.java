@@ -17,7 +17,7 @@ import static org.apache.commons.io.output.NullOutputStream.NULL_OUTPUT_STREAM;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.stpl.ifs.util.GtnFileUtil;
 /**
  *
  * @author Porchelvi.Gunasekara
@@ -73,7 +73,7 @@ public class FileUploader implements Upload.Receiver {
     public OutputStream receiveUpload(final String filename, final String mimeType) {
         LOGGER.debug("Entering receiveUpload method ");
         try {
-            final File dir = new File(FILE_PATH + moduleName+"/");
+            final File dir = GtnFileUtil.getFile(FILE_PATH+moduleName+File.separator);
             if (!dir.exists()) {
                 dir.mkdirs();
             }

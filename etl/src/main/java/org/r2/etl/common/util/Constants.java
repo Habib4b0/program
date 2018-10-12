@@ -440,6 +440,14 @@ public final class Constants {
         
         public static final String DTX_GL_COST_CENTER_INTERFACE = "DTX_GL_COST_CENTER_INTERFACE";
         
+        public static final String DTX_ACTUAL_MASTER_COUPON_INTERFACE = "DTX_ACTUAL_MASTER_COUPON_INTERFACE";
+        
+        public static final String DTX_ACTUAL_MASTER_MEDICAID_INTERFACE = "DTX_ACTUAL_MASTER_MEDICAID_INTERFACE";
+        
+        public static final String DTX_ACTUALS_MASTER_REBATE_INTERFACE = "DTX_ACTUALS_MASTER_REBATE_INTERFACE";
+        
+        public static final String DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE = "DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE";
+        
 	private Constants() {
 	}
 }

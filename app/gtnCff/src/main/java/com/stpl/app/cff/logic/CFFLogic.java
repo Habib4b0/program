@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
+import com.stpl.app.cff.abstractcff.AbstractFilterLogic;
 import com.stpl.app.cff.bpm.logic.DSCalculationLogic;
 import com.stpl.app.cff.bpm.logic.VarianceCalculationLogic;
 import com.stpl.app.cff.dao.CFFDAO;
@@ -21,10 +21,10 @@ import com.stpl.app.cff.dto.ApprovalDetailsDTO;
 import com.stpl.app.cff.dto.CFFResultsDTO;
 import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.queryUtils.CFFQueryUtils;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
+import com.stpl.app.cff.queryutils.CFFQueryUtils;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.dto.FileSelectionDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
@@ -732,7 +732,7 @@ public class CFFLogic {
         return userIds;
     }
 
-    public static void mapUsers() {
+    public static synchronized void mapUsers() {
         userMap.clear();
         userMap = getAllUsers();
     }

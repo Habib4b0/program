@@ -77,8 +77,8 @@ import org.slf4j.LoggerFactory;
  * @author sibi
  */
 public class NMSalesProjection extends ForecastSalesProjection {
-
-	private DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
+    
+    private DataFormatConverter percentFormat = new DataFormatConverter("#,##0.000", DataFormatConverter.INDICATOR_PERCENT);
     private final StplSecurity stplSecurity = new StplSecurity();
     private static final Logger LOGGER = LoggerFactory.getLogger(NMSalesProjection.class);
     
@@ -88,7 +88,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     private final Map<String, Object> excelParentRecords = new HashMap();
     public static final String SID = "SID";
     private final SessionDTO sessionDTO;
-
+    
     public static final String SELECT_LEVEL_LABEL = "-Select Level-";
     public static final String SELECT_ALL_LABEL = "Select All";
     public static final String SALES = "Sales";
@@ -96,6 +96,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     public static final String UNIT_NO_DECIMAL = "unitNoDecimal";
     public static final String UNITS = "Units";
     private static final String ACNT_GRWOTH = "AccountGrowth";
+    protected boolean spFlag = true;
     
     protected CustomMenuBar.SubMenuCloseListener productListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
@@ -106,12 +107,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
             loadCustomerLevelFilter(String.valueOf(customerlevelDdlb.getValue()));
         }
     };
-
+    
     protected CustomMenuBar.SubMenuCloseListener salesInclusionListener = new CustomMenuBar.SubMenuCloseListener() {
         @Override
         public void subMenuClose(CustomMenuBar.SubMenuCloseEvent event) {
-          String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
-          ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
+            String salesInclusionValue = ChangeCustomMenuBarValueUtil.getInclusionMenuItemToDisplay(salesInclusionValues);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, salesInclusionValue);
         }
     };
     protected CustomMenuBar.SubMenuCloseListener displayFormatListener = new CustomMenuBar.SubMenuCloseListener() {
@@ -130,7 +131,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             loadProductLevelFilter(String.valueOf(productlevelDdlb.getValue()));
         }
     };
-
+    
     public NMSalesProjection(SessionDTO session, String screenName) {
         super(session, screenName);
         enableDisableFields();
@@ -142,7 +143,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             commonUtils.loadConvertionFactorComboBox(conversionFactorDdlb, Constant.CONVERSION_FACTOR);
         }
         init();
-
+        
     }
 
     /**
@@ -166,7 +167,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
     {
         nmFrequencyDdlb.setValue(session.getDsFrequency());
     }
-
+    
     @Override
     protected void levelFilterDdlbChangeOption() {
         projectionDTO.setHierarchyNo(StringUtils.EMPTY);
@@ -185,10 +186,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
             nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
         }
     }
-
+    
     @Override
     protected void excelExportLogic() {
-       long startTime = System.currentTimeMillis(); 
+        long startTime = System.currentTimeMillis();        
         try {
             configureExcelResultTable();
             getExcelSalesCommercial();
@@ -201,10 +202,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 for (int i = 0; i < projectionDTO.getHeaderMapForExcel().size(); i++) {
                     Object[] column = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(0)).toArray();
                     column = ArrayUtils.removeElement(column, "levelName");
-
+                    
                     Object[] header = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(1)).toArray();
                     header = ArrayUtils.remove(header, 0);
-
+                    
                     Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
                     if (displayFormatIndex.length == 1) {
                         for (int k = 0; k < displayFormatIndex.length; k++) {
@@ -219,7 +220,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                             }
                         }
                     }
-                    
+
                     
                     // Added for isAccountGrowth checking
                     boolean isAg = false;
@@ -231,28 +232,28 @@ public class NMSalesProjection extends ForecastSalesProjection {
                     }
                     
                     securityForListView(column, Arrays.copyOf(header, header.length, String[].class), excelTable);
-
+                    
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
                     ForecastUI.setEXCELCLOSE(true);
-                     Map<String, String> formatterMap = new HashMap<>();
-                     formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
-                     formatterMap.put(UNIT_NO_DECIMAL, UNITS);
-                     formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
-                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
-                     
-                     // Added PG_SUM and AG_SUM cols to fomatter map 
-                     formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
-                     formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
-                     formatterMap.put("CHILD_COUNT", "ChildCount");
-                     
+                    Map<String, String> formatterMap = new HashMap<>();
+                    formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
+                    formatterMap.put(UNIT_NO_DECIMAL, UNITS);
+                    formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
+                    formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
+
+                    // Added PG_SUM and AG_SUM cols to fomatter map 
+                    formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
+                    formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
+                    formatterMap.put("CHILD_COUNT", "ChildCount");
+                    
                     if (i == 0) {
                         exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), sheetName,
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                     } else {
                         if (exp != null) {
-                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
-                        }
+                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    }
                     }
                     if (exp != null) {
                         boolean export = i == exportAt;
@@ -269,41 +270,41 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 for (String header : excelHeader.getSingleHeaders()) {
                     columnHeader.add(StringUtils.EMPTY + header);
                 }
-                  Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
-                    if (displayFormatIndex.length == 1) {
-                        for (int k = 0; k < displayFormatIndex.length; k++) {
+                Object[] displayFormatIndex = CommonUtil.getDisplayFormatSelectedValues(displayFormatValues);
+                if (displayFormatIndex.length == 1) {
+                    for (int k = 0; k < displayFormatIndex.length; k++) {
                             LOGGER.info("obj--------------===== {}" , k);
-                            int index = (Integer) displayFormatIndex[k];
-                            if (index == 0) {
-                                visibleColumns.remove(Constant.DF_LEVEL_NAME);
-                                columnHeader.remove(Constant.LEVEL_NAME_HEADER);
-                            } else {
-                                visibleColumns.remove(Constant.DF_LEVEL_NUMBER);
-                                columnHeader.remove(Constant.LEVEL_NUMBER_HEADER);
-                            }
+                        int index = (Integer) displayFormatIndex[k];
+                        if (index == 0) {
+                            visibleColumns.remove(Constant.DF_LEVEL_NAME);
+                            columnHeader.remove(Constant.LEVEL_NAME_HEADER);
+                        } else {
+                            visibleColumns.remove(Constant.DF_LEVEL_NUMBER);
+                            columnHeader.remove(Constant.LEVEL_NUMBER_HEADER);
                         }
                     }
-                    
-                 // Added for isAccountGrowth checking
-                    boolean isAg = false;
-                    for (Object propertyId : excelTable.getContainerPropertyIds()) {
-                        if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
-                            isAg = true;
-                            excelTable.setConverter(propertyId, percentFormat);
-                        }
+                }
+
+                // Added for isAccountGrowth checking
+                boolean isAg = false;
+                for (Object propertyId : excelTable.getContainerPropertyIds()) {
+                    if (String.valueOf(propertyId).endsWith(ACNT_GRWOTH)) {
+                        isAg = true;
+                        excelTable.setConverter(propertyId, percentFormat);
                     }
-                    
-                    Map<String, String> formatterMap = new HashMap<>();
-                     formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
-                     formatterMap.put(UNIT_NO_DECIMAL, UNITS);
-                     formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
-                     formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
-                     
-                     // Added PG_SUM and AG_SUM cols to fomatter map 
-                     formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
-                     formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
-                     formatterMap.put("CHILD_COUNT", "ChildCount");
-                     
+                }
+                
+                Map<String, String> formatterMap = new HashMap<>();
+                formatterMap.put(CURRENCY_NO_DECIMAL, SALES);
+                formatterMap.put(UNIT_NO_DECIMAL, UNITS);
+                formatterMap.put("UNITTWODECIMAL", ACNT_GRWOTH);
+                formatterMap.put("UNIT_DECIMAL", "ProductGrowth");
+
+                // Added PG_SUM and AG_SUM cols to fomatter map 
+                formatterMap.put("PRODUCT_GROWTH_SUM", "ProductGrowthSum");
+                formatterMap.put("ACCOUNT_GROWTH_SUM", "AccountGrowthSum");
+                formatterMap.put("CHILD_COUNT", "ChildCount");
+                
                 securityForListView(visibleColumns.toArray(), Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class), excelTable);
                 exp = new SalesExcelNM(new ExtCustomTableHolder(excelTable), Constant.SALES_PROJECTION, Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                 exp.export();
@@ -316,22 +317,22 @@ public class NMSalesProjection extends ForecastSalesProjection {
         LOGGER.info("Excel Export time--------------------------------------------------------------{}",(endTime-startTime)/1000);
     }
     public static final String SALES_PROJECTION_XLS = "Sales_Projection.xls";
-
+    
     @Override
     protected final void enableDisableFields() {
         return;
     }
-
+    
     @Override
     protected void populateBtnLogic() {
         populateButtonLogic();
     }
-
+    
     @Override
     protected void adjustmentLogic() {
         return;
     }
-
+    
     @Override
     protected void calculateLogic() {
         try {
@@ -341,7 +342,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LoggerFactory.getLogger(NMSalesProjection.class.getName()).error(StringUtils.EMPTY, ex);
         }
     }
-
+    
     @Override
     protected void massUpdateLogic() {
         if ((Constant.LabelConstants.DISABLE.getConstant()).equals(massUpdate.getValue())) {
@@ -352,7 +353,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             startPeriod.setEnabled(false);
             endPeriod.setEnabled(false);
             populate.setEnabled(false);
-
+            
         } else {
             fieldDdlb.setEnabled(true);
             fieldDdlb.setValue(Constant.SELECT_ONE);
@@ -363,12 +364,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
             populate.setEnabled(true);
         }
     }
-
+    
     @Override
     protected void viewChangeOption() {
         return;
     }
-
+    
     @Override
     protected void customDdlbChangeOption() {
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent initiated ");
@@ -384,7 +385,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         editBtn.setEnabled(false);
         LOGGER.debug("customDdlbChangeOption ValueChangeEvent ends ");
     }
-
+    
     @Override
     protected void expandButtonLogic() {
         try {
@@ -400,14 +401,14 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(e.getMessage());
         }
     }
-
+    
     @Override
     protected void collapseButtonLogic() {
         nmSalesProjectionTableLogic.setRefresh(false);
         expandCollapseLevelOption(false, level.getValue());
         nmSalesProjectionTableLogic.setRefresh(true);
     }
-
+    
     @Override
     protected void fieldDdlbLogic() {
         if (Constant.ACCOUNT_GROWTH.equals(fieldDdlb.getValue()) || Constant.PRODUCT_GROWTH.equals(fieldDdlb.getValue()) || Constant.SALES_SMALL.equals(fieldDdlb.getValue()) || Constant.UNIT_VOLUME.equals(fieldDdlb.getValue()) || Constant.SELECT_ONE.equals(fieldDdlb.getValue()) || Constant.NULL.equals(String.valueOf(fieldDdlb.getValue()))) {
@@ -431,9 +432,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
             lblStart.setVisible(false);
             lblEnd.setVisible(false);
         }
-
+        
     }
-
+    
     @Override
     protected void resetBtnLogic() {
         if (nmFrequencyDdlb.getValue().equals(MONTHLY.getConstant())
@@ -461,7 +462,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             resetForAdd();
         }
     }
-
+    
     public void resetForAdd() {
         CommonLogic.unCheckMultiSelect(productFilterValues);
         CommonLogic.unCheckMultiSelect(customerFilterValues);
@@ -471,24 +472,28 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setCustomerLevelFilter(Collections.emptyList());
         loadSalesInclusion();
     }
-
+    
     protected void channelsViewChange() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
+    
     @Override
     public void generateBtnLogic(Button.ClickEvent event) {
         try {
-            
+        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
+                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
+        boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
+                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
             projectionDTO.setCustomerLevelFilter(generateCustomerToBeLoaded);
             projectionDTO.setProductLevelFilter(generateProductToBeLoaded);
-             loadAllFilters();
+            loadAllFilters();
             if (checkSelection()) {
                 LOGGER.debug("generate button click listener starts ");
                 tableLayout.removeAllComponents();
                 nmSalesProjectionTableLogic = new NMSalesProjectionTableLogic();
                 resultsTable = new FreezePagedTreeTable(nmSalesProjectionTableLogic);
                 super.initializeResultTable();
+                checkFrequencyChange(customerFlag,productFlag);
                 configureResultTable();
                 addResultTable();
                 CommonLogic.procedureCompletionCheck(session, "sales", String.valueOf(view.getValue()));
@@ -500,8 +505,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         LOGGER.debug("generate button click listener ends ");
     }
-
-    private void customerFilterGenerate(boolean customerFlag, boolean productFlag) {
+    
+     private void customerFilterGenerate(boolean customerFlag, boolean productFlag) {
         boolean customerFilterFlag = customerFlag;
         boolean productFilterFlag = productFlag;
         if ((!generateProductToBeLoaded.isEmpty() || !generateCustomerToBeLoaded.isEmpty()) || !customerFilterFlag || !productFilterFlag) {
@@ -516,7 +521,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         LOGGER.debug("customerFlag{} , productFlag{} ", customerFilterFlag, productFilterFlag);
     }
-
+    
     private void commercialGenerate(boolean customerFlag, boolean productFlag) {
         if (CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED.equals(projectionDTO.getScreenName())) {
             if (!projectionDTO.getFrequency().equals(nmFrequencyDdlb.getValue())) {
@@ -529,19 +534,18 @@ public class NMSalesProjection extends ForecastSalesProjection {
             uomValueChangeGenerate();
             customerFilterGenerate(customerFlag, productFlag);
             projectionDTO.setGroup(StringUtils.EMPTY);
-
+            
         }
     }
     public void checkSpFrequency(){
-        boolean spFlag = true;
         if(spFlag && (!session.getDsFrequency().equals(nmFrequencyDdlb.getValue()))){            
             spFlag =false;
             AbstractNotificationUtils.getInfoNotification("Info", "Changes have been made to the display selection. Please generate to view the changes in the results");
             projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
-        
+            
         }
     }
-
+    
     private void uomValueChangeGenerate() {
         if (uomValueChange) {
             session.setUomCode(unitOfMeasureDdlb.getValue() == null ? "EACH" : String.valueOf(unitOfMeasureDdlb.getValue()));
@@ -562,7 +566,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         nmSalesProjectionTableLogic.getControlConfig().setPageLengthsAndCaptions(pagelength);
         excelHeader = new CustomTableHeaderDTO();
         leftHeader = HeaderUtils.getSalesLeftTableColumns(projectionDTO);
-
+        
       
         if (CommonUtil.isValueEligibleForLoading()) {
             excelHeader.addSingleColumn("dfLevelNumber", "Level Number", String.class);
@@ -570,7 +574,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         } else{
             excelHeader.addSingleColumn(Constant.LEVELNAME, Constant.LEVEL_NAME_HEADER, String.class);
         }
-
+        
         if (projectionDTO.getScreenName().equals(CommonUtils.BUSINESS_PROCESS_TYPE_NONMANDATED)) {
             excelHeader.addSingleColumn(Constant.GROUP, "Group", String.class);
         }
@@ -586,16 +590,16 @@ public class NMSalesProjection extends ForecastSalesProjection {
         rightTable = resultsTable.getRightFreezeAsTable();
         leftTable.setEditable(true);
         rightTable.setEditable(true);
-
+        
         String[] columnLeftHeader = new String[leftHeader.getSingleHeaders().size()];
         securityForListView(leftHeader.getSingleColumns().toArray(), leftHeader.getSingleHeaders().toArray(columnLeftHeader), leftTable);
         leftTable.setDoubleHeaderVisible(true);
         leftTable.setDoubleHeaderVisibleColumns(leftHeader.getDoubleColumns().toArray());
         leftTable.setDoubleHeaderColumnHeaders(leftHeader.getDoubleHeaders().toArray(new String[leftHeader.getDoubleHeaders().size()]));
-
+        
         rightTable.setVisibleColumns(rightHeader.getSingleColumns().toArray());
         rightTable.setColumnHeaders(rightHeader.getSingleHeaders().toArray(new String[rightHeader.getSingleHeaders().size()]));
-
+        
         for (Object obj : leftHeader.getSingleColumns()) {
             if (String.valueOf(obj).contains(Constant.GROUP)) {
                 resultsTable.getLeftFreezeAsTable().setColumnWidth(obj, NumericConstants.ONE_THREE_FIVE);
@@ -619,7 +623,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         levelFilter.addValueChangeListener(levelFilterChangeOption);
         getHeaderList();
     }
-
+    
     public void getHeaderList() {
         List<String> headerList = new ArrayList<>();
         for (Object header : rightHeader.getSingleColumns()) {
@@ -637,7 +641,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         HorizontalLayout controlLayout = CommonLogic.getResponsiveControls(controls);
         tableLayout.addComponent(controlLayout);
     }
-
+    
    
     protected List getCheckedSalesInclusionValues() {
         List<String> results = new ArrayList<>();
@@ -671,11 +675,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
             Utility.loadLevelValue(level, levelFilter, null, session.getCustomerHierarchyList(), view.getValue().toString());
         }
         CommonUtil.getInstance().waitsForOtherThreadsToComplete(session.getFutureValue(Constant.FILE_INSERT, 0));
-
+        
         nmSalesProjectionTableLogic.setProjectionResultsData(projectionDTO);
         session.setDsFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
     }
-
+    
     public void loadAllFilters() {
         List<String> checkedValues = getCheckedSalesInclusionValues();
         projectionDTO.getSessionDTO().setSalesInclusion(allUpperCase);
@@ -708,7 +712,6 @@ public class NMSalesProjection extends ForecastSalesProjection {
         projectionDTO.setProjectionId(projectionDTO.getSessionDTO().getProjectionId());
         projectionDTO.setUserId(Integer.parseInt(projectionDTO.getSessionDTO().getUserId()));
         projectionDTO.setSessionId(Integer.parseInt(projectionDTO.getSessionDTO().getSessionId()));
-        checkFrequencyChange();
         projectionDTO.setFrequency(String.valueOf(nmFrequencyDdlb.getValue()));
         projectionDTO.setProjectionOrder(String.valueOf(proPeriodOrd.getValue()));
         projectionDTO.setActualsOrProjections(String.valueOf(actualsProjections.getValue()));
@@ -724,7 +727,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             projectionDTO.setHistoryNum(historyNum);
             projectionDTO.setProjectionNum(CommonUtils.getProjectionNumber(projectionDTO.getFrequency(), session));
         }
-
+        
         if (variables.getValue() != null) {
             String tempVariables = variables.getValue().toString();
             tempVariables = tempVariables.substring(1, tempVariables.length() - 1).trim();
@@ -743,9 +746,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
             projectionDTO.setVariableList(sortedArray);
         }
-
+        
     }
-
+    
     private void configureGroupDDLB() {
         fieldDdlb.addItem(Constant.GROUPFCAPS);
         fieldDdlb.removeItem(Constant.GROUPFCAPS);
@@ -765,11 +768,11 @@ public class NMSalesProjection extends ForecastSalesProjection {
         boolean isEnabled = Utility.customEnableForRelationFromDS(session.getCustomRelationShipSid());
         view.setItemEnabled(Constant.CUSTOM_LABEL, isEnabled);
         if(session.getCustomRelationShipSid()==0){
-           viewDdlb.setValue(null);
-           newBtn.setEnabled(false); 
+            viewDdlb.setValue(null);
+            newBtn.setEnabled(false);            
         }
         else{
-        view.setItemEnabled(Constant.CUSTOM_LABEL, true);
+            view.setItemEnabled(Constant.CUSTOM_LABEL, true);
         }
         if (CommonUtil.isValueEligibleForLoading()) {
             salesProjectionSelection.setVisible(false);
@@ -789,7 +792,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             salesProjectionfilterLayout.setVisible(false);
         }
     }
-
+    
     public void securityForButton() {
         try {
             final Map<String, AppPermission> functionPsHM = stplSecurity.getBusinessFunctionPermissionForNm(String.valueOf(VaadinSession.getCurrent().getAttribute("businessRoleIds")), GlobalConstants.getCommercialConstant() + "," + UISecurityUtil.SALES_PROJECTION);
@@ -810,18 +813,18 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 populate.setVisible(BooleanConstant.getFalseFlag());
                 adjust.setVisible(BooleanConstant.getFalseFlag());
             }
-
+            
             if ((functionPsHM.get(CommonUtils.TOTAL_LIVES_LAYOUT) != null && ((AppPermission) functionPsHM.get(CommonUtils.TOTAL_LIVES_LAYOUT)).isFunctionFlag())) {
                 totalLivesLayout.setVisible(true);
             } else {
                 totalLivesLayout.setVisible(false);
             }
-
+            
         } catch (PortalException | SystemException ex) {
             LOGGER.error(ex.getMessage());
         }
     }
-
+    
     public void saveSPSave() {
         LOGGER.debug("saveSPResults method starts");
         try {
@@ -845,16 +848,16 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         LOGGER.debug("saveSPResults method ends");
     }
-
+    
     public boolean getSubmitFlag() {
         return !getCustomContainer().isEmpty();
     }
-
+    
     @Override
     public PageTreeTableLogic getTableLogic() {
         return nmSalesProjectionTableLogic;
     }
-
+    
     @Override
     protected void variableChangeLogic() {
         if ((Constant.ACTUAL).equals(variable.getValue())) {
@@ -868,9 +871,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
             adjustment.setValue(StringUtils.EMPTY);
         }
     }
-
+    
     private void loadProductLevel() {
-
+        
         int hierarchyLevelNo = isInteger(session.getProductLevelNumber()) ? Integer.parseInt(session.getProductLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getProductHierarchy(session.getProjectionId(), hierarchyLevelNo, session.getProdRelationshipBuilderSid(), session.getProductRelationVersion());
         Utility.loadDdlbForLevelFilterOption(productlevelDdlb, currentHierarchy, NAME);
@@ -887,10 +890,10 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
         });
     }
-
+    
     private void loadProductLevelFilter(String levelNo) {
         List<Object[]> productLevelFilter = new ArrayList<>();
-
+        
         productFilterDdlb.removeSubMenuCloseListener(productListener);
         productFilterDdlb.removeItems();
         productFilterValues = productFilterDdlb.addItem(SELECT_LEVEL_LABEL, null);
@@ -907,12 +910,12 @@ public class NMSalesProjection extends ForecastSalesProjection {
         productFilterDdlb.addSubMenuCloseListener(productListener);
     }
     public static final String SELECT_ALL = "Select All";
-
+    
     private void loadCustomerLevel() {
         int hierarchyNo = isInteger(session.getCustomerLevelNumber()) ? Integer.parseInt(session.getCustomerLevelNumber()) : 0;
         currentHierarchy = CommonLogic.getCustomerHierarchy(session.getProjectionId(), hierarchyNo, session.getCustRelationshipBuilderSid(), session.getCustomerRelationVersion());
         Utility.loadDdlbForLevelFilterOption(customerlevelDdlb, currentHierarchy, NAME);
-
+        
         customerlevelDdlb.addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
@@ -926,7 +929,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             }
         });
     }
-
+    
     private void loadCustomerLevelFilter(String levelNo) {
         List<Object[]> customerLevelFilter = new ArrayList<>();
         customerFilterDdlb.removeSubMenuCloseListener(cutomerListener);
@@ -944,7 +947,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(customerFilterDdlb, customerMenuItemValue);
         customerFilterDdlb.addSubMenuCloseListener(cutomerListener);
     }
-
+    
     protected List getCustomerFilterValues() {
         List<Object> customerList = new ArrayList<>();
         if (customerFilterValues != null && customerFilterValues.getSize() > 0) {
@@ -958,7 +961,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         return customerList;
     }
-
+    
     protected List getProductFilterValues() {
         List<Object> productList = new ArrayList<>();
         if (productFilterValues != null && productFilterValues.getSize() > 0) {
@@ -972,7 +975,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         }
         return productList;
     }
-
+    
     private void loadSalesInclusion() {
         String[] variablesalesInclusion = {"Yes", "No"};
         salesInclusionDdlb.removeSubMenuCloseListener(salesInclusionListener);
@@ -985,17 +988,17 @@ public class NMSalesProjection extends ForecastSalesProjection {
             salesInclusionCustomItem[i].setCheckable(true);
             salesInclusionCustomItem[i].setItemClickable(true);
             salesInclusionCustomItem[i].setItemClickNotClosable(true);
-
+            
         }
-         salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+        salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
         if (!ACTION_EDIT.getConstant().equalsIgnoreCase(session.getAction()) || (!ACTION_VIEW.getConstant().equalsIgnoreCase(session.getAction()) )) {
-             salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
-        salesInclusionValues.getChildren().get(0).setChecked(true);
-         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");
+            salesInclusionDdlb.addSubMenuCloseListener(salesInclusionListener);
+            salesInclusionValues.getChildren().get(0).setChecked(true);
+            ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(salesInclusionDdlb, "Yes");
         }
         
     }
-
+    
     private void loadDisplayFormatDdlb()  {
         List<Object[]> displayFormatFilter = new ArrayList<>();
         displayFormatFilter.addAll(commonLogic.displayFormatValues());
@@ -1008,7 +1011,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
         ChangeCustomMenuBarValueUtil.setMenuItemToDisplay(displayFormatDdlb, displayFormatMenuItemValue);
         displayFormatDdlb.addSubMenuCloseListener(displayFormatListener);
     }
-
+    
     private void securityForListView(Object[] visibleColumnArray, String[] columnHeaderArray, ExtCustomTreeTable table) {
         try {
             final String userId = String.valueOf(sessionDTO.getUserId());
@@ -1021,7 +1024,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(ex.getMessage());
         }
     }
-
+    
     private void getExcelSalesCommercial() {
         try {
             String parentKey;
@@ -1042,7 +1045,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 Object parentItemId;
                 key = key.contains("$") ? key.substring(0, key.indexOf('$')) : key;
                 tempKey = key.trim();
-                    parentKey = CommonUtil.getParentItemId(key);
+                parentKey = CommonUtil.getParentItemId(key);
                 parentItemId = excelParentRecords.get(parentKey);
                 if (parentItemId != null) {
                     excelContainer.setParent(itemId, parentItemId);
@@ -1055,7 +1058,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(e.getMessage());
         }
     }
-
+    
     private List<Object[]> getSalesExcelResults(ProjectionSelectionDTO projectionSelectionDTO) {
         if (!projectionSelectionDTO.isIsCustomHierarchy()) {
             return salesLogic.getSalesExcelResults(projectionDTO);
@@ -1063,7 +1066,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
             return salesLogic.getSalesResultsExcelCustom(projectionSelectionDTO);
         }
     }
-
+    
     @Override
     protected void excelExportBtnClickLogic() {
         try {
@@ -1076,13 +1079,13 @@ public class NMSalesProjection extends ForecastSalesProjection {
             int exportAt = projectionDTO.getHeaderMapForExcel().size() - 1;
             if ((QUARTERLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())) || MONTHLY.getConstant().equals(String.valueOf(nmFrequencyDdlb.getValue())))) {
                 for (int i = 0; i < projectionDTO.getHeaderMapForExcel().size(); i++) {
-
+                    
                     excelTable.setVisibleColumns(((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(0)).toArray());
                     Object[] header = ((List<Object>) projectionDTO.getHeaderMapForExcel().get(i).get(1)).toArray();
                     excelTable.setColumnHeaders(Arrays.copyOf(header, header.length, String[].class));
                     excelTable.setRefresh(true);
                     String sheetName = "Year " + String.valueOf(projectionDTO.getHeaderMapForExcel().get(i).get(NumericConstants.TWO));
-                    
+
                     // Added for isAccountGrowth checking
                     boolean isAg = false;
                     for (Object propertyId : excelTable.getContainerPropertyIds()) {
@@ -1102,8 +1105,8 @@ public class NMSalesProjection extends ForecastSalesProjection {
                                 Constant.SALES_PROJECTION, SALES_PROJECTION_XLS, false, formatterMap, isAg);
                     } else {
                         if (exp != null) {
-                            exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
-                        }
+                        exp.setNextTableHolder(new ExtCustomTableHolder(excelTable), sheetName);
+                    }
                     }
                     if (exp != null) {
                         boolean export = i == exportAt;
@@ -1119,7 +1122,7 @@ public class NMSalesProjection extends ForecastSalesProjection {
                 for (String header : excelHeader.getSingleHeaders()) {
                     columnHeader.add(StringUtils.EMPTY + header);
                 }
-
+                
                 excelTable.setVisibleColumns(visibleColumns.toArray());
                 excelTable.setColumnHeaders(Arrays.copyOf(columnHeader.toArray(), columnHeader.size(), String[].class));
                 tableLayout.addComponent(excelTable);
@@ -1131,13 +1134,9 @@ public class NMSalesProjection extends ForecastSalesProjection {
             LOGGER.error(e.getMessage());
         }
     }
-
-    private void checkFrequencyChange() {
-        boolean customerFlag = (generateCustomerToBeLoaded.containsAll(projectionDTO.getCustomerLevelFilter())
-                    && generateCustomerToBeLoaded.size() == projectionDTO.getCustomerLevelFilter().size());
-            boolean productFlag = (generateProductToBeLoaded.containsAll(projectionDTO.getProductLevelFilter())
-                    && generateProductToBeLoaded.size() == projectionDTO.getProductLevelFilter().size());
-            commercialGenerate(customerFlag, productFlag);
+    
+    private void checkFrequencyChange(boolean customerFlag,boolean productFlag) {
+        commercialGenerate(customerFlag, productFlag);
     }
-
+    
 }

@@ -29,7 +29,7 @@ public class UIUtils {
         */
     }
 
-    public static UIUtils getInstance() {
+    public static synchronized UIUtils getInstance() {
         if (object == null) {
             object = new UIUtils();
         }
