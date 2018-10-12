@@ -122,6 +122,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         Object[] ob = new Object[18];
         for (int i = 0; i < resultList.size(); i++) {
             Object[] obj = resultList.get(i);
+            ob = new Object[18];
             bean = convertJsonToObject(GtnFrameworkForecastDataSelectionBean.class,
                     ((String) obj[6]).replaceAll("\\\\", "'"));
             ob[0] = obj[0];

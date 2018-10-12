@@ -79,19 +79,19 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			
 			GtnUIFrameworkComponentData customerHierarchyData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP, componentId)
+							nameSpace +GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP, componentId)
 					.getComponentData();
 			customerHierarchyData.setCustomData(customerRecordBean);
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP, componentId)
+							nameSpace +GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP, componentId)
 					.setV8PopupFieldValue(customerRecordBean.getPropertyValueByIndex(0));
 			
 			GtnUIFrameWorkActionConfig customerActionConfig = new GtnUIFrameWorkActionConfig();
 			customerActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			customerActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-			customerActionConfig.addActionParameter(GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
+			customerActionConfig.addActionParameter(nameSpace +GtnFrameworkScreenRegisteryConstants.FORECAST_CUST_HIER_LOOKUP_CONTROL_POP);
 			customerActionConfig.addActionParameter(GtnFrameworkCommonConstants.SCREEN_REGISTRY_CF_CUST_SEL_REL);
 			customerActionConfig.addActionParameter(dataSelectionBean.getCustomerRelationshipBuilderSid());
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId,customerActionConfig); 
@@ -99,31 +99,31 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTRELATIONVERSION, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerRelationshipVersionNo());
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerHierarchyLevel().toString());
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getCustomerHierarchyInnerLevel());
 
 			GtnUIFrameworkComponentData customerGroupData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP, componentId)
+							nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP, componentId)
 					.getComponentData();
 			customerGroupData.setCustomData(customerGroup);
 			if(customerGroup != null)
 			{
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTGROUP, componentId)
 			.setV8PopupFieldValue(customerGroup.getPropertyValueByIndex(0));
 			}
 			
-			String customerTableId =GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX;
+			String customerTableId =nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX;
 			GtnUIFrameworkBaseComponent abstractComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(customerTableId, componentId);
 			GtnUIFrameworkComponentData dualListBoxData = (GtnUIFrameworkComponentData) abstractComponent.getData();
@@ -143,41 +143,41 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			
 			GtnUIFrameworkComponentData productHierarchyData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId)
+							nameSpace +GtnFrameworkForecastingStringConstants.PROD_HIER_NAME, componentId)
 					.getComponentData();
 			productHierarchyData.setCustomData(productRecordBean);
 
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME, componentId)
+							nameSpace +GtnFrameworkForecastingStringConstants.PROD_HIER_NAME, componentId)
 					.setV8PopupFieldValue(productRecordBean.getPropertyValueByIndex(0));
 			
 			GtnUIFrameWorkActionConfig productActionConfig = new GtnUIFrameWorkActionConfig();
 			productActionConfig.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 			productActionConfig.addActionParameter(GtnCustomerSelectionRelationshipLoadAction.class.getName());
-			productActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODHIERNAME);
-			productActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONSHIP);
+			productActionConfig.addActionParameter(nameSpace +GtnFrameworkForecastingStringConstants.PROD_HIER_NAME);
+			productActionConfig.addActionParameter(nameSpace +GtnFrameworkForecastingStringConstants.PROD_RELATIONSHIP);
 			productActionConfig.addActionParameter(dataSelectionBean.getProductRelationshipBuilderSid());
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId,productActionConfig); 
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODRELATIONVERSION, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getProductRelationshipVersionNo());
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODFORECASTLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getProductHierarchyLevel().toString());
 			
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTLEVEL, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getProductHierarchyInnerLevel());
 			
 			GtnUIFrameworkComponentData productGroupData = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(
-							GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP, componentId)
+							nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP, componentId)
 					.getComponentData();
 			productGroupData.setCustomData(productGroup);
 			
@@ -185,12 +185,12 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			{
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP, componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTGROUP, componentId)
 			.setV8PopupFieldValue(productGroup.getPropertyValueByIndex(0));
 			
 			}
 			
-			String productTableId =GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX;
+			String productTableId =nameSpace +GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX;
 			GtnUIFrameworkBaseComponent productAbstractComponent = GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponentFromParent(productTableId, componentId);
 			GtnUIFrameworkComponentData productDualListBoxData = (GtnUIFrameworkComponentData) productAbstractComponent.getData();
@@ -205,7 +205,7 @@ public class GtnForecastingDataSelectionLoadViewAction implements GtnUIFrameWork
 			productRightTable.markAsDirty();
 			GtnUIFrameworkGlobalUI
 			.getVaadinBaseComponentFromParent(
-					"Commercial Forecasting_frequency", componentId)
+					nameSpace +GtnFrameworkForecastingStringConstants.FREQUENCY, componentId)
 			.loadV8ComboBoxComponentValue(dataSelectionBean.getFrequency());
 			
 			

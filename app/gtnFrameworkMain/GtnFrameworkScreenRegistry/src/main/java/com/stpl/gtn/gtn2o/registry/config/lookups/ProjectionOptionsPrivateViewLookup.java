@@ -47,7 +47,7 @@ public class ProjectionOptionsPrivateViewLookup
 
 		GtnUIFrameworkViewConfig privatePublicViewLookupView = new GtnUIFrameworkViewConfig();
 		privatePublicViewLookupView.setViewName(namespace+" "+"View");
-		privatePublicViewLookupView.setViewId(namespace+"_"+"lookup");
+		privatePublicViewLookupView.setViewId(namespace+"_"+"ViewLookup");
 		privatePublicViewLookupView.setDefaultView(false);
 		privatePublicViewLookupView.setResetAllowed(true);
 		addPublicPrivateViewLookupComponentList(privatePublicViewLookupView, namespace);
@@ -149,11 +149,11 @@ public class ProjectionOptionsPrivateViewLookup
 		GtnUIFrameworkComponentConfig addViewNameTextBox = new GtnUIFrameworkComponentConfig();
 		addViewNameTextBox.setComponentType(GtnUIFrameworkComponentType.TEXTBOX_VAADIN8);
 		addViewNameTextBox.setComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME);
+				+ GtnFrameworkCommonConstants.VIEW_NAME);
 		addViewNameTextBox.setComponentName("View Name");
 		addViewNameTextBox.setAddToParent(true);
 		addViewNameTextBox.setParentComponentId(horizontalViewNameLayout.getComponentId());
-		addViewNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME);
+		addViewNameTextBox.setComponentWsFieldId(GtnFrameworkCommonConstants.VIEW_NAME);
 		addViewNameTextBox.setDefaultFocus(true);
 		GtnUIFrameworkTextBoxConfig textBoxConfig = new GtnUIFrameworkTextBoxConfig();
 		addViewNameTextBox.setGtnTextBoxConfig(textBoxConfig);
@@ -200,9 +200,9 @@ public class ProjectionOptionsPrivateViewLookup
                 GtnUIFrameWorkActionConfig loadDataSearchTableActionConfig = new GtnUIFrameWorkActionConfig();
                 loadDataSearchTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
                 loadDataSearchTableActionConfig.setActionParameterList(
-                Arrays.asList(new Object[]{namespace+"_"+GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE}));
+                Arrays.asList(new Object[]{namespace+"_"+GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE}));
                 loadDataSearchTableActionConfig.setFieldValues(
-                        Arrays.asList(new String[]{namespace+"_"+GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME}));
+                        Arrays.asList(new String[]{namespace+"_"+GtnFrameworkCommonConstants.VIEW_NAME}));
                 actionConfigListSearch.add(loadDataSearchTableActionConfig);
                 privateViewSearchLookupSearchButton.setGtnUIFrameWorkActionConfigList(actionConfigListSearch);
 
@@ -210,7 +210,7 @@ public class ProjectionOptionsPrivateViewLookup
 		
 		GtnUIFrameWorkActionConfig privateViewValidationActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.V8_VALIDATION_ACTION);
 		privateViewValidationActionConfig.setFieldValues(Arrays.asList(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME));
+				+ GtnFrameworkCommonConstants.VIEW_NAME));
 		
 		GtnUIFrameWorkActionConfig privateViewValidationAlertActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.ALERT_ACTION);
 		privateViewValidationAlertActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.INVALID_SEARCH);
@@ -223,9 +223,9 @@ public class ProjectionOptionsPrivateViewLookup
 		loadDataTableActionConfig.setActionType(GtnUIFrameworkActionType.LOAD_DATA_GRID_ACTION);
 		loadDataTableActionConfig.setActionParameterList(
 				Arrays.asList(new Object[] { namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-						+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE }));
+						+ GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE }));
 		loadDataTableActionConfig.setFieldValues(Arrays.asList(new String[] { namespace
-				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME }));
+				+ GtnFrameworkForecastingStringConstants.UNDERSCORE + GtnFrameworkCommonConstants.VIEW_NAME }));
 		
 		actionConfigList.add(loadDataTableActionConfig);
 		privateViewSearchLookupSearchButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
@@ -243,8 +243,8 @@ public class ProjectionOptionsPrivateViewLookup
 		privateViewResetActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION);
 		privateViewResetActionConfig.addActionParameter(GtnFrameworkForecastingStringConstants.RESET_CONFIRMATION_MESSAGE);
 		privateViewResetActionConfig.addActionParameter(Arrays.asList(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_VIEW_NAME,namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE));
+				+ GtnFrameworkCommonConstants.VIEW_NAME,namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
+				+ GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE));
 		privateViewResetActionConfig.addActionParameter(Arrays.asList(GtnFrameworkCommonStringConstants.STRING_EMPTY,GtnFrameworkCommonStringConstants.STRING_EMPTY));
 		privateViewSearchLookupResetButton.addGtnUIFrameWorkActionConfig(privateViewResetActionConfig);
 		
@@ -295,7 +295,7 @@ public class ProjectionOptionsPrivateViewLookup
 		GtnUIFrameworkComponentConfig privateViewPagedTableComponent = new GtnUIFrameworkComponentConfig();
 		privateViewPagedTableComponent.setComponentType(GtnUIFrameworkComponentType.PAGED_GRID);
 		privateViewPagedTableComponent.setComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
+				+ GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		privateViewPagedTableComponent.setComponentName("Results");
 		privateViewPagedTableComponent.setParentComponentId(
 				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE +GtnFrameworkForecastingStringConstants.RESULT_CONFIG);
@@ -347,7 +347,7 @@ public class ProjectionOptionsPrivateViewLookup
                 additionalSearchCriteria.add("non mandated");
                 privateViewPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
 
-		privateViewPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
+		//privateViewPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
 		
 		privateViewPagedTableConfig.setSelectionListener(true);
 	
@@ -357,7 +357,7 @@ public class ProjectionOptionsPrivateViewLookup
 		privateViewItemClickActionConfig.addActionParameter(GtnSelectButtonEnableAction.class.getName());
 		privateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupSelectButton");
 		privateViewItemClickActionConfig.addActionParameter(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
+				+ GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
 		privateViewItemClickActionConfigList.add(privateViewItemClickActionConfig);
 		privateViewPagedTableConfig.setItemClickActionConfigList(privateViewItemClickActionConfigList);
 		
@@ -439,45 +439,42 @@ public class ProjectionOptionsPrivateViewLookup
 		privateViewSelectAction.setActionType(GtnUIFrameworkActionType.V8_POP_UP_SELECT_ACTION);
 		List<Object> actionParameter = new ArrayList<>();
 		actionParameter.add(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
-				+ GtnFrameworkCommonConstants.PRIVATE_SEARCH_RESULT_TABLE);
-                if(namespace.equals("Private"))
-                {
-		actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
-                actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.VIEW_NAME));
-                actionParameter.add(Arrays.asList("Commercial Forecasting_privateViewLookup"));
-                }
-                if(namespace.equals("Public"))
-                {
-                actionParameter.add(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
-                actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.VIEW_NAME));
-                actionParameter.add(Arrays.asList(GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
-                }
+				+ GtnFrameworkCommonConstants.SEARCH_RESULT_TABLE);
+		
+		actionParameter.add(
+				namespace.equals("Private") ? GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW
+						: GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
+		actionParameter.add(Arrays.asList(GtnFrameworkForecastingStringConstants.VIEW_NAME));
+		actionParameter.add(
+				Arrays.asList(namespace.equals("Private") ? GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW
+						: GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW));
 		
 		privateViewSelectAction.setActionParameterList(actionParameter);
 		actionConfigList.add(privateViewSelectAction);
 
 		GtnUIFrameWorkActionConfig privateViewClosepopup = new GtnUIFrameWorkActionConfig();
 		privateViewClosepopup.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
-		privateViewClosepopup.addActionParameter(GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW);
+		privateViewClosepopup.addActionParameter(namespace+"_"+"ViewLookup");
 		actionConfigList.add(privateViewClosepopup);
 
 		GtnUIFrameWorkActionConfig loadViewAction = new GtnUIFrameWorkActionConfig();
 		loadViewAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		loadViewAction.addActionParameter( GtnForecastingDataSelectionLoadViewAction.class.getName());
-		loadViewAction.addActionParameter("Commercial Forecasting_privateViewLookup");
+		loadViewAction.addActionParameter(namespace.equals("Private") ? GtnFrameworkCommonConstants.COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW
+				: GtnFrameworkCommonConstants.COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW);
 		loadViewAction.addActionParameter(GtnFrameworkForecastingStringConstants.COMMERCIAL_FORECASTING);
 		actionConfigList.add(loadViewAction);
 
 		GtnUIFrameWorkActionConfig enableAction = new GtnUIFrameWorkActionConfig();
 		enableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
-		enableAction.addActionParameter("reportLandingScreen_dsDeleteView");
+		enableAction.addActionParameter(namespace + "_" + "deleteViewBtn");
 		actionConfigList.add(enableAction);
 		privateViewSearchLookupSelectButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 
 		GtnUIFrameworkComponentConfig privateViewSearchLookupCloseButton = new GtnUIFrameworkComponentConfig();
 		privateViewSearchLookupCloseButton.setComponentType(GtnUIFrameworkComponentType.BUTTON);
 		privateViewSearchLookupCloseButton.setComponentId(
-				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "privateViewSearchLookupCloseButton");
+				namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE + "searchLookupCloseButton");
 		privateViewSearchLookupCloseButton.setComponentName("CLOSE");
 		privateViewSearchLookupCloseButton.setParentComponentId(namespace + GtnFrameworkForecastingStringConstants.UNDERSCORE
 				+ GtnFrameworkCommonConstants.CONTROL_POP_UP_BUTTON_LAYOUT);

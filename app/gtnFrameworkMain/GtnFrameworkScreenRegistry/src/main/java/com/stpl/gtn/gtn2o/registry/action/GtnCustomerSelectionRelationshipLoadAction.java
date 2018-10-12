@@ -1,6 +1,7 @@
 package com.stpl.gtn.gtn2o.registry.action;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +34,11 @@ public class GtnCustomerSelectionRelationshipLoadAction
 			if (recordBean != null) {
 				Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap = (Map<Integer, List<GtnWsRelationshipBuilderBean>>) recordBean
 						.getPropertyValueByIndex(recordBean.getProperties().size() - 1);
-				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = relationshipMap
-						.get(Integer.valueOf(recordBean.getStringPropertyByIndex(7)));
+
+				
+				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper =relationshipMap.get(recordBean.getStringPropertyByIndex(7));
+
+				
 				List<String> relationshipCaptionList = new ArrayList<>();
 				List<Integer> relationshipIdList = new ArrayList<>();
 

@@ -39,8 +39,10 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 					.getVaadinBaseComponent(params.get(3).toString(),componentId).getCaptionFromV8ComboBox()));
 
 			if (relationshipBuilderSid != 0) {
+
 				List<GtnWsRelationshipBuilderBean> relationshipBuilderBeanListMapper = getList(recordBean,
 						relationshipMap);
+
 				List<String> relationshipCaptionList = new ArrayList<>();
 				List<Integer> relationshipIdList = new ArrayList<>();
 
@@ -86,7 +88,7 @@ public class GtnCustomerSelectionForecastLevelLoadAction
 	public List<GtnWsRelationshipBuilderBean> getList(GtnWsRecordBean recordBean,
 			Map<Integer, List<GtnWsRelationshipBuilderBean>> relationshipMap) {
 		return relationshipMap
-				.get(Integer.valueOf(recordBean.getStringPropertyByIndex(7)));
+				.get(recordBean.getStringPropertyByIndex(7));
 	
 	}
 

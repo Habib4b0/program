@@ -18,10 +18,13 @@ import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkCommonConstants;
 import com.stpl.gtn.gtn2o.ws.constants.css.GtnFrameworkCssConstants;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 
 public class GtnFrameworkForecastDataSelectionSaveViewLookup {
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
+	
+	GtnFrameworkForecastDataSelectionBean dataSelectionBean=new  GtnFrameworkForecastDataSelectionBean();
 
 	public GtnUIFrameworkViewConfig getSaveViewLookUpView(String namespace) {
 

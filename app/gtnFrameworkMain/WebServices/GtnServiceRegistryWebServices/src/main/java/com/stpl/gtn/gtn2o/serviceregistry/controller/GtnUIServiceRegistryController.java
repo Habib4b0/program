@@ -16,6 +16,7 @@ import com.stpl.gtn.gtn2o.serviceregistry.constants.GtnWsServiceRegistryConstant
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnServiceRegistryRegisterWs;
 import com.stpl.gtn.gtn2o.serviceregistry.webservices.GtnUIServiceRegistryService;
 import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
