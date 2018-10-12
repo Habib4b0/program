@@ -93,7 +93,7 @@ public class GtnFrameworkPeriodFieldValueChangeAction
 	private Calendar getDate(String periodValue) {
 		Calendar date = Calendar.getInstance();
 		date.set(Calendar.DATE, 1);
-		date.set(Calendar.MONTH, date.get(Calendar.MONTH) + Integer.valueOf(periodValue));
+		date.set(Calendar.MONTH, date.get(Calendar.MONTH) + Integer.parseInt(periodValue));
 		return date;
 	}
 

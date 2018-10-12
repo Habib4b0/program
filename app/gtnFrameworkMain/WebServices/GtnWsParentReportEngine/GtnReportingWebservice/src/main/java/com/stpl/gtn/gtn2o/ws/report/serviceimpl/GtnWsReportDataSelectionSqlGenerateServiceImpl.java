@@ -50,6 +50,7 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsReportDataSelectionGenerate {
 
 	private static final String COLUMNS = "Columns";
+        private static final String DEDUCTIONPEREXFACTORY = "Deduction % of Ex-Factory";
 
 	@Autowired
 	private GtnReportJsonService gtnReportJsonService;
@@ -454,7 +455,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		variableChildMap.put("F", "Deduction $");
 		variableChildMap.put("G", "Deduction %");
 		variableChildMap.put("H", "RPU");
-		variableChildMap.put("I", "Deduction % of Ex-Factory");
+		variableChildMap.put("I", DEDUCTIONPEREXFACTORY);
 		variableChildMap.put("J", "Net Contract Sales");
 		variableChildMap.put("K", "Net Contract Sales % of Ex-Factory");
 		variableChildMap.put("L", "Net Ex-Factory Sales");
@@ -478,7 +479,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 		variableMap.put("Contract Sales % of Total Contract Sales", "CONT_SALES_PER_OF_TOTAL_SALES");
 		variableMap.put("Deduction $", "DISCOUNT_AMOUNT");
 		variableMap.put("Deduction %", "DISCOUNT_RATE");
-		variableMap.put("Deduction % of Ex-Factory", "DISC_PER_OF_EX");
+		variableMap.put(DEDUCTIONPEREXFACTORY, "DISC_PER_OF_EX");
 		variableMap.put("Net Contract Sales", "NET_SALES");
 		variableMap.put("Net Contract Sales % of Ex-Factory", "NET_CON_SALES_PER_OF_EX");
 		variableMap.put("Net Ex-Factory Sales", "NET_EX_SALES");
@@ -685,7 +686,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void dataConvertors(GtnWsRecordBean recordBean, String key, Double data, String indicator, String levelName,
 			boolean isTotalSpecialCondition, String variableChild) {
 
-		if((!levelName.contains("Deduction % of Ex-Factory"))&&(key.contains("RATE")||key.contains(GtnWsQueryConstants.VOLUME)||key.contains("CHANGEINCHANGE"))){
+		if((!levelName.contains(DEDUCTIONPEREXFACTORY))&&(key.contains("RATE")||key.contains(GtnWsQueryConstants.VOLUME)||key.contains("CHANGEINCHANGE"))){
 			recordBean.addProperties(key,"");
 			return;
 		}
@@ -783,7 +784,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			Double dataValue, String variableIndicator, String levelName, boolean isTotalSpecialCondition,
 			String variableChild) {
 		
-		if((!levelName.contains("Deduction % of Ex-Factory"))&&(mapKey.contains("RATE")||mapKey.contains(GtnWsQueryConstants.VOLUME)||mapKey.contains("CHANGEINCHANGE"))){
+		if((!levelName.contains(DEDUCTIONPEREXFACTORY))&&(mapKey.contains("RATE")||mapKey.contains(GtnWsQueryConstants.VOLUME)||mapKey.contains("CHANGEINCHANGE"))){
 			gtnWsRecordBean.addProperties(mapKey,"");
 			return;
 		}
@@ -869,7 +870,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 
 	public static Double extractDouble(Object value) {
 		if(value!=null && !String.valueOf(value).isEmpty()){
-			return Double.parseDouble(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""));
+			return Double.valueOf(String.valueOf(value).replaceAll("[^0-9,//.,-]|[,]", ""));
 		}
 		return   0.0;
 	}
