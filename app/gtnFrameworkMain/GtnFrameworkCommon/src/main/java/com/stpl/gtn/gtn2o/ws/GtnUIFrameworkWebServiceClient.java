@@ -7,8 +7,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.web.client.RestTemplate;
-
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastConstantCommon;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
@@ -17,9 +15,14 @@ import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
 
+import org.springframework.web.client.RestTemplate;
+
 public class GtnUIFrameworkWebServiceClient {
 
 	private final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnUIFrameworkWebServiceClient.class);
+
+	long staticTime = System.currentTimeMillis();
+
 
 	public GtnUIFrameworkWebserviceResponse callGtnWebServiceUrl(String url, GtnUIFrameworkWebserviceRequest request,
 			GtnWsSecurityToken securityToken) {
@@ -68,7 +71,18 @@ public class GtnUIFrameworkWebServiceClient {
 			return response;
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+            logger.error(e.getMessage());
+            if(e.getMessage().contains("404 Not Found")){
+            logger.info("Failed Url-----------GtnUIFrameworkWebServiceClient----------" + url);
+            GtnUIFrameworkWebServiceClientCallOnFailure gtnWebServiceClientCallOnFailure = new GtnUIFrameworkWebServiceClientCallOnFailure();
+            gtnWebServiceClientCallOnFailure.setUrl(url);
+            gtnWebServiceClientCallOnFailure.setModuleName(moduleName);
+            gtnWebServiceClientCallOnFailure.setRequest(request);
+            gtnWebServiceClientCallOnFailure.setSecurityToken(securityToken);
+            gtnWebServiceClientCallOnFailure.setWsClient(this);
+            gtnWebServiceClientCallOnFailure.setStaticTime(staticTime);
+            gtnWebServiceClientCallOnFailure.callGtnWebServiceUrlOnFailure();
+            }
 
 			return null;
 		}

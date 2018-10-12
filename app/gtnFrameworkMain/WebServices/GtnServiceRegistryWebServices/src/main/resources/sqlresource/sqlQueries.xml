@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="insertWebServicesToServiceRegistry">
+	
+    <![CDATA[ INSERT INTO SERVICE_REGISTRY (HOST_NAME,PORT,REGISTERED_WEB_CONTEXT) VALUES (?,?,?) ]]>
+    
+	</entry>
+	
+	<entry key="selectWebServicesToServiceRegistry">
+	
+    <![CDATA[ SELECT * FROM SERVICE_REGISTRY WHERE REGISTERED_WEB_CONTEXT = ? ]]>
+    
+	</entry>
+	
+	
+	
+</properties>	

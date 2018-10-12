@@ -14,13 +14,14 @@
 			<default-portlet-decorator>true</default-portlet-decorator>
 			<portlet-decorator-css-class>portlet-decorate</portlet-decorator-css-class>
 		</portlet-decorator>
-		<layout-templates>
-			<custom>
-				<layout-template id="GtnPortletLayout" name="GtnPortletLayout">
-					<template-path>/layouttpl/custom/GtnPortletLayout.tpl</template-path>
-					<thumbnail-path>/layouttpl/custom/GtnPortletLayout.png</thumbnail-path>
-				</layout-template>
-			</custom>
-		</layout-templates>
-	</theme>
+<layout-templates>
+				<custom>
+		<layout-template id="GtnPortletLayout" name="GtnPortletLayout">
+			<template-path>/layouttpl/custom/GtnPortletLayout.tpl</template-path>
+			
+			<thumbnail-path>/layouttpl/custom/GtnPortletLayout.png</thumbnail-path>
+		</layout-template>
+	</custom>
+		</layout-templates>	
+		</theme>
 </look-and-feel>

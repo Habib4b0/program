@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        
+   <bean id="gtnSqlQueryEngine"
+          class="com.stpl.gtn.gtn2o.ws.queryengine.engine.GtnFrameworkWsSqlQueryEngine">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory" />
+        </property>
+        <property name="queryLogger">
+            <ref bean="queryLogger" />
+        </property>
+        
+    </bean>
+    
+    <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
+    </bean>
+    
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+    </bean>
+    
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <!--<property name="jndiName" value="java:comp/env/jdbc/appDataPool" /> -->
+        <property name="jndiName" value="java:jboss/datasources/jdbc/appDataPool" />
+        <property name="lookupOnStartup" value="true" />
+        <!-- <property name="username" value="${jdbc.username}" /> -->
+        <!-- <property name="password" value="${jdbc.password}" /> -->
+    </bean>
+    
+    <bean id="sysSessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="sysDataSource" />
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.jdbc.batch_size">100</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+
+	</bean>
+	
+	 <bean id="gtnFrameworkQueryExecutorBean"
+   class="com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean">
+   
+   </bean>
+	 <bean id="sysDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<!--<property name="jndiName" value="java:comp/env/jdbc/infraDataPool" 
+			/> -->
+		<property name="jndiName" value="java:jboss/datasources/jdbc/infraDataPool" />
+		<property name="lookupOnStartup" value="true" />
+		<!-- <property name="username" value="${jdbc.username}" /> -->
+		<!-- <property name="password" value="${jdbc.password}" /> -->
+	</bean>
+	
+	<bean id="gtnFrameworkWsSqlQueryEngineService" class="com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineService"> 
+		<property name="gtnSqlQueryEngine">
+            <ref bean="gtnSqlQueryEngine" />
+        </property>
+	</bean>
+</beans>
