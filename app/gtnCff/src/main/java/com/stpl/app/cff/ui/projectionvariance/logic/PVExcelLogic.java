@@ -81,8 +81,9 @@ public class PVExcelLogic {
     private static final String P = "P";
     private final Map<String, List<ProjectionVarianceDTO>> discountMap;
     private final ProjectionVarianceLogic logic = new ProjectionVarianceLogic();
-    public static final String SCHEDULE_ID = "SCHEDULE ID";
+   public static final String SCHEDULE_ID = "Schedule ID";
     public static final String PROGRAM_TYPESMALL = "Program Type";
+    public static final String SCHEDULE_CATEGORY_SMALL = "Schedule Category";
     public static final String PRC_CFF_EXCEL_EXPORT = "PRC_CFF_EXCEL_EXPORT";
     public static final String PERIOD_LABEL = "Period";
     public static final String PRC_CFF_DISCOUNT_EXCEL_EXPORT = "PRC_CFF_DISCOUNT_EXCEL_EXPORT";
@@ -354,7 +355,9 @@ public class PVExcelLogic {
         PROCRAWLIST_DETAIL.addAll(rawList);
         
         if (discountFlag) {
-             String discountLevelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getDeductionLevelValues() : selection.getDiscountLevel();
+              String discountLevelName = !selection.getDeductionLevelFilter().isEmpty() ? selection.getDeductionLevelValues() : selection.getDiscountLevel();
+             discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ?SCHEDULE_CATEGORY_SMALL : discountLevelName;
+            discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
              Object[] orderedArgDiscountCustom = {projectionId, frequency, discountLevelName, 
                  ALL.equals(selection.getSessionDTO().getSalesInclusion()) ? null : selection.getSessionDTO().getSalesInclusion(), 
                  ALL.equals(selection.getSessionDTO().getDeductionInclusion()) ? null : selection.getSessionDTO().getDeductionInclusion(),
@@ -2720,8 +2723,8 @@ public class PVExcelLogic {
         int vFrequencyDiv = selection.getFrequencyDivision();
         String commonColumn = StringUtils.EMPTY;
         pvDTO.setGroup(String.valueOf(obj[obj.length -2]));
-        pvDTO.setDfLevelNumber(String.valueOf(obj[obj.length -2]));
-        pvDTO.setDfLevelName(String.valueOf(obj[obj.length -2]));
+        pvDTO.setDfLevelNumber(String.valueOf(obj[obj.length -1]));
+        pvDTO.setDfLevelName(String.valueOf(obj[obj.length -1]));
         final Object[] proj;
             final Object[] actual;
             if (list.size() > 1) {
