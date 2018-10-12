@@ -16,7 +16,7 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 
 	private static final long serialVersionUID = 2020047174163494804L;
 
-	private boolean isAnnual = false;
+	private volatile boolean isAnnual = false;
 
 	@Override
 	public Object transformTuple(Object[] tuple, String[] aliases) {
@@ -52,7 +52,7 @@ public class GtnWsReportRightTableResultTransformer implements ResultTransformer
 		return Arrays.asList(hierarchyDataMap);
 	}
 
-	public void setAnnual(boolean isAnnual) {
+	public synchronized void setAnnual(boolean isAnnual) {
 		this.isAnnual = isAnnual;
 	}
 

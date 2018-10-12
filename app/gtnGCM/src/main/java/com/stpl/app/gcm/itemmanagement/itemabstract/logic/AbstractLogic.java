@@ -789,48 +789,6 @@ public class AbstractLogic {
             case NumericConstants.TWENTY_NINE:
                 input.add(compDTO.getResetEligible() != null ? compDTO.getResetEligible().getId() : null);
                 break;
-            case NumericConstants.THIRTY:
-                input.add(compDTO.getResetType() != null ? compDTO.getResetType().getId() : null);
-                break;
-            case NumericConstants.THIRTY_ONE:
-                input.add(compDTO.getResetDate() != null ? setQuotes(formatter.format(compDTO.getResetDate())) : null);
-                break;
-            case NumericConstants.THIRTY_TWO:
-                input.add(compDTO.getResetInterval() != null ? compDTO.getResetInterval().getId() : null);
-                break;
-            case NumericConstants.THIRTY_THREE:
-                input.add(compDTO.getResetFrequency() != null ? compDTO.getResetFrequency().getId() : null);
-                break;
-            case NumericConstants.THIRTY_FOUR:
-                input.add(compDTO.getNetPriceType() != null ? compDTO.getNetPriceType().getId() : null);
-                break;
-            case NumericConstants.THIRTY_FIVE: // NET_PRICE_TYPE_FORMULA 
-                 input.add(compDTO.getNetPriceTypeFormula()!= null && !compDTO.getNetPriceTypeFormula().isEmpty() ? Constants.SINGLE_QUOTES + compDTO.getNetPriceTypeFormula() + Constants.SINGLE_QUOTES : null);  
-                break;
-            case NumericConstants.THIRTY_SIX:
-                input.add(compDTO.getResetPriceType() != 0 ? compDTO.getResetPriceType() : null);
-                break;
-            case NumericConstants.THIRTY_SEVEN:
-                input.add(compDTO.getNetResetPriceType() != null ? compDTO.getNetResetPriceType().getId() : null);
-                break;
-            case NumericConstants.THIRTY_EIGHT: // NET_RESET_PRICE_FORMULA_ID
-                input.add(compDTO.getNetResetPriceFormula() != null && !compDTO.getNetResetPriceFormula().isEmpty() ? Constants.SINGLE_QUOTES + compDTO.getNetResetPriceFormula() + Constants.SINGLE_QUOTES : null); 
-                break;
-            case NumericConstants.THIRTY_NINE:
-                input.add(compDTO.getBasePriceType() != null ? compDTO.getBasePriceType().getId() : null);
-                break;
-            case NumericConstants.FORTY:
-                  input.add(compDTO.getSubsequentPeriodPriceType() != 0 ? compDTO.getSubsequentPeriodPriceType() : null);
-                break;
-            case NumericConstants.FORTY_ONE:
-                input.add(compDTO.getNetSubsequentPeriodPrice() != null ? compDTO.getNetSubsequentPeriodPrice().getId() : null);
-                break;
-            case NumericConstants.FORTY_TWO: // NET_SUBSEQUENT_PRICE_FORMULA_ID
-                 input.add(compDTO.getNetSubsequentPeriodPriceFormula()!= null && !compDTO.getNetSubsequentPeriodPriceFormula().isEmpty() ? Constants.SINGLE_QUOTES + compDTO.getNetSubsequentPeriodPriceFormula() + Constants.SINGLE_QUOTES : null); 
-                break;
-            case NumericConstants.FORTY_THREE: // NET_BASELINE_WAC_FORMULA_ID
-                 input.add(compDTO.getNetBaselineWACFormula()!= null && !compDTO.getNetBaselineWACFormula().isEmpty() ? Constants.SINGLE_QUOTES + compDTO.getNetBaselineWACFormula() + Constants.SINGLE_QUOTES : null); 
-                break;
             default:
                 break;
         }
@@ -1706,6 +1664,7 @@ public class AbstractLogic {
     public static final List<String> loadHistory(String frequency, String periodParam) {
         List<String> history = new ArrayList<>();
         String period = periodParam;
+        LOGGER.debug("period ={}",period);
         int endValue = 0;
         String freq = StringUtils.EMPTY;
         if (ANNUALLY.equals(frequency)) {

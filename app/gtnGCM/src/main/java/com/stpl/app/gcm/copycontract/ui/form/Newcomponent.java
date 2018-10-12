@@ -1099,7 +1099,7 @@ public class Newcomponent extends CustomComponent {
             loadSearchFieldsIfpStatus(value);
             loadMassUpdateField();
         }  else {
-            if (value.equalsIgnoreCase(Constants.COMPANYSTATUS)) {
+            if ((value.equalsIgnoreCase(Constants.COMPANYSTATUS)) || (value.equalsIgnoreCase(Constants.ITEM_STATUS))) {
                 searchDDLB.setVisible(true);
                 commonUtil.loadComboBox(searchDDLB, UiUtils.STATUS, false);
                 searchDDLB.setValidationVisible(true);
@@ -1123,13 +1123,7 @@ public class Newcomponent extends CustomComponent {
                 searchDDLB.setValidationVisible(true);
                 searchValue.setVisible(false);
                 searchValue.setValue(Constants.EMPTY);
-            } else if (value.equalsIgnoreCase(Constants.ITEM_STATUS)) {
-                searchDDLB.setVisible(true);
-                commonUtil.loadComboBox(searchDDLB, UiUtils.STATUS, false);
-                searchDDLB.setValidationVisible(true);
-                searchValue.setVisible(false);
-                searchValue.setValue(Constants.EMPTY);
-            } else if (value.equalsIgnoreCase(Constants.ITEM_TYPE)) {
+            }  else if (value.equalsIgnoreCase(Constants.ITEM_TYPE)) {
                 searchDDLB.setVisible(true);
                 commonUtil.loadComboBox(searchDDLB, UiUtils.ITEM_TYPE, false);
                 searchDDLB.setValidationVisible(true);
