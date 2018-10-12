@@ -90,27 +90,6 @@ public class GtnWsProcessSchedulerUpdateControllerTest {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-
-    /**
-     * Test of runProcessScheduler method, of class GtnWsProcessSchedulerUpdateController.
-     */
-    @Ignore
-    @Test
-    public void testRunProcessScheduler() throws GtnFrameworkGeneralException {
-        System.out.println("runProcessScheduler");
-        GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();
-        GtnWsProcessSchedulerBean gtnWsProcessSchedulerBean=new GtnWsProcessSchedulerBean();
-        GtnWsProcessSchedulerRequest gtnWsProcessSchedulerRequest=new GtnWsProcessSchedulerRequest();
-        gtnWsProcessSchedulerBean.setPsSchemaName("BPI");
-        gtnWsProcessSchedulerBean.setPsProcessName("CFF_OUTBOUND_INTERFACE");
-        gtnWsProcessSchedulerBean.setProcessSchedulerSid(3);
-        gtnWsProcessSchedulerRequest.setProcessSchedulerBean(gtnWsProcessSchedulerBean);
-        gtnWsRequest.setProcessSchedulerRequest(gtnWsProcessSchedulerRequest);
-        GtnWsFtpPropertiesBean gtnWsFtpPropertiesBean=new GtnWsFtpPropertiesBean();
-        doReturn(gtnWsFtpPropertiesBean).when(gtnWsProcessSchedularServiceUtil).getFtpBundleValue();
-        GtnUIFrameworkWebserviceResponse result = gtnWsProcessSchedulerUpdateController.runProcessScheduler(gtnWsRequest);
-        assertFalse(gtnWsProcessSchedulerBean.getPsSchemaName().isEmpty());
-    }
  
     /**
      * Test of updateProcessScheduler method, of class GtnWsProcessSchedulerUpdateController.
