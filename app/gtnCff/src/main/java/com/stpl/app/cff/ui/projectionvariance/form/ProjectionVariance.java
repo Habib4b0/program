@@ -75,6 +75,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
@@ -144,6 +146,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     public static final String DEDUCTION = "DEDUCTION";
     public static final String PRODUCT1 = "PRODUCT";
     public static final String CUSTOMER1 = "CUSTOMER";
+    public static final String CUSTOM1 = "CUSTOM";
     public static final String SELECT_VALUES = "-Select Values-";
     public static final String SELECT_LEVEL = "-Select Level-";
     public static final String TEN_STRING_VALUE = "10";
@@ -645,6 +648,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     @Override
     protected void getGenerateCall(boolean excelFlag) {
         try {
+            String deductionValue = deductionlevelDdlb.getItemCaption(deductionlevelDdlb.getValue());
+            sessionDTO.setDeductionName(deductionValue.startsWith("UDC") ? deductionValue.replace(" ", StringUtils.EMPTY) : deductionValue);
             CFFLogic cffLogicForTempTable=new CFFLogic();
             Object[] displayValidation = CommonUtils.getDisplayFormatSelectedValues(displayFormatValues);
             if (displayValidation.length == 0 && !CommonUtils.nullCheck(displayValidation)) {
@@ -702,6 +707,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                     Object[] sortedList=sortingTempAndCurrentFilterValues();
                     
                     comparingFilterValuesForProcedure(cffLogicForTempTable,sortedList);
+                    checkForPrcCompletionOnFilterChange();
                     
                     commonLogic.checkForCompletion(sessionDTO,  Constants.DISCOUNT, String.valueOf(view.getValue()).toUpperCase());
                     generateLogic();
@@ -743,15 +749,43 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 CommonLogic.truncateTempTable(sessionDTO);
             }
             tempTablePopulationInThread(cffLogicForTempTable);
+            commonLogic.callThreadForProcedureFileInsert(sessionDTO);
         }
     }
 
     public void tempTablePopulationInThread(CFFLogic cffLogicForTempTable) {
         
-        cffLogicForTempTable.loadSalesTempTableInThread(sessionDTO,false);
-        cffLogicForTempTable.loadDiscountTempTableInThread(sessionDTO,false);
+        List<Future> futureListSalesData=cffLogicForTempTable.loadSalesTempTableInThread(sessionDTO,false);
+        for (Future future : futureListSalesData) {
+            try {
+                 future.get();
+            } catch (InterruptedException ex) {
+               LOGGER.info("exception",ex);
+            } catch (ExecutionException ex) {
+                LOGGER.info("ex",ex);
+            }
+        }
+        List<Future> futureListDisData=cffLogicForTempTable.loadDiscountTempTableInThread(sessionDTO,false);
+         for (Future future : futureListDisData) {
+            try {
+                future.get();
+            } catch (InterruptedException ex) {
+               LOGGER.info("ex",ex);
+            } catch (ExecutionException ex) {
+                LOGGER.info("ex",ex);
+            }
+        }
         cffLogicForTempTable.loadDiscountCustomTempTableInThread(sessionDTO,false);
-        commonLogic.callThreadForProcedureFileInsert(sessionDTO);
+      
+    }
+
+     public void checkForPrcCompletionOnFilterChange() {
+       commonLogic.checkForCompletion(sessionDTO,  Constants.SALES,CUSTOMER1);
+            commonLogic.checkForCompletion(sessionDTO,  Constants.SALES, PRODUCT1);
+            commonLogic.checkForCompletion(sessionDTO,  Constants.SALES, CUSTOM1);
+            commonLogic.checkForCompletion(sessionDTO,  Constants.DISCOUNT, CUSTOMER1);
+            commonLogic.checkForCompletion(sessionDTO,  Constants.DISCOUNT, PRODUCT1);
+            commonLogic.checkForCompletion(sessionDTO,  Constants.DISCOUNT, CUSTOM1);
     }
 
     public void comparingFilterValuesForProcedure(CFFLogic cffLogicForTempTable,Object[] sortedListArray) {
@@ -761,6 +795,12 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             tempdeductionLevel = new ArrayList<>(pvSelectionDTO.getDeductionLevelFilter());
             tempCustomerLevel = new ArrayList<>(pvSelectionDTO.getCustomerLevelFilter());
             tempProductLevel = new ArrayList<>(pvSelectionDTO.getProductLevelFilter());
+             CommonLogic.truncateTempTable(sessionDTO);
+             sessionDTO.setStatusName("G");
+           
+            tempTablePopulationInThread(cffLogicForTempTable);
+            commonLogic.callThreadForProcedureFileInsert(sessionDTO);
+            checkForPrcCompletionOnFilterChange();
             sessionDTO.setStatusName(FILTER_FLAG);
             tempTablePopulationInThread(cffLogicForTempTable);
         }
