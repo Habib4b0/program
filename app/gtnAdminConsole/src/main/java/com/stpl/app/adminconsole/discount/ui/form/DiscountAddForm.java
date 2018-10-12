@@ -223,7 +223,6 @@ public class DiscountAddForm extends CustomComponent implements View {
     private HorizontalLayout addBtnsHLayout;
     @UiField("removeBtnsHLayout")
     private HorizontalLayout removeBtnsHLayout;
-    private CommonUtil commonUtil = new CommonUtil();
     private CommonSecurityLogic commonSecurity = new CommonSecurityLogic();
 
     /**
@@ -573,7 +572,7 @@ public class DiscountAddForm extends CustomComponent implements View {
         final String userId = sessionDTO.getUserId();
         final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.DEDUCTION_GROUPING);
         String mode = sessionDTO.getMode();
-        List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional  List view");
+        List<Object> resultList = CommonUtil.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional  List view");
         Object[] objColumn = availableListColumn;
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
         availableRebate.setVisibleColumns(tableResultCustom.getObjResult());
@@ -634,7 +633,7 @@ public class DiscountAddForm extends CustomComponent implements View {
         final String userId = sessionDTO.getUserId();
         final Map<String, AppPermission> fieldIfpHM = stplSecurity.getBusinessFieldPermission(userId, CommonUtil.DEDUCTION_GROUPING);
         String mode = sessionDTO.getMode();
-        List<Object> resultList = commonUtil.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional  List view");
+        List<Object> resultList = CommonUtil.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional  List view");
         Object[] objColumn = availableListColumn;
         TableResultCustom tableResultCustom = commonSecurity.getTableColumnsPermission(resultList, objColumn, fieldIfpHM, mode);
         selectedRebate.setVisibleColumns(tableResultCustom.getObjResult());
@@ -1259,10 +1258,9 @@ public class DiscountAddForm extends CustomComponent implements View {
 
     private void setFieldSecurity(final Map<String, AppPermission> fieldItemHM) {
         LOGGER.debug("Entering getFirstTab1");
-        CommonUtil common = new CommonUtil();
         try {
             String mode = sessionDTO.getMode();
-            List<Object> resultList = common.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional Screen");
+            List<Object> resultList = CommonUtil.getFieldsForSecurity(CommonUtil.DEDUCTION_GROUPING, "Functional Screen");
             commonSecurity.removeComponentOnPermission(resultList, cssLayout, fieldItemHM, mode);
             commonSecurity.removeComponentOnPermission(resultList, searchCssLayout, fieldItemHM, mode);
         } catch (Exception ex) {

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.fileSelection.form;
+package com.stpl.app.cff.ui.fileselection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
@@ -23,14 +23,14 @@ import org.slf4j.LoggerFactory;
 import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.cff.dao.CommonServiceImpl;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.lazyLoad.FileSelectionTableLogic;
+import com.stpl.app.cff.lazyload.FileSelectionTableLogic;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
-import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionTableGenerator;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.dto.FileSelectionDTO;
+import com.stpl.app.cff.ui.fileselection.dto.FileSelectionTableGenerator;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
 import com.stpl.app.security.permission.model.AppPermission;

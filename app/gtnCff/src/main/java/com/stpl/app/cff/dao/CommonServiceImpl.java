@@ -8,7 +8,7 @@ package com.stpl.app.cff.dao;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Constants.IndicatorConstants;
@@ -941,7 +941,7 @@ public class CommonServiceImpl {
         }
         try {
             if (parameters.get(StringConstantsUtil.INDICATOR) != null
-                    && ((StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR)))))) {
+                    && (StringConstantsUtil.DELETE_TEMP_ON_UPDATE.equalsIgnoreCase(String.valueOf(parameters.get(StringConstantsUtil.INDICATOR))))) {
                 List<Integer> list = new ArrayList<>();
                 int returnValue = HelperTableLocalServiceUtil.executeUpdateQueryCount(queryString.toString());
                 list.add(returnValue);

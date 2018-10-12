@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.dataassumptions.logic.tableLogic;
+package com.stpl.app.gtnforecasting.dataassumptions.logic.tablelogic;
 
 import com.stpl.app.gtnforecasting.dataassumptions.dto.DataAssumptionDTO;
 import com.stpl.app.gtnforecasting.dataassumptions.logic.DataAssumptionsLogic;

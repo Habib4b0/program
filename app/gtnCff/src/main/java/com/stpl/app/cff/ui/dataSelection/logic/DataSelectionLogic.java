@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.dataSelection.logic;
+package com.stpl.app.cff.ui.dataselection.logic;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -43,9 +43,9 @@ import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.displayformat.main.RelationshipLevelValuesMasterBean;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.DataSourceConnection;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
-import com.stpl.app.cff.ui.dataSelection.dto.CompanyDdlbDto;
-import com.stpl.app.cff.ui.dataSelection.dto.RelationshipDdlbDto;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
+import com.stpl.app.cff.ui.dataselection.dto.CompanyDdlbDto;
+import com.stpl.app.cff.ui.dataselection.dto.RelationshipDdlbDto;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Converters;
@@ -1560,8 +1560,8 @@ public class DataSelectionLogic {
 					+ " where RELATIONSHIP_BUILDER_SID in(Select CUST_RELATIONSHIP_BUILDER_SID\n"
 					+ " from PROJECTION_MASTER where PROJECTION_MASTER_SID=" + projId
 					+ ") AND LEVEL_NAME='Market Type') \n" + "and LIST_NAME='CONTRACT_TYPE';";
-			final List<Object> list = (List<Object>) salesProjectionDAO.executeSelectQuery(str);
-			return list;
+                        LOGGER.debug("str = {}",str);
+			return (List<Object>) salesProjectionDAO.executeSelectQuery(str);
 		} catch (final Exception e) {
 			LOGGER.error(e.getMessage());
 			return Collections.emptyList();

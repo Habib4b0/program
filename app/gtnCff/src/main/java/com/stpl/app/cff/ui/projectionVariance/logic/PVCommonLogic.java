@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.projectionVariance.logic;
+package com.stpl.app.cff.ui.projectionvariance.logic;
 
 import com.stpl.app.cff.dto.PVSelectionDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.NULL;
@@ -251,7 +251,7 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.parseDouble(value), 100) + "";
+            value = Double.toString(roundToFraction(Double.parseDouble(value), 100)) ;
             value = getFormattedValue(format, value);
         } else {
             variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
@@ -269,7 +269,7 @@ public class PVCommonLogic {
         String variance;
         if (format.equals(RATE) || format.equals(RATE_PER) || format.equals(RATE_PER_THREE)) {
             value = String.valueOf(roundToFraction((val - val1), 10000));
-            value = roundToFraction(Double.parseDouble(value), 100) + "";
+            value = Double.toString(roundToFraction(Double.parseDouble(value), 100));
         } else {
             variance = String.valueOf(Double.parseDouble(isNull(actualValue)) - Double.parseDouble(isNull(priorVal)));
             value = getFormattedValue(formatter, variance);

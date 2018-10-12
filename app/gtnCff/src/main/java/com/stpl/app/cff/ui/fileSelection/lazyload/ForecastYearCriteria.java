@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.stpl.app.cff.ui.fileSelection.lazyload;
+package com.stpl.app.cff.ui.fileselection.lazyload;
 
 import org.asi.ui.addons.lazycontainer.SearchCriteria;
 

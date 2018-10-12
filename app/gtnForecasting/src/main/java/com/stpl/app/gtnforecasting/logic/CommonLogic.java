@@ -40,9 +40,9 @@ import com.stpl.app.gtnforecasting.dao.impl.CommonDAOImpl;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
 import com.stpl.app.gtnforecasting.dto.PVSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
-import com.stpl.app.gtnforecasting.queryUtils.CommonQueryUtils;
-import com.stpl.app.gtnforecasting.queryUtils.PPAQuerys;
-import com.stpl.app.gtnforecasting.service.finderImpl.CustomViewMasterImpl;
+import com.stpl.app.gtnforecasting.queryutils.CommonQueryUtils;
+import com.stpl.app.gtnforecasting.queryutils.PPAQuerys;
+import com.stpl.app.gtnforecasting.service.finderimpl.CustomViewMasterImpl;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.tree.node.TreeNode;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
@@ -62,7 +62,7 @@ import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.MProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.NmProjectionSelectionLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.serviceutils.Constants;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
@@ -785,14 +785,6 @@ public class CommonLogic {
             if (levelDto.getTreeLevelNo() == levelNo) {
                 return levelDto;
             }
-        }
-
-        return null;
-    }
-
-    public static Leveldto getLevel(List<Leveldto> hierarchy) {
-        for (Leveldto levelDto : hierarchy) {
-            return levelDto;
         }
 
         return null;
@@ -2015,26 +2007,6 @@ public class CommonLogic {
                 + "where "
                 + "RLD.LEVEL_NO >=" + levelNo + " AND RLD.RELATIONSHIP_BUILDER_SID=" + rbID + " AND RLD.VERSION_NO = "+ versionNo +";";
         return customSql;
-    }
-
-    public static String getIndicator(int levelNo, int viewName) {
-        List<CustomViewDetails> resultsList = null;
-        String viewIndicator = StringUtils.EMPTY;
-        DynamicQuery dynamicQuery = CustomViewDetailsLocalServiceUtil.dynamicQuery();
-        dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.CUSTOM_VIEW_MASTER_SID_PROPERTY, viewName));
-        dynamicQuery.add(RestrictionsFactoryUtil.eq(Constant.LEVEL_NO, levelNo));
-        try {
-            resultsList = commonDao.getCustomViewDetailsList(dynamicQuery);
-        } catch (SystemException ex) {
-            LOGGER.error(ex.getMessage());
-        }
-        if (resultsList != null && !resultsList.isEmpty()) {
-            for (CustomViewDetails customViewDetails : resultsList) {
-                viewIndicator = customViewDetails.getHierarchyIndicator();
-                break;
-            }
-        }
-        return viewIndicator;
     }
 
     public static int getIndicatorCount(int viewName) {

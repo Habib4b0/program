@@ -5,7 +5,7 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.stpl.app.gtnforecasting.service.finderImpl.BusinessRoleModuleImpl;
+import com.stpl.app.gtnforecasting.service.finderimpl.BusinessRoleModuleImpl;
 import com.stpl.app.model.UsergroupBusinessrole;
 import com.stpl.app.model.UsergroupDomainMaster;
 import com.stpl.app.service.UsergroupBusinessroleLocalServiceUtil;

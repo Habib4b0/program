@@ -8,7 +8,7 @@ package com.stpl.app.adminconsole.processscheduler.ui;
 
 import com.stpl.app.adminconsole.common.dto.SessionDTO;
 import com.stpl.app.adminconsole.common.util.CommonUIUtil;
-import com.stpl.app.adminconsole.processscheduler.ui.view.processSchedulerView;
+import com.stpl.app.adminconsole.processscheduler.ui.view.ProcessSchedulerView;
 import com.stpl.app.adminconsole.util.AbstractNotificationUtils;
 import com.stpl.app.adminconsole.util.DateToStringConverterFactory;
 import com.stpl.app.adminconsole.util.ErrorCodeUtil;
@@ -68,7 +68,7 @@ public class ProcessSchedulerUI extends UI {
             LOGGER.info("SESSION_ID= {} ", sessionId);
             VaadinSession.getCurrent().setConverterFactory(new DateToStringConverterFactory());
             navigator = new Navigator(this, this);
-            navigator.addView(processSchedulerView.NAME, new processSchedulerView(sessionDTO));
+            navigator.addView(ProcessSchedulerView.NAME, new ProcessSchedulerView(sessionDTO));
         } catch (Exception e) {
 
             LOGGER.error(e.getMessage());

@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.fileSelection.dto;
+package com.stpl.app.cff.ui.fileselection.dto;
 
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.ui.fileSelection.FileManagementLookup.FileManagementLookup;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.filemanagementlookup.FileManagementLookup;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.util.Constants;
 import com.vaadin.ui.Component;
 import com.vaadin.ui.UI;

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.lazyLoad;
+package com.stpl.app.cff.lazyload;
 
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
+import com.stpl.app.cff.ui.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionvariance.logic.ProjectionVarianceLogic;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;

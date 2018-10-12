@@ -1,4 +1,4 @@
-package com.stpl.app.cff.ui.projectionVariance.dto;
+package com.stpl.app.cff.ui.projectionvariance.dto;
 
 import com.stpl.ifs.ui.util.NumericConstants;
 import java.util.ArrayList;

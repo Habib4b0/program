@@ -15,10 +15,10 @@ import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
-import com.stpl.app.cff.ui.dataSelection.form.DataSelection;
-import com.stpl.app.cff.ui.fileSelection.form.FileSelection;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.form.ProjectionVariance;
+import com.stpl.app.cff.ui.dataselection.form.DataSelection;
+import com.stpl.app.cff.ui.fileselection.form.FileSelection;
+import com.stpl.app.cff.ui.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionvariance.form.ProjectionVariance;
 import com.stpl.app.cff.ui.projectionresults.form.ProjectionResults;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
@@ -371,7 +371,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
             });
 
             if (dto.getStatusDesc() != null && !StringUtils.EMPTY.equals(dto.getStatusDesc())) {
-                if (Constants.APPROVED.equals(dto.getStatusDesc())) {
+                if ((Constants.APPROVED.equals(dto.getStatusDesc())) || ("Cancelled".equals(dto.getStatusDesc()) || "Canceled".equals(dto.getStatusDesc()))) {
 
                     approveBtn.setEnabled(false);
                     rejectBtn.setEnabled(false);
@@ -399,15 +399,7 @@ public class CffApprovalDetailsForm extends CustomWindow {
                     deleteBtn.setEnabled(true);
                     cancelBtn.setEnabled(true);
                     submitBtn.setEnabled(true);
-                } else if ("Cancelled".equals(dto.getStatusDesc()) || "Canceled".equals(dto.getStatusDesc())) {
-
-                    approveBtn.setEnabled(false);
-                    rejectBtn.setEnabled(false);
-                    deleteBtn.setEnabled(false);
-                    cancelBtn.setEnabled(false);
-                    submitBtn.setEnabled(false);
-                }
-
+                } 
             } else {
                 approveBtn.setEnabled(false);
                 rejectBtn.setEnabled(false);

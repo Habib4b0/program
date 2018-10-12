@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.domain.global.ComplianceDeduction;
+package com.stpl.domain.global.compliancededuction;
 
 import com.stpl.app.model.CdrModel;
 import com.liferay.portal.kernel.exception.PortalException;

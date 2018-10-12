@@ -55,7 +55,6 @@ public class NationalAssumptionsUI extends UI {
      */
     private String projectionId;
     protected SessionDTO sessionDto = null;
-    protected SessionUtil sessionUtil = new SessionUtil();
 
     public NationalAssumptionsUI() {
         super();

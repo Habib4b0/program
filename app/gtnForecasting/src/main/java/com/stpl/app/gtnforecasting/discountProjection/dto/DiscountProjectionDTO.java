@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.discountProjection.dto;
+package com.stpl.app.gtnforecasting.discountprojection.dto;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
 import java.util.ArrayList;

@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-package com.stpl.app.cff.ui.fileSelection.logic.tableLogic;
+package com.stpl.app.cff.ui.fileselection.logic.tablelogic;
 
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.ui.fileSelection.dto.ItemSearchDTO;
-import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
+import com.stpl.app.cff.ui.fileselection.dto.ItemSearchDTO;
+import com.stpl.app.cff.ui.fileselection.logic.FileManagementLogic;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.ArrayList;

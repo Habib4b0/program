@@ -3,7 +3,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.fileSelection.logic;
+package com.stpl.app.cff.ui.fileselection.logic;
 
 import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Criterion;
@@ -18,10 +18,10 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dao.FileManagementLogicDAO;
 import com.stpl.app.cff.dao.impl.FileManagementLogicDAOImpl;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.stpl.app.cff.ui.fileSelection.dto.FileManagementDTO;
-import com.stpl.app.cff.ui.fileSelection.dto.FileMananagementResultDTO;
-import com.stpl.app.cff.ui.fileSelection.dto.ItemSearchDTO;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.dto.FileManagementDTO;
+import com.stpl.app.cff.ui.fileselection.dto.FileMananagementResultDTO;
+import com.stpl.app.cff.ui.fileselection.dto.ItemSearchDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.StringConstantsUtil;
@@ -885,8 +885,8 @@ public class FileManagementLogic {
 
 		projectionDynamicQuery = FileManagementLocalServiceUtil.dynamicQuery();
 		Criterion criteria = RestrictionsFactoryUtil.eq(StringConstantsUtil.FILE_TYPE, fileType.getId());
-		if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())
-				&& ConstantsUtils.COUNTRY_US.equals(country)) {
+		if ((ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())
+				&& ConstantsUtils.COUNTRY_US.equals(country))||(ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription()))) {
 			final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
 			criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion1,
 					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT)), criteria);
@@ -894,11 +894,7 @@ public class FileManagementLogic {
 				&& ConstantsUtils.COUNTRY_PR.equals(country)) {
 			criterion = RestrictionsFactoryUtil
 					.and(RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FF_SALES), criteria);
-		} else if (ConstantsUtils.EX_FACTORY_SALES.equals(fileType.getDescription())) {
-			final Criterion criterion1 = RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.FORE_SIGHT);
-			criterion = RestrictionsFactoryUtil.and(RestrictionsFactoryUtil.or(criterion1,
-					RestrictionsFactoryUtil.ilike(ConstantsUtils.TYPE, ConstantsUtils.LE_FORESIGHT)), criteria);
-		} else if (ConstantsUtils.DEMAND.equals(fileType.getDescription())
+		}  else if (ConstantsUtils.DEMAND.equals(fileType.getDescription())
 				|| ConstantsUtils.INVENTORY_WITHDRAWAL_SUMMARY.equals(fileType.getDescription())
 				|| ConstantsUtils.INVENTORY_WITHDRAWAL_DETAIL.equals(fileType.getDescription())) {
 			criterion = criteria;

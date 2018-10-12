@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.discountProjection.logic;
+package com.stpl.app.gtnforecasting.discountprojection.logic;
 
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
 import com.stpl.app.gtnforecasting.utils.CommonUtil;
-import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import static com.stpl.app.gtnforecasting.utils.CommonUtils.isInteger;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
@@ -83,104 +82,6 @@ public class DiscountQueryBuilder {
     public static final String CUSTOM_SID = "@SID";
     public static final String LEFT_JOIN_ST_ITEM_UOM_DETAILS_UOM_ON_UOM = " LEFT JOIN ST_ITEM_UOM_DETAILS UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM_CODE='";
 
-   
-    public boolean updateInputsForAdjustment(String frequency, String levelType, String adjustmentType, String adjustmentBasis,
-            String adjustmentValue, String allocationMethodology, Map<String, Map<String, List<String>>> periodsMap) {
-
-        String masterTableUpdateQuery = "";
-        String discountProjectionTableUpdateQuery = StringUtils.EMPTY;
-        LOGGER.debug(" entering updateInputsForAdjustment");
-        try {
-
-            // To updated DISCOUNT_PROJ_MASTER Table
-            String baselinePeriods = "";
-            String selectedPeriods = "";
-            List<String> baselinePeriodsList;
-            List<String> selectedPeriodsList;
-            String baselineIndicator = "";
-
-            if ("Historical % of Business".equals(allocationMethodology)) {
-                baselineIndicator = "H";
-            } else {
-                baselineIndicator = "P";
-            }
-
-            for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
-                baselinePeriodsList = discountName.getValue().get(baselineIndicator);
-                selectedPeriodsList = discountName.getValue().get("P");
-
-                baselinePeriods = CommonUtils.collectionToStringMethod(baselinePeriodsList, false, true);
-                selectedPeriods = CommonUtils.collectionToStringMethod(selectedPeriodsList, false, true);
-
-                baselinePeriods = baselinePeriods.replace(", ", ",");
-                selectedPeriods = selectedPeriods.replace(", ", ",");
-
-                if (frequency.equals(MONTHLY.getConstant())) {
-                    baselinePeriods = CommonUtils.replaceShortMonthForMonth(baselinePeriods);
-                    selectedPeriods = CommonUtils.replaceShortMonthForMonth(selectedPeriods);
-                }
-
-                LOGGER.debug(" Baseline Periods= {} " , baselinePeriods);
-                LOGGER.debug(" Selected Periods= {} " , selectedPeriods);
-                masterTableUpdateQuery = "UPDATE DM SET DM.BASELINE_PERIODS = '" + baselinePeriods + "', DM.SELECTED_PERIODS = '" + selectedPeriods + "' FROM ST_NM_DISCOUNT_PROJ_MASTER DM ";
-               String discountNameValue = discountName.getKey().contains("~") ? discountName.getKey().split("~")[0] : discountName.getKey() ;
-                if (levelType.equals(Constants.PROGRAM)) {
-                    masterTableUpdateQuery += " JOIN  RS_CONTRACT RS ON RS.RS_CONTRACT_SID = DM.RS_CONTRACT_SID \n"
-                            + "WHERE RS.RS_NAME = '" + discountNameValue + "' AND DM.CHECK_RECORD = 1";
-                } else {
-                    masterTableUpdateQuery += " WHERE  DM.PRICE_GROUP_TYPE = '" + discountNameValue + "' AND DM.CHECK_RECORD = 1";
-                }
-
-            }
-
-            // For updating DISCOUNT_PROJECTION Table 
-            String period = "";
-            if (frequency.equals(QUARTERLY.getConstant())) {
-                period = " CAST(PR.QUARTER AS CHAR(1)) + CAST(PR.\"YEAR\" AS char(4))";
-            }
-            if (frequency.equals(SEMI_ANNUALLY.getConstant()) || frequency.equals(SEMI_ANNUAL.getConstant())) {
-                period = " CAST(PR.SEMI_ANNUAL AS CHAR(1)) + CAST(PR.\"YEAR\" AS char(4))";
-            }
-            if (frequency.equals(MONTHLY.getConstant())) {
-                period = " CASE WHEN LEN(\"MONTH\")>1 THEN  CAST(\"MONTH\" AS CHAR(2)) ELSE '0'+ CAST(\"MONTH\" AS CHAR(1)) END + CAST(PR.\"YEAR\" AS char(4))";
-            }
-            if (frequency.equals(ANNUALLY.getConstant()) || frequency.equals(ANNUAL.getConstant())) {
-                period = "CAST(PR.\"YEAR\" AS char(4))";
-            }
-
-            String rsQuery = levelType.equals(Constants.PROGRAM) ? " RS.RS_NAME " : " DPM.PRICE_GROUP_TYPE ";
-            for (Map.Entry<String, Map<String, List<String>>> discountName : periodsMap.entrySet()) {
-                String selectedPeriodsToUpdate = CommonUtils.collectionToStringMethod(discountName.getValue().get("P"), false);
-                selectedPeriodsToUpdate = CommonUtils.replaceIntegerForMonth(selectedPeriodsToUpdate);
-                selectedPeriodsToUpdate = selectedPeriodsToUpdate.replace("Q", "").replace("S", "").replace(" ", "");
-
-                discountProjectionTableUpdateQuery = "UPDATE DP "
-                        + " SET ADJUSTMENT_TYPE='" + adjustmentType + "' , ADJUSTMENT_BASIS='" + adjustmentBasis + "', ADJUSTMENT_VALUE=" + adjustmentValue + ", "
-                        + " ADJUSTMENT_METHODOLOGY = '" + allocationMethodology + "' FROM ST_NM_DISCOUNT_PROJECTION DP"
-                        + " JOIN ST_NM_DISCOUNT_PROJ_MASTER DPM on DPM.CCP_DETAILS_SID = DP.CCP_DETAILS_SID ";
-
-                if (levelType.equals(Constants.PROGRAM)) {
-                    discountProjectionTableUpdateQuery += " AND DP.RS_CONTRACT_SID = DPM.RS_CONTRACT_SID JOIN RS_CONTRACT RS ON DPM.RS_CONTRACT_SID = RS.RS_CONTRACT_SID ";
-                }
-
-                String discountNameValue = discountName.getKey().contains("~") ? discountName.getKey().split("~")[0] : discountName.getKey() ;
-                discountProjectionTableUpdateQuery += "WHERE  DPM.CHECK_RECORD = 1\n"
-                        + "       AND "+rsQuery+" = '" + discountNameValue + "'\n"
-                        + "       AND DP.PERIOD_SID IN(SELECT PERIOD_SID from \"PERIOD\" PR WHERE " + period + " IN (" + selectedPeriodsToUpdate + ")) ";
-
-
-
-            }
-        } catch (Exception e) {
-            LOGGER.error(e.getMessage());
-            LOGGER.error(masterTableUpdateQuery);
-            LOGGER.error(discountProjectionTableUpdateQuery);
-            return false;
-        }
-        return true;
-    }
-
-    
     public void checkClearAll(SessionDTO session, String userGroup, boolean checkValue) {
         String query = StringUtils.EMPTY;
         LOGGER.debug(" inside checkClearAll");

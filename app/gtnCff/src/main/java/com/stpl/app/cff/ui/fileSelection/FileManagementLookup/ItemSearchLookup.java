@@ -2,15 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
+package com.stpl.app.cff.ui.fileselection.filemanagementlookup;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.stpl.app.ui.errorhandling.ErrorfulFieldGroup;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
-import com.stpl.app.cff.ui.fileSelection.dto.ItemSearchDTO;
-import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
-import com.stpl.app.cff.ui.fileSelection.logic.tableLogic.ItemSearchTableLogic;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.dto.FileManagementFilterGenerator;
+import com.stpl.app.cff.ui.fileselection.dto.ItemSearchDTO;
+import com.stpl.app.cff.ui.fileselection.logic.FileManagementLogic;
+import com.stpl.app.cff.ui.fileselection.logic.tablelogic.ItemSearchTableLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;

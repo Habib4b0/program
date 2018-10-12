@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.abstractCff;
+package com.stpl.app.cff.abstractcff;
 
 import static com.stpl.app.cff.util.Constants.LabelConstants.HIERARCHY_NAME;
 import static com.stpl.app.cff.util.Constants.LabelConstants.HIERARCHY_TYPE;

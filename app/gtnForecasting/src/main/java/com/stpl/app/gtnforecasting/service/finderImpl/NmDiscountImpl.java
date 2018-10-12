@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.service.finderImpl;
+package com.stpl.app.gtnforecasting.service.finderimpl;
 
 import com.stpl.app.gtnforecasting.utils.CommonUtils;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import static com.stpl.app.serviceUtils.Constants.FrequencyConstants.*;
+import static com.stpl.app.serviceutils.Constants.FrequencyConstants.*;
 import com.stpl.app.utils.Constants;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -360,7 +360,8 @@ public class NmDiscountImpl {
     
 
     private String getPeriodFilter() {
-        String period = " BETWEEN \n "
+        String period = StringUtils.EMPTY;
+        period = period +  " BETWEEN \n "
                 + Constant.SPACE_CASE_NEW_LINE
                 + Constant.WHEN_START_MONTH_1_THEN_CONVERT_DATE
                 + Constant.WHEN_START_MONTH_2_THEN_CONVERT_DATE

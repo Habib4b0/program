@@ -1,4 +1,4 @@
-package com.stpl.app.gtnforecasting.discountProjection.dto;
+package com.stpl.app.gtnforecasting.discountprojection.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;

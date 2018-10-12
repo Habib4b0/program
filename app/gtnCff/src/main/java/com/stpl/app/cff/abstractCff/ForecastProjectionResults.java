@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.abstractCff;
+package com.stpl.app.cff.abstractcff;
 
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.dto.CustomTreeBuild;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.lazyLoad.ResultsTableLogic;
+import com.stpl.app.cff.lazyload.ResultsTableLogic;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
@@ -360,6 +360,7 @@ public abstract class ForecastProjectionResults extends CustomComponent {
     protected final List<String> loadHistoryDdlb(String frequency, String periodParam) {
         LOGGER.debug("Loading Frequency Combo Box Initiated");
         String period = periodParam;
+        LOGGER.debug("periodParam ={}",period);
         List<String> history = new ArrayList<>();
         int endValue = 0;
         String freq = StringUtils.EMPTY;

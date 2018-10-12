@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.projectionVariance.form;
+package com.stpl.app.cff.ui.projectionvariance.form;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
@@ -10,25 +10,25 @@ import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.cff.abstractCff.AbstractProjectionVariance;
+import com.stpl.app.cff.abstractcff.AbstractProjectionVariance;
 import com.stpl.app.cff.dao.DataSelectionDAO;
 import com.stpl.app.cff.dao.impl.DataSelectionDAOImpl;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.lazyLoad.VarianceTableLogic;
+import com.stpl.app.cff.lazyload.VarianceTableLogic;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
-import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.FilterGenerator;
-import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.ui.projectionVariance.logic.PVExcelLogic;
-import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
+import com.stpl.app.cff.ui.dataselection.dto.ForecastDTO;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import static com.stpl.app.cff.ui.fileselection.util.ConstantsUtils.SELECT_ONE;
+import com.stpl.app.cff.ui.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionvariance.dto.FilterGenerator;
+import com.stpl.app.cff.ui.projectionvariance.dto.PVParameters;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.logic.PVExcelLogic;
+import com.stpl.app.cff.ui.projectionvariance.logic.ProjectionVarianceLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.ChangeMenuBarValueUtil;
 import com.stpl.app.cff.util.CommonUtils;
@@ -125,7 +125,6 @@ public class ProjectionVariance extends AbstractProjectionVariance {
      */
     private final Resource graphImage = new ThemeResource("../../icons/chart.png");
     private boolean isComparisonLookupOpened;
-    private CustomTableHeaderDTO rightHeaderPeriod = new CustomTableHeaderDTO();
 
     private final Map<String, List<ProjectionVarianceDTO>> resultMap = new HashMap();
     private final Map<String, Object> excelParentRecords = new HashMap();
@@ -462,7 +461,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             pvSelectionDTO.setForecastDTO(getHistoricalPeriods(dataSelectionDTO));
             List<Object> headerPropertyIds = HeaderUtils.getVarianceRightTableColumns(pvSelectionDTO, fullHeader);
             rightHeader = (CustomTableHeaderDTO) headerPropertyIds.get(0);
-            rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
+            CustomTableHeaderDTO rightHeaderPeriod = (CustomTableHeaderDTO) headerPropertyIds.get(0);
             pvSelectionDTO.setRightHeaderPeriod(rightHeaderPeriod);
             alignRight();
             ExtTreeContainer<ProjectionVarianceDTO> resultBeanContainerDto = new ExtTreeContainer<>(ProjectionVarianceDTO.class, ExtContainer.DataStructureMode.MAP);
@@ -2384,8 +2383,8 @@ public class ProjectionVariance extends AbstractProjectionVariance {
     }
 
     private void loadMenuBar(List<String> levelFilter, CustomMenuBar.CustomMenuItem filterValues) {
-        for (String string : levelFilter) {
-            CommonLogic.checkMenuBarItem(filterValues, string);
+        for (Object string : levelFilter) {
+            CommonLogic.checkMenuBarItem(filterValues, string.toString());
         }
     }
 

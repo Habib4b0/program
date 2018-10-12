@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.projectionVariance.dto;
+package com.stpl.app.cff.ui.projectionvariance.dto;
 
 import com.vaadin.v7.data.Container;
 import java.util.ArrayList;

@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.dataSelection.form;
+package com.stpl.app.cff.ui.dataselection.form;
 
-import com.stpl.app.cff.abstractCff.AbstractHierarchyLookup;
-import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
+import com.stpl.app.cff.abstractcff.AbstractHierarchyLookup;
+import com.stpl.app.cff.ui.dataselection.logic.DataSelectionLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.*;
@@ -51,7 +51,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     /**
      * hierarchyLookup TextField.
      */
-    private final TextField hierarchyLookup;
+    private final TextField hierarchyLookupp;
 
     /**
      * The search result table.
@@ -87,7 +87,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     public HierarchyLookup(final String indicator, final String windowName, final TextField hierarchyLookup, HierarchyLookupDTO hierarchyDto) {
         super(windowName);
         this.indicator = indicator;
-        this.hierarchyLookup = hierarchyLookup;
+        this.hierarchyLookupp = hierarchyLookup;
         this.hierarchyDto = hierarchyDto;
         initializeComponents();
         setContent(buildHierarchyLookup(hierarchyName, hierarchyType, results, searchBtn, resetBtn, selectBtn));
@@ -181,7 +181,7 @@ public class HierarchyLookup extends AbstractHierarchyLookup{
     protected void btnLookupSelectLogic() {
         if (results.getValue() != null) {
             hierarchyDto = (HierarchyLookupDTO) results.getValue();
-            hierarchyLookup.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
+            hierarchyLookupp.setValue(String.valueOf(hierarchyDto.getHierarchyName()).trim());
            
             close();
         }

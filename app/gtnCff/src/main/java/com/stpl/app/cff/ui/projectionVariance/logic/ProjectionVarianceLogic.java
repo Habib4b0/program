@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.projectionVariance.logic;
+package com.stpl.app.cff.ui.projectionvariance.logic;
 
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
@@ -12,16 +12,16 @@ import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.abstractCff.AbstractFilterLogic;
+import com.stpl.app.cff.abstractcff.AbstractFilterLogic;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.ui.projectionVariance.form.RunnableJob;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
+import com.stpl.app.cff.ui.projectionvariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.form.RunnableJob;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.ALL;
@@ -319,7 +319,7 @@ public class ProjectionVarianceLogic {
         return finalList;
     }
 
-    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) throws Exception{
+    public List<ComparisonLookupDTO> getComparisonResults(final ComparisonLookupDTO comparisonLookup,boolean isDataSelection,SessionDTO session) throws PortalException{
         char asterik = '*';
         char percent = '%';
         String andOperator;
@@ -2640,11 +2640,9 @@ public class ProjectionVarianceLogic {
             } else {
                 commonLogic.saveSelection(map, projectionID, screenName, "update", "CFF_SELECTION");
             }
-        } catch (SystemException ex) {
+        }  catch (Exception ex) {
             LOGGER.error(ex.getMessage());
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
-        }
+        } 
     }
 
     /**
@@ -3322,8 +3320,8 @@ public class ProjectionVarianceLogic {
         relJoin = relJoin.replace(Constants.RELJOIN, CommonLogic.getRelJoinGenerate(pvsdto.getHierarchyIndicator(),pvsdto.getSessionDTO()));
             
 		StringBuilder rsIds = new StringBuilder();
+                String ccpQuery = SQlUtil.getQuery(Constants.PARENTVALIDATE);
 		try {
-                    String ccpQuery = SQlUtil.getQuery(Constants.PARENTVALIDATE);
                     ccpQuery = ccpQuery.replace(Constants.RELVALUE, pvsdto.getSessionDTO().getDedRelationshipBuilderSid());
                     ccpQuery = ccpQuery.replace(Constants.RELVERSION, String.valueOf(pvsdto.getSessionDTO().getDeductionRelationVersion()));
                     String rsQuery = insertAvailableHierarchyNo(pvsdto) + relJoin + getRsIdForCurrentHierarchy(pvsdto);
@@ -3345,6 +3343,7 @@ public class ProjectionVarianceLogic {
 			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage());
+                        LOGGER.debug("ccpQuery ={}",ccpQuery);
 		}
 		return rsIds.toString();
 	}
@@ -3371,17 +3370,22 @@ public class ProjectionVarianceLogic {
 
   
    public String getString(String key, List<String> hierarchyNo) {
-        StringBuilder stringBuilder = new StringBuilder();
-        int i=1;
-        for (String str : hierarchyNo) {
-            if (key.startsWith(str.trim())) {
-                stringBuilder.append("('");
-                stringBuilder.append(key);
-                stringBuilder.append("',").append(i++).append(')');
-                return stringBuilder.toString();
-            }
-        }
-        return "";
+       StringBuilder stringBuilder = new StringBuilder();
+       int i = 1;
+       try {
+           for (String str : hierarchyNo) {
+               if (key.startsWith(str.trim())) {
+                   stringBuilder.append("('");
+                   stringBuilder.append(key);
+                   stringBuilder.append("',").append(i++).append(')');
+                   return stringBuilder.toString();
+               }
+           }
+       } catch (Exception ex) {
+           LOGGER.debug("i = {}", i);
+           LOGGER.error(ex.getMessage());
+       }
+       return "";
     }
     
     public String getSelectedHierarchy(SessionDTO sessionDTO, String hierarchyNo, String hierarchyIndicator, int levelNo,ProjectionSelectionDTO projSelDTO) {
@@ -3445,6 +3449,7 @@ public class ProjectionVarianceLogic {
         hierarchyForLevel = hierarchyForLevel.concat(entry.getKey()).concat(",");
         stringBuilder.append(entry.getKey());
         stringBuilder.append("',").append(i++).append(')');
+        LOGGER.debug("i = {}", i);
         return hierarchyForLevel;
     }
 

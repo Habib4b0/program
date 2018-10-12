@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.discountProjection.logic;
+package com.stpl.app.gtnforecasting.discountprojection.logic;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.gtnforecasting.dao.SalesProjectionDAO;
 import com.stpl.app.gtnforecasting.dao.impl.SalesProjectionDAOImpl;
-import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
-import com.stpl.app.gtnforecasting.discountProjection.dto.FormulaDTO;
-import com.stpl.app.gtnforecasting.discountProjection.dto.LookUpDTO;
+import com.stpl.app.gtnforecasting.discountprojection.dto.DiscountProjectionDTO;
+import com.stpl.app.gtnforecasting.discountprojection.dto.FormulaDTO;
+import com.stpl.app.gtnforecasting.discountprojection.dto.LookUpDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.sessionutils.SessionDTO;
@@ -523,24 +523,6 @@ public class SupplementalDiscountProjectionLogic {
         }
 
         return dto;
-    }
-
-    public void updateCheckedRecord(DiscountProjectionDTO checkedDto, ProjectionSelectionDTO projSelDto, int checkValue) {
-        try {
-
-            String ccpDetailsId = StringUtils.EMPTY;
-            if (checkedDto.getProjectionDetailsSid() != 0 && ("Ndc".equalsIgnoreCase(checkedDto.getLevelName()) || Constant.PRODUCT_LABEL.equalsIgnoreCase(checkedDto.getLevelName()))) {
-                ccpDetailsId = StringUtils.EMPTY + checkedDto.getCcpDetailsSID();
-
-            } else if (checkedDto.getCcpDetailIds().size() > 0 && !(Constant.PRODUCT_LABEL.equalsIgnoreCase(checkedDto.getLevelName()))) {
-                ccpDetailsId = CommonUtils.collectionToStringMethod(checkedDto.getCcpDetailIds(), false);
-            }
-            if (!StringUtils.EMPTY.equals(ccpDetailsId) && !Constant.NULL.equals(ccpDetailsId)) {
-                queryToUpdateCheckRecord(checkValue, projSelDto.getSessionDTO(), ccpDetailsId);
-            }
-        } catch (Exception ex) {
-            LOGGER.error(ex.getMessage());
-        }
     }
 
     /**
@@ -1101,7 +1083,7 @@ public class SupplementalDiscountProjectionLogic {
                     for (int i = 0; i < getNDCList.size(); i++) {
                         final Object[] obNdc = (Object[]) getNDCList.get(i);
                         if (String.valueOf(obj[6]).equals(obNdc[0].toString())) {
-                            levelDetails += obNdc[1] + ",";
+                            levelDetails = levelDetails.concat(String.valueOf(obNdc[1])).concat(",");
                         }
                         if (i == getNDCList.size() - 1) {
                             levelDetails = levelDetails.substring(0, levelDetails.length() - 1);

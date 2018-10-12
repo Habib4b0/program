@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.abstractCff;
+package com.stpl.app.cff.abstractcff;
 
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.util.CommonUtils;

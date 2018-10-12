@@ -1,4 +1,4 @@
-package com.stpl.app.serviceUtils;
+package com.stpl.app.serviceutils;
 
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.vaadin.v7.ui.NativeSelect;

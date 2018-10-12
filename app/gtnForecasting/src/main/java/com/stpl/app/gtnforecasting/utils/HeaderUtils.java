@@ -658,11 +658,6 @@ public class HeaderUtils {
         return tableHeaderDTO;
     }
 
-    public static CustomTableHeaderDTO getProjectionResultsRightTableColumns(ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
-        CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
-        return getCalculatedProjectionColumns(tableHeaderDTO, projSelDTO, fullHeaderDTO);
-    }
-
     public static void prepareCommonColumnHeaders(ProjectionSelectionDTO projSelDTO) {
         int frequencyDivision = projSelDTO.getFrequencyDivision();
         String projOrder = projSelDTO.getProjectionOrder();
@@ -900,209 +895,6 @@ public class HeaderUtils {
     }
     protected static final String ALTERNATE_HISTORY = "Alternate-History";
 
-    public static CustomTableHeaderDTO getCalculatedProjectionColumns(CustomTableHeaderDTO tableHeaderDTO, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
-        String projOrder = projSelDTO.getProjectionOrder();
-        List<String> discountNames = new ArrayList<>(projSelDTO.getDiscountNameList());
-        if (projSelDTO.isPpa()) {
-            discountNames.add(PPA_DISCOUNT.getConstant());
-        }
-        String projections = projSelDTO.getActualsOrProjections();
-        String pivotView = projSelDTO.getPivotView();
-        String frequency = projSelDTO.getFrequency();
-
-        CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
-
-        int historyNum = projSelDTO.getHistoryNum();
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
-
-        int projectionNum = projSelDTO.getProjectionNum();
-        int currentPeriod = projSelDTO.getCurrentPeriod();
-        int currentYear = projSelDTO.getCurrentYear();
-        int startYear = projSelDTO.getStartYear();
-        int startPeriod = projSelDTO.getStartPeriod();
-        int endYear = projSelDTO.getEndYear();
-        int endPeriod = projSelDTO.getEndPeriod();
-        int projectionOrder = 0;
-        if (projOrder.contains(ASCENDING.getConstant())) {
-            projectionOrder = 1;
-        } else {
-            projectionOrder = NumericConstants.TWO;
-        }
-        tableHeaderDTO.setFrequency(frequency);
-        tableHeaderDTO.setFrequencyDivision(frequencyDivision);
-        tableHeaderDTO.setHistoryNum(historyNum);
-        tableHeaderDTO.setProjectionNum(projectionNum);
-        tableHeaderDTO.setCurrentPeriod(currentPeriod);
-        tableHeaderDTO.setCurrentYear(currentYear);
-        tableHeaderDTO.setStartYear(startYear);
-        tableHeaderDTO.setStartPeriod(startPeriod);
-        tableHeaderDTO.setEndYear(endYear);
-        tableHeaderDTO.setEndPeriod(endPeriod);
-        tableHeaderDTO.setProjectionOrder(projectionOrder);
-
-        fullHeaderDTO.setFrequency(frequency);
-        fullHeaderDTO.setFrequencyDivision(frequencyDivision);
-        fullHeaderDTO.setHistoryNum(historyNum);
-        fullHeaderDTO.setProjectionNum(projectionNum);
-        fullHeaderDTO.setCurrentPeriod(currentPeriod);
-        fullHeaderDTO.setCurrentYear(currentYear);
-        fullHeaderDTO.setStartYear(startYear);
-        fullHeaderDTO.setStartPeriod(startPeriod);
-        fullHeaderDTO.setEndYear(endYear);
-        fullHeaderDTO.setEndPeriod(endPeriod);
-        fullHeaderDTO.setProjectionOrder(projectionOrder);
-        prepareCommonColumnHeaders(projSelDTO);
-        if (pivotView.contains(VARIABLE.getConstant())) {
-            List<Object> dmap = new ArrayList<>();
-
-            for (int i = 0; i < NumericConstants.FOURTEEN; i++) {
-
-                String commonColumn = StringUtils.EMPTY;
-                String oldCommonColumn;
-                String commonHeader = StringUtils.EMPTY;
-                if (i == 0) {
-
-                    commonColumn = "efs";
-                    commonHeader = Constant.EX_FACTORY_SALES_LABEL;
-                } else if (i == 1) {
-                    commonColumn = "dms";
-                    commonHeader = Constant.DEMAND_SALES1;
-                } else if (i == NumericConstants.TWO) {
-                    commonColumn = "iws";
-                    commonHeader = "Inventory Withdrawal Sales";
-                } else if (i == NumericConstants.THREE) {
-                    commonColumn = "perOfExfac";
-                    commonHeader = "% of Ex-Factory";
-                } else if (i == NumericConstants.FOUR) {
-                    commonColumn = "perOfDemand";
-                    commonHeader = "% of Demand";
-                } else if (i == NumericConstants.FIVE) {
-                    commonColumn = "perOfInvwithdraw";
-                    commonHeader = "% of Inventory Withdrawal";
-                } else if (i == NumericConstants.SIX) {
-                    if (projSelDTO.getSalesOrUnit().equals(BOTH.getConstant()) || projSelDTO.getSalesOrUnit().equals(SALES.getConstant())) {
-                        commonColumn = "conSalesWac";
-                        commonHeader = Constant.CONTRACT_SALES_WAC_AT;
-                    } else {
-                        continue;
-                    }
-                } else if (i == NumericConstants.SEVEN) {
-                    if (projSelDTO.getSalesOrUnit().equals(BOTH.getConstant()) || projSelDTO.getSalesOrUnit().equals(UNITS.getConstant())) {
-                        commonColumn = "unitVol";
-                        commonHeader = Constant.UNIT_VOLUME;
-                    } else {
-                        continue;
-                    }
-                } else if (i == NumericConstants.EIGHT) {
-                    commonColumn = Constant.TOT_DIS_PER;
-                    commonHeader = "Total Discount %";
-                } else if (i == NumericConstants.NINE) {
-                    commonColumn = "totRPU";
-                    commonHeader = Constant.TOTAL_RPU_CAPS;
-                } else if (i == NumericConstants.TEN) {
-                    commonColumn = Constant.TOTAL_DISCOUNT_DOLLAR;
-                    commonHeader = "Total Discount $";
-                } else if (i == NumericConstants.ELEVEN) {
-                    commonColumn = "netSales";
-                    commonHeader = "Net Sales";
-                } else if (i == NumericConstants.TWELVE) {
-                    commonColumn = "cogs";
-                    commonHeader = "Cost of Goods Sold (COGS)";
-                } else if (i == NumericConstants.THIRTEEN) {
-                    commonColumn = "netProfit";
-                    commonHeader = "Net Profit";
-                }
-
-                oldCommonColumn = commonColumn;
-                int j = -1;
-                boolean disc = true;
-                 dmap = new ArrayList<>();
-                while (disc) {
-                    if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
-                        Object singleColumn = commonColumn + ACTUALS.getConstant();
-                        dmap.add(singleColumn);
-                        if (i == NumericConstants.THREE || i == NumericConstants.FOUR || i == NumericConstants.FIVE || i == NumericConstants.TEN) {
-                            tableHeaderDTO.addSingleColumn(singleColumn, ACTUAL_RATE.getConstant(), String.class);
-                            fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUAL_RATE.getConstant(), String.class);
-                        } else {
-                            tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
-                            fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
-                        }
-
-                    }
-                    Object singleColumn = commonColumn + PROJECTIONS.getConstant();
-                    dmap.add(singleColumn);
-                    if (i == NumericConstants.THREE || i == NumericConstants.FOUR || i == NumericConstants.FIVE || i == NumericConstants.TEN) {
-                        tableHeaderDTO.addSingleColumn(singleColumn, PROJECTED_RATE.getConstant(), String.class);
-                        fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + PROJECTED_RATE.getConstant(), String.class);
-                    } else {
-                        tableHeaderDTO.addSingleColumn(singleColumn, PROJECTIONS.getConstant(), String.class);
-                        fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + PROJECTIONS.getConstant(), String.class);
-                    }
-                    disc = false;
-                    if (!dmap.isEmpty()) {
-                        tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                        tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                        fullHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                        fullHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                    }
-                    if ((!discountNames.isEmpty() && (i == NumericConstants.EIGHT || i == NumericConstants.NINE || i == NumericConstants.TEN)) && (discountNames.size() > (j + 1))) {
-                        disc = true;
-                        j++;
-                        commonHeader = discountNames.get(j);
-                        commonColumn = oldCommonColumn + commonHeader.replace(" ", StringUtils.EMPTY);
-
-                    }
-                }
-            }
-        } else {
-
-            List<String> periodList = projSelDTO.getPeriodList();
-            Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
-            List<Object> dmap = new ArrayList<>();
-            for (int i = 0; i < periodList.size(); i++) {
-                dmap = new ArrayList<>();
-                String commonColumn = periodList.get(i);
-                String commonHeader = periodListMap.get(commonColumn);
-                boolean historyFlag = false;
-                boolean projectionCol = false;
-                if (i >= projSelDTO.getHistoryStartIndex() && i <= projSelDTO.getHistoryEndIndex()) {
-                    historyFlag = true;
-
-                    if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
-                        Object singleColumn = commonColumn + ACTUALS.getConstant();
-                        dmap.add(singleColumn);
-                        tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
-                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, ACTUALS.getConstant());
-                        fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS.getConstant(), String.class);
-                    }
-                }
-                if (isProjectionWithinIndex(i, projSelDTO) || isHistoryAndProjection(historyFlag, projections) || (isForecastWithinIndex(i, projSelDTO))) {
-                    projectionCol = true;
-                }
-
-                if (projectionCol) {
-                    Object singleColumn = commonColumn + PROJECTIONS.getConstant();
-                    dmap.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, PROJECTIONS.getConstant(), String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, PROJECTIONS.getConstant());
-                    fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + PROJECTIONS.getConstant(), String.class);
-                }
-                if (!dmap.isEmpty()) {
-                    tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                    tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
-                    fullHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    fullHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                }
-            }
-
-        }
-
-        projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
-        return tableHeaderDTO;
-    }
-
     private static boolean isForecastWithinIndex(int i, ProjectionSelectionDTO projSelDTO) {
         return i >= projSelDTO.getForecastStartIndex() && i <= projSelDTO.getForecastEndIndex();
     }
@@ -1200,10 +992,10 @@ public class HeaderUtils {
 
             //No triple Header for Custom View .So making size of discount list as 1
             int discountNamesint = isCustom ? 1 : discountNames.size();
-            List<Object> tmap = new ArrayList<>();
-            List<Object> tmapExcel = new ArrayList<>();
-            List<Object> dmap = new ArrayList<>();
-            List<Object> dmapExcel = new ArrayList<>();
+            List<Object> tmap = null;
+            List<Object> tmapExcel = null;
+            List<Object> dmap = null;
+            List<Object> dmapExcel = null;
             for (int l = 0; l < discountNamesint; l++) {
                 String discountName = discountNames.get(l);
                 if (discountName.contains("-") && CommonUtil.isValueEligibleForLoading()) {
@@ -1212,7 +1004,7 @@ public class HeaderUtils {
                 }
             tmap = new ArrayList<>();
             tmapExcel = new ArrayList<>();
-            
+          
                 String discountColumnName = discountProperties.get(l);
 
 
@@ -1242,7 +1034,7 @@ public class HeaderUtils {
                         j++;
                         k = tempYear;
                     } // Ends here
-                    String commonColumn = StringUtils.EMPTY;
+                    String commonColumn;
                     if (!"All Discount".equals(discountName)) {
                         if (!isCustom) {
                             List discountHierarchyNo = projSelDTO.getDeductionLevelFilter();
@@ -4177,148 +3969,6 @@ public class HeaderUtils {
         LOGGER.debug("----Inside getSalesProjectionResultsRightTableColumns() -----");
         CustomTableHeaderDTO tableHeaderDTO = new CustomTableHeaderDTO();
         return getSalesProjectionResultsCalculatedColumns(tableHeaderDTO, projectionDTO, fullHeaderDTO);
-    }
-
-    public static CustomTableHeaderDTO getCalculatedSPRColumns(CustomTableHeaderDTO tableHeaderDTO, ProjectionSelectionDTO projSelDTO, CustomTableHeaderDTO fullHeaderDTO) {
-        String projOrder = projSelDTO.getProjectionOrder();
-        String projections = projSelDTO.getActualsOrProjections();
-        String pivotView = projSelDTO.getPivotView();
-        String frequency = projSelDTO.getFrequency();
-        CommonUtils.getHistoryAndProjectionDetails(projSelDTO);
-        int historyNum = projSelDTO.getHistoryNum();
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
-
-        int projectionNum = projSelDTO.getProjectionNum();
-        int currentPeriod = projSelDTO.getCurrentPeriod();
-        int currentYear = projSelDTO.getCurrentYear();
-        int startYear = projSelDTO.getStartYear();
-        int startPeriod = projSelDTO.getStartPeriod();
-        int endYear = projSelDTO.getEndYear();
-        int endPeriod = projSelDTO.getEndPeriod();
-        int projectionOrder = 0;
-        if (projOrder.contains(ASCENDING.getConstant())) {
-            projectionOrder = 1;
-        } else {
-            projectionOrder = NumericConstants.TWO;
-        }
-        tableHeaderDTO.setFrequency(frequency);
-        tableHeaderDTO.setFrequencyDivision(frequencyDivision);
-        tableHeaderDTO.setHistoryNum(historyNum);
-        tableHeaderDTO.setProjectionNum(projectionNum);
-        tableHeaderDTO.setCurrentPeriod(currentPeriod);
-        tableHeaderDTO.setCurrentYear(currentYear);
-        tableHeaderDTO.setStartYear(startYear);
-        tableHeaderDTO.setStartPeriod(startPeriod);
-        tableHeaderDTO.setEndYear(endYear);
-        tableHeaderDTO.setEndPeriod(endPeriod);
-        tableHeaderDTO.setProjectionOrder(projectionOrder);
-
-        fullHeaderDTO.setFrequency(frequency);
-        fullHeaderDTO.setFrequencyDivision(frequencyDivision);
-        fullHeaderDTO.setHistoryNum(historyNum);
-        fullHeaderDTO.setProjectionNum(projectionNum);
-        fullHeaderDTO.setCurrentPeriod(currentPeriod);
-        fullHeaderDTO.setCurrentYear(currentYear);
-        fullHeaderDTO.setStartYear(startYear);
-        fullHeaderDTO.setStartPeriod(startPeriod);
-        fullHeaderDTO.setEndYear(endYear);
-        fullHeaderDTO.setEndPeriod(endPeriod);
-        fullHeaderDTO.setProjectionOrder(projectionOrder);
-        prepareCommonColumnHeaders(projSelDTO);
-        if (pivotView.contains(VARIABLE.getConstant())) {
-            List<Object> dmap = new ArrayList<>();
-            for (int i = 0; i < NumericConstants.FIVE; i++) {
-
-                String commonColumn = StringUtils.EMPTY;
-                String commonHeader = StringUtils.EMPTY;
-                if (i == 0) {
-                    commonColumn = "efs";
-                    commonHeader = Constant.EX_FACTORY_SALES_LABEL;
-                } else if (i == 1) {
-                    commonColumn = "dms";
-                    commonHeader = Constant.DEMAND_SALES1;
-                } else if (i == NumericConstants.TWO) {
-                    commonColumn = "iws";
-                    commonHeader = "Inventory Withdraw";
-                } else if (i == NumericConstants.THREE) {
-                    if (Constant.SALES_SMALL.equalsIgnoreCase(projSelDTO.getSalesOrUnit()) || Constant.BOTH.equalsIgnoreCase(projSelDTO.getSalesOrUnit())) {
-                        commonColumn = "csw";
-                        commonHeader = Constant.CONTRACT_SALES_WAC_AT;
-                    } else {
-                        continue;
-                    }
-                } else if (i == NumericConstants.FOUR) {
-                    if (Constant.UNITS_SMALL.equalsIgnoreCase(projSelDTO.getSalesOrUnit()) || Constant.BOTH.equalsIgnoreCase(projSelDTO.getSalesOrUnit())) {
-                        commonColumn = "uv";
-                        commonHeader = Constant.UNIT_VOLUME;
-                    } else {
-                        continue;
-                    }
-                }
-                if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
-                    Object singleColumn = commonColumn + ACTUALS;
-                    dmap.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
-                    fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS, String.class);
-
-                }
-                Object singleColumn = commonColumn + PROJECTIONS;
-                dmap.add(singleColumn);
-                tableHeaderDTO.addSingleColumn(singleColumn, PROJECTIONS.getConstant(), String.class);
-                fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + PROJECTIONS, String.class);
-
-                if (!dmap.isEmpty()) {
-                    tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                    fullHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    fullHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                }
-
-            }
-        } else {
-
-            List<String> periodList = projSelDTO.getPeriodList();
-            Map<String, String> periodListMap = projSelDTO.getPeriodListMap();
-            List<Object> dmap = new ArrayList<>();
-            for (int i = 0; i < periodList.size(); i++) {
-                String commonColumn = periodList.get(i);
-                String commonHeader = periodListMap.get(commonColumn);
-                boolean historyFlag = false;
-                boolean projectionCol = false;
-                if (i >= projSelDTO.getHistoryStartIndex() && i <= projSelDTO.getHistoryEndIndex()) {
-                    historyFlag = true;
-
-                    if (projections.contains(BOTH.getConstant()) || projections.contains(ACTUALS.getConstant())) {
-                        Object singleColumn = commonColumn + ACTUALS;
-                        dmap.add(singleColumn);
-                        tableHeaderDTO.addSingleColumn(singleColumn, ACTUALS.getConstant(), String.class);
-                        tableHeaderDTO.addSingleHistoryColumn(singleColumn, ACTUALS.getConstant());
-                        fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + ACTUALS, String.class);
-                    }
-                }
-                if ((isProjectionWithinIndex(i, projSelDTO)) || (isHistoryAndProjection(historyFlag, projections)) || (isForecastWithinIndex(i, projSelDTO))){
-                    projectionCol = true;
-                }
-
-                if (projectionCol) {
-                    Object singleColumn = commonColumn + PROJECTIONS;
-                    dmap.add(singleColumn);
-                    tableHeaderDTO.addSingleColumn(singleColumn, PROJECTIONS.getConstant(), String.class);
-                    tableHeaderDTO.addSingleProjectedColumn(singleColumn, PROJECTIONS.getConstant());
-                    fullHeaderDTO.addSingleColumn(singleColumn, commonHeader + " " + PROJECTIONS, String.class);
-                }
-                if (!dmap.isEmpty()) {
-                    tableHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    tableHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                    tableHeaderDTO.addDoubleProjectedColumn(commonColumn, commonHeader);
-                    fullHeaderDTO.addDoubleColumn(commonColumn, commonHeader);
-                    fullHeaderDTO.addDoubleHeaderMap(commonColumn, dmap.toArray());
-                }
-            }
-
-        }
-        projSelDTO.setColumns(CommonUtils.objectListToStringList(fullHeaderDTO.getSingleColumns()));
-        return tableHeaderDTO;
     }
 
     public static CustomTableHeaderDTO getSalesProjectionResultsLeftTableColumnsChannel(CustomTableHeaderDTO fullHeaderDTO) {

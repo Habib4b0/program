@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.fileSelection.dto;
+package com.stpl.app.cff.ui.fileselection.dto;
 
 import java.util.Date;
 import org.apache.commons.lang.StringUtils;

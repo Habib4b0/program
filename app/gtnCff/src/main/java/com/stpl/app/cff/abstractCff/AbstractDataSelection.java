@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.abstractCff;
+package com.stpl.app.cff.abstractcff;
 
 import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import static com.stpl.app.cff.ui.fileselection.util.ConstantsUtils.SELECT_ONE;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.StringConstantsUtil;

@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.service.finderImpl;
+package com.stpl.app.gtnforecasting.service.finderimpl;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.serviceutils.Constants;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

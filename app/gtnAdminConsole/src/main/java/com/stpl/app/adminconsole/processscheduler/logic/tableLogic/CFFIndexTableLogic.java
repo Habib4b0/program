@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.adminconsole.processscheduler.logic.tableLogic;
+package com.stpl.app.adminconsole.processscheduler.logic.tablelogic;
 
 import java.util.ArrayList;
 import java.util.List;

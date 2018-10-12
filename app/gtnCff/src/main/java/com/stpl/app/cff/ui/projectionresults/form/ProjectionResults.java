@@ -8,13 +8,13 @@ package com.stpl.app.cff.ui.projectionresults.form;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.addons.tableexport.ExcelExport;
-import com.stpl.app.cff.abstractCff.ForecastProjectionResults;
+import com.stpl.app.cff.abstractcff.ForecastProjectionResults;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.lazyLoad.ResultsTableLogic;
+import com.stpl.app.cff.lazyload.ResultsTableLogic;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.security.StplSecurity;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
-import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
+import com.stpl.app.cff.ui.dataselection.dto.ForecastDTO;
 import com.stpl.app.cff.ui.projectionresults.dto.ProjectionResultsDTO;
 import com.stpl.app.cff.ui.projectionresults.logic.PRExcelLogic;
 import com.stpl.app.cff.ui.projectionresults.logic.ProjectionResultsLogic;
@@ -712,6 +712,7 @@ public class ProjectionResults extends ForecastProjectionResults {
 
     private String getParentKeyforCustom(ProjectionResultsDTO itemId, String key, String parentKey) {
         String parentKeyCustom = parentKey;
+        LOGGER.debug("parentKeyCustom = {}",parentKeyCustom);
         if (itemId.getParentHierarchyNo() == null) {
             parentKeyCustom = key.substring(0, key.lastIndexOf('.'));
         } else {

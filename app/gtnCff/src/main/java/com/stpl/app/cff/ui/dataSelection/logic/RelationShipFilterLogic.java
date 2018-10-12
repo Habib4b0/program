@@ -1,4 +1,4 @@
-package com.stpl.app.cff.ui.dataSelection.logic;
+package com.stpl.app.cff.ui.dataselection.logic;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.Map;
 
 import com.stpl.app.cff.dao.CommonDAO;
 import com.stpl.app.cff.dao.impl.CommonDAOImpl;
-import com.stpl.app.cff.queryUtils.CommonQueryUtils;
+import com.stpl.app.cff.queryutils.CommonQueryUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
 import com.stpl.app.cff.util.converters.LevelDtoToRelationShipBeanConverter;

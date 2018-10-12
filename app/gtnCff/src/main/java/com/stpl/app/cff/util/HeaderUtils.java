@@ -131,13 +131,10 @@ public class HeaderUtils {
         histEndYear = projSelDTO.getForecastDTO().getHistoryEndYear();
         if (histEndPeriod == foreStartPeriod && histEndYear == projSelDTO.getForecastDTO().getForecastStartYear()) {
             histEndPeriod--;
-            if (freqDivision == 1) {
+            if (freqDivision == 1 || histEndPeriod < 1) {
                 histEndMonth = NumericConstants.TWELVE;
                 histEndYear = histEndYear - 1;
-            } else if (histEndPeriod < 1) {
-                histEndMonth = NumericConstants.TWELVE;
-                histEndYear = histEndYear - 1;
-            } else if (freqDivision == NumericConstants.TWO) {
+            }  else if (freqDivision == NumericConstants.TWO) {
                 if (histEndPeriod == 1) {
                     histEndMonth = NumericConstants.SIX;
                 } else if (histEndPeriod == NumericConstants.TWO) {
@@ -408,7 +405,7 @@ public class HeaderUtils {
                 String commonHeader = periodListMap.get(commonColumn1);
                 String commonColumn = commonColumn1;
                 if (frequencyDivision != NumericConstants.TWELVE) {
-                    commonColumn = commonColumn1.toUpperCase();
+                    commonColumn = commonColumn1.toUpperCase(Locale.ENGLISH);
                 }
                 if(variableCategory.contains(StringConstantsUtil.ACTUALS1)){
                 tabHeaderDto.addSingleColumn(commonColumn + ConstantsUtil.ACTUAL + projSelDTO.getCurrentProjId(), StringConstantsUtil.ACTUALS1, String.class);
@@ -953,7 +950,7 @@ public class HeaderUtils {
                 String comHeader = periodListMap.get(commonColumn1);
                 String comColumn = commonColumn1;
                 if (frequencyDivision != NumericConstants.TWELVE) {
-                    comColumn = commonColumn1.toUpperCase();
+                    comColumn = commonColumn1.toUpperCase(Locale.ENGLISH);
                 }
                 periodListUpper.add(comColumn);
                 periodListMapUpper.put(comColumn, comHeader);

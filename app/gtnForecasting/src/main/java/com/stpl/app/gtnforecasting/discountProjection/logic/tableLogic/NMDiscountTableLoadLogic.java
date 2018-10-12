@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic;
+package com.stpl.app.gtnforecasting.discountprojection.logic.tablelogic;
 
-import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
-import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
+import com.stpl.app.gtnforecasting.discountprojection.form.NMDiscountProjection;
+import com.stpl.app.gtnforecasting.discountprojection.logic.DiscountQueryBuilder;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;

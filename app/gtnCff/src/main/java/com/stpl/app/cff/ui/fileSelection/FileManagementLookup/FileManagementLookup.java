@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.fileSelection.FileManagementLookup;
+package com.stpl.app.cff.ui.fileselection.filemanagementlookup;
 
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
@@ -12,17 +12,17 @@ import com.stpl.addons.tableexport.ExcelExport;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
 import com.stpl.app.cff.ui.ConsolidatedFinancialForecastUI;
-import com.stpl.app.cff.ui.fileSelection.Util.CommonUIUtil;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.stpl.app.cff.ui.fileSelection.dto.FileManagementDTO;
-import com.stpl.app.cff.ui.fileSelection.dto.FileManagementFilterGenerator;
-import com.stpl.app.cff.ui.fileSelection.dto.FileMananagementResultDTO;
-import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
-import com.stpl.app.cff.ui.fileSelection.lazyload.ForecastYearContainer;
-import com.stpl.app.cff.ui.fileSelection.lazyload.ForecastYearCriteria;
-import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
-import com.stpl.app.cff.ui.fileSelection.logic.tableLogic.FileDetailsTableLogic;
-import com.stpl.app.cff.ui.fileSelection.logic.tableLogic.FileResultsTableLogic;
+import com.stpl.app.cff.ui.fileselection.util.CommonUIUtil;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.dto.FileManagementDTO;
+import com.stpl.app.cff.ui.fileselection.dto.FileManagementFilterGenerator;
+import com.stpl.app.cff.ui.fileselection.dto.FileMananagementResultDTO;
+import com.stpl.app.cff.ui.fileselection.dto.FileSelectionDTO;
+import com.stpl.app.cff.ui.fileselection.lazyload.ForecastYearContainer;
+import com.stpl.app.cff.ui.fileselection.lazyload.ForecastYearCriteria;
+import com.stpl.app.cff.ui.fileselection.logic.FileManagementLogic;
+import com.stpl.app.cff.ui.fileselection.logic.tablelogic.FileDetailsTableLogic;
+import com.stpl.app.cff.ui.fileselection.logic.tablelogic.FileResultsTableLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
@@ -1778,22 +1778,15 @@ public class FileManagementLookup extends Window {
 				for (Object propertyId : getCollapsibleColumns600Px(table)) {
 					table.setColumnCollapsed(propertyId, true);
 				}
-			} else if (browserWidth < NumericConstants.FOUR_EIGHT_ZERO
-					&& browserWidth > NumericConstants.THREE_TWO_ZERO) {
+			} else if ((browserWidth < NumericConstants.FOUR_EIGHT_ZERO
+					&& browserWidth > NumericConstants.THREE_TWO_ZERO) || (browserWidth < NumericConstants.THREE_TWO_ZERO)) {
 				for (Object propertyId : table.getVisibleColumns()) {
 					table.setColumnCollapsed(propertyId, false);
 				}
 				for (Object propertyId : getCollapsibleColumns480Px(table)) {
 					table.setColumnCollapsed(propertyId, true);
 				}
-			} else if (browserWidth < NumericConstants.THREE_TWO_ZERO) {
-				for (Object propertyId : table.getVisibleColumns()) {
-					table.setColumnCollapsed(propertyId, false);
-				}
-				for (Object propertyId : getCollapsibleColumns480Px(table)) {
-					table.setColumnCollapsed(propertyId, true);
-				}
-			}
+			} 
 		} catch (IllegalStateException ex) {
 			LOGGER.error(ex.getMessage());
 		}

@@ -40,7 +40,7 @@ import com.stpl.app.service.CompanyMasterLocalServiceUtil;
 import com.stpl.app.service.ContractMasterLocalServiceUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
 import com.stpl.app.service.RelationshipLevelDefinitionLocalServiceUtil;
-import com.stpl.app.serviceUtils.Constants;
+import com.stpl.app.serviceutils.Constants;
 import static com.stpl.app.utils.Constants.CommonConstants.ACTION_VIEW;
 import static com.stpl.app.utils.Constants.CommonConstants.NULL;
 import static com.stpl.app.utils.Constants.FinderImplIndicators.INDICATOR;
@@ -123,6 +123,7 @@ public class SalesLogic {
     public static final String PROJECTED_UNITS1 = "-ProjectedUnits";
     private String start;
     private String end;
+    public static final String UNION_ALL_ZERO = " UNION ALL SELECT   NULL as account_growth,NULL as product_growth,NULL as projection_sales,NULL as projection_units,NULL as actualsales,NULL as actualunits,0 as YEARS,0 as PERIODS,NULL as calculation_periods,NULL as methodology,HIERARCHY_NO, ";
     public static final String UNION_ALL_ONE = " UNION ALL SELECT   NULL as account_growth,NULL as product_growth,NULL as projection_sales,NULL as projection_units,NULL as actualsales,NULL as actualunits,NULL as YEARS,NULL as PERIODS,NULL as calculation_periods,NULL as methodology,HIERARCHY_NO, ";
     public static final String UNION_ALL_TWO = " NULL as rcount,NULL as actualproj,NULL as checkrec,NULL as uncheck_count, NULL as ccpcount,NULL as hierarchy_indicator,NULL as user_group,NULL AS SEC_HIERARCHY,NULL as SALES_INCLUSION ,INSTR FROM #SELECTED_HIERARCHY_NO WHERE SALES_INCLUSION=  ";
     protected final CommonQueryUtils commonQueryUtils = CommonQueryUtils.getInstance();
@@ -531,7 +532,14 @@ public class SalesLogic {
             String joinQuery = " JOIN CCP_DETAILS CCP ON CCP.CCP_DETAILS_SID=SHN.CCP_DETAILS_SID LEFT JOIN ST_ITEM_UOM_DETAILS  UOM ON UOM.ITEM_MASTER_SID=CCP.ITEM_MASTER_SID AND UOM.UOM_CODE = '" + projSelDTO.getUomCode() + "'";
             sqlQuery = sqlQuery.replace("@SALESINCLUSIONCC", getSalesINCLUSIONCC(projSelDTO));
             sqlQuery = sqlQuery.replace(SALESINCLUSION, getSalesInclusion(projSelDTO, isSalesInclusionNotSelected));
+            if(projSelDTO.getFrequency().equalsIgnoreCase("Monthly"))
+            {
+            sqlQuery = sqlQuery.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ZERO + UNION_ALL_TWO + oppositeSalesInc);
+            }
+            else
+            {
             sqlQuery = sqlQuery.replace(OPPOSITESINC, isSalesInclusionNotSelected ? StringUtils.EMPTY : UNION_ALL_ONE + UNION_ALL_TWO + oppositeSalesInc);
+            }
             sqlQuery = sqlQuery.replace("@UOMCODE", projSelDTO.getUomCode().equals("EACH") ? StringUtils.EMPTY : joinQuery);
             sqlQuery = sqlQuery.replace("@SUMPROJECTEDUNITS", getSumProjectedUnits(projSelDTO));
             sqlQuery = sqlQuery.replace("@SUMACTUALUNITS", getSumActualMethods(projSelDTO));
@@ -1505,8 +1513,8 @@ public class SalesLogic {
             custHierarchyNo = salesRowDto.getCustomerHierarchyNo();
             prodHierarchyNo = salesRowDto.getHierarchyNo();
         }
-
-        String customCCPQuery = "(SELECT DISTINCT CCPMAPC.CCP_DETAILS_SID FROM\n"
+        String customCCPQuery = StringUtils.EMPTY;
+        customCCPQuery = customCCPQuery + "(SELECT DISTINCT CCPMAPC.CCP_DETAILS_SID FROM\n"
                 + "  (SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID FROM RELATIONSHIP_LEVEL_DEFINITION RLD\n"
                 + "  JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID\n"
                 + "  JOIN PROJECTION_DETAILS PD ON PD.CCP_DETAILS_SID=CCP.CCP_DETAILS_SID AND PD.PROJECTION_MASTER_SID='" + projectionId + "'\n"
@@ -2402,6 +2410,7 @@ public class SalesLogic {
         LOGGER.info("Session ID ----  = {}" , projectionSelectionDTO.getSessionDTO().getSessionId());
         LOGGER.info("Frequency ----   = {}" , projectionSelectionDTO.getFrequency());
         LOGGER.info("ScreenName ----  = {}" , projectionSelectionDTO.getScreenName());
+        LOGGER.info("ActualOrProjection ----  = {}" , projectionSelectionDTO.isBaselineType());
         LOGGER.info("calcbased ----   = {}" , calcBased);
         LOGGER.info("fstartid ----    = {}" , start);
         LOGGER.info("fendid ----      = {}" , end);
@@ -3681,7 +3690,8 @@ public class SalesLogic {
         } else if (hierarchyIndicator.equals(Constant.INDICATOR_LOGIC_PRODUCT_HIERARCHY)) {
             productLevelNo = StringUtils.EMPTY + levelNo;
         }
-        String customViewQuery = "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
+        String customViewQuery  = StringUtils.EMPTY;
+        customViewQuery = customViewQuery + "(SELECT RLD.RELATIONSHIP_LEVEL_VALUES, RLD.HIERARCHY_NO, CCP.CCP_DETAILS_SID "
                 + " FROM RELATIONSHIP_LEVEL_DEFINITION RLD "
                 + " JOIN CCP_MAP CCP ON RLD.RELATIONSHIP_LEVEL_SID=CCP.RELATIONSHIP_LEVEL_SID"
                 + " AND RLD.RELATIONSHIP_BUILDER_SID = " + custRelSid + "\n"
@@ -3748,10 +3758,11 @@ public class SalesLogic {
 
     public String getGroupFilterSalesQuery(String userGroup, boolean isPrior) {
         String tableIndicator = StringUtils.EMPTY;
+        String query = StringUtils.EMPTY;
         if (!isPrior) {
             tableIndicator = "ST_";
         }
-        String query = "JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
+         query = query + "JOIN " + tableIndicator + "NM_SALES_PROJECTION_MASTER S ON S.PROJECTION_DETAILS_SID=PD.PROJECTION_DETAILS_SID WHERE  S.USER_GROUP " + userGroup;
         return query;
     }
 
@@ -3833,7 +3844,7 @@ public class SalesLogic {
     private void getStatement(Connection connection, String prcSalesProjectionTemp, ProjectionSelectionDTO projectionSelectionDTO, String start, String end, String calcBased, String allocationBasis, String indicator) {
         StringBuilder procedure = new StringBuilder("{call ");
         if (indicator.equals("NM")) {
-            procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?,?)}");
+            procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?,?,?)}");
         } else {
             procedure.append(prcSalesProjectionTemp).append(" (?,?,?,?,?,?,?,?)}");
         }
@@ -3848,7 +3859,9 @@ public class SalesLogic {
             statement.setObject(NumericConstants.EIGHT, allocationBasis);
             if (indicator.equals("NM")) {
                 statement.setObject(NumericConstants.NINE, projectionSelectionDTO.getSessionDTO().getSalesInclusion().equals(ALL) ? null : projectionSelectionDTO.getSessionDTO().getSalesInclusion());
+                statement.setObject(NumericConstants.TEN, projectionSelectionDTO.isBaselineType()?0:1);
             }
+           
             statement.execute();
         } catch (SQLException ex) {
             LOGGER.error(ex.getMessage());

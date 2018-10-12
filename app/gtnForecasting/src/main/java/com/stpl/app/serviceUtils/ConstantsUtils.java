@@ -1,4 +1,4 @@
-package com.stpl.app.serviceUtils;
+package com.stpl.app.serviceutils;
 
 /**
  * Class contains the Universal String Constant.

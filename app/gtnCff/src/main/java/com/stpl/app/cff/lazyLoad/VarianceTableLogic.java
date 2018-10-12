@@ -4,12 +4,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.lazyLoad;
+package com.stpl.app.cff.lazyload;
  
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.logic.ProjectionVarianceLogic;
 import com.stpl.ifs.ui.forecastds.dto.Leveldto;
 import com.stpl.ifs.ui.util.NumericConstants;
 import com.stpl.ifs.util.constants.BooleanConstant;

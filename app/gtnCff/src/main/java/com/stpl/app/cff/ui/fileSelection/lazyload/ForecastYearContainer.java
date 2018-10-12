@@ -4,10 +4,10 @@
  * and open the template in the editor.
  */
 
-package com.stpl.app.cff.ui.fileSelection.lazyload;
+package com.stpl.app.cff.ui.fileselection.lazyload;
 
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
+import com.stpl.app.cff.ui.fileselection.logic.FileManagementLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.ErrorCodeUtil;
 import com.stpl.app.cff.util.ErrorCodes;

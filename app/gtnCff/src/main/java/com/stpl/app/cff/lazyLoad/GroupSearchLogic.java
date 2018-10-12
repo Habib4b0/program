@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.lazyLoad;
+package com.stpl.app.cff.lazyload;
 
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
+import com.stpl.app.cff.ui.dataselection.logic.DataSelectionLogic;
 import com.stpl.ifs.ui.forecastds.dto.GroupDTO;
 import com.stpl.ifs.util.constants.BooleanConstant;
 import com.vaadin.v7.data.Container;

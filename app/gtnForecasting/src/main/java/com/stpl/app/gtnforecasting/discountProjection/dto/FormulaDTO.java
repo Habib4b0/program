@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.stpl.app.gtnforecasting.discountProjection.dto;
+package com.stpl.app.gtnforecasting.discountprojection.dto;
 
 import com.stpl.ifs.util.HelperDTO;
 import java.util.Date;

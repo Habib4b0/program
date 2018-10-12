@@ -1,15 +1,15 @@
-package com.stpl.app.gtnforecasting.discountProjection.form;
+package com.stpl.app.gtnforecasting.discountprojection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.common.AppDataUtils;
 import com.stpl.app.gtnforecasting.abstractforecast.ForecastDiscountProjection;
-import com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder;
-import static com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder.AND_YEAR_EQUAL;
-import static com.stpl.app.gtnforecasting.discountProjection.logic.DiscountQueryBuilder.NINE_LEVELS_DED;
-import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountExcelLogic;
-import com.stpl.app.gtnforecasting.discountProjection.logic.NMDiscountProjectionLogic;
-import com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic.NMDiscountTableLoadLogic;
+import com.stpl.app.gtnforecasting.discountprojection.logic.DiscountQueryBuilder;
+import static com.stpl.app.gtnforecasting.discountprojection.logic.DiscountQueryBuilder.AND_YEAR_EQUAL;
+import static com.stpl.app.gtnforecasting.discountprojection.logic.DiscountQueryBuilder.NINE_LEVELS_DED;
+import com.stpl.app.gtnforecasting.discountprojection.logic.NMDiscountExcelLogic;
+import com.stpl.app.gtnforecasting.discountprojection.logic.NMDiscountProjectionLogic;
+import com.stpl.app.gtnforecasting.discountprojection.logic.tablelogic.NMDiscountTableLoadLogic;
 import com.stpl.app.gtnforecasting.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import com.stpl.app.gtnforecasting.dto.SaveDTO;
@@ -39,7 +39,7 @@ import com.stpl.app.model.CustomViewMaster;
 import com.stpl.app.security.StplSecurity;
 import com.stpl.app.security.permission.model.AppPermission;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.app.utils.Constants;
 import static com.stpl.app.utils.Constants.ButtonConstants.ALL;
 import static com.stpl.app.utils.Constants.ButtonConstants.SELECT;
@@ -2603,7 +2603,7 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
                                                 CommonLogic.updateFlagStatusToRForAllViewsDiscount(session, Constant.DISCOUNT3);
                                                 new DataSelectionLogic().callViewInsertProceduresThread(session, Constant.DISCOUNT3,"","","");
                                                 CommonUtil.getInstance().waitForSeconds();
-                                                CommonLogic.procedureCompletionCheck(session, DISCOUNT, com.stpl.app.serviceUtils.Constants.CUSTOM);
+                                                CommonLogic.procedureCompletionCheck(session, DISCOUNT, com.stpl.app.serviceutils.Constants.CUSTOM);
                                                 refreshTableData(getCheckedRecordsHierarchyNo());
                                                 final Notification notif = new Notification(
                                                         Constant.CALCULATION_COMPLETE,
@@ -4009,31 +4009,16 @@ public class NMDiscountProjection extends ForecastDiscountProjection {
 
     public List getDiscountRSSids(List<String> discountProgramsList) {
         List<String> rawListRSSids = new ArrayList();
-        String discountPgmName = StringUtils.EMPTY;
-        String discountPgmSids = StringUtils.EMPTY;
+        StringBuilder discountPgmName = new StringBuilder();
+        StringBuilder discountPgmSids = new StringBuilder();
         for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
+            discountPgmName.append(rsSids.contains("~") ? rsSids.split("~")[0] : rsSids).append(',');
+            discountPgmSids.append(rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids).append(',');
         }
-        discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
-        discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
-        rawListRSSids.add(discountPgmName);
-        rawListRSSids.add(discountPgmSids);
-        return rawListRSSids;
-    }
-
-    public List getDiscountRSSids1(List<String> discountProgramsList) {
-        List<String> rawListRSSids = new ArrayList();
-        String discountPgmName = StringUtils.EMPTY;
-        String discountPgmSids = StringUtils.EMPTY;
-        for (String rsSids : discountProgramsList) {
-            discountPgmName += (rsSids.contains("~") ? rsSids.split("~")[0] : rsSids) + ',';
-            discountPgmSids += (rsSids.contains("~") ? StringUtils.EMPTY + rsSids.split("~")[1] : rsSids) + ',';
-        }
-        discountPgmName = discountPgmName.substring(0, discountPgmName.length() - 1);
-        discountPgmSids = discountPgmSids.substring(0, discountPgmSids.length() - 1);
-        rawListRSSids.add(discountPgmSids);
-        rawListRSSids.add(discountPgmName);
+        discountPgmName.append(discountPgmName.substring(0, discountPgmName.length() - 1));
+        discountPgmSids.append(discountPgmSids.substring(0, discountPgmSids.length() - 1));
+        rawListRSSids.add(discountPgmName.toString());
+        rawListRSSids.add(discountPgmSids.toString());
         return rawListRSSids;
     }
 
@@ -4555,30 +4540,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
         }
         return true;
 
-    }
-
-    public boolean ismultipleDiscount() {
-        boolean isOne = true;
-        boolean ismultipleDiscount = false;
-        tripleHeaderForCheckedDoubleHeader.keySet().iterator();
-         List<String>  checkedList = new ArrayList<>();
-        for (Map.Entry<String, Map<String, List<String>>> d : tripleHeaderForCheckedDoubleHeader.entrySet()) {
-            Map<String, List<String>> checkDoubleHeader = d.getValue();
-            for (Map.Entry<String, List<String>> entry : checkDoubleHeader.entrySet()) {
-                List a = entry.getValue();
-                if (!checkedList.isEmpty() && !a.isEmpty() && !isOne) {
-                    ismultipleDiscount = true;
-                    break;
-                } else {
-                    checkedList.addAll(a);
-                }
-            }
-            if (checkedList.size() > 0) {
-                isOne = false;
-            }
-
-        }
-        return !ismultipleDiscount;
     }
 
     public boolean endDateValidation(String valueEnd) {
@@ -5120,88 +5081,6 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
 
     }
 
-    public boolean validateForAlternateHistory() {
-
-        NMDiscountProjectionLogic logic = new NMDiscountProjectionLogic();
-
-        if (checkedDiscountsPropertyIds.size() > 0) {
-            if (!checkedDiscountsPropertyIds.isEmpty()) {
-                String selectedRsName = resultsTable.getRightFreezeAsTable()
-                        .getTripleHeaderColumnHeader(checkedDiscountsPropertyIds.get(0));
-
-                int rsModelSid = logic.getRsModelSid(selectedRsName);
-                Set<Integer> totalCcp = new HashSet<>();
-                if (CUSTOMER.getConstant().equals(String.valueOf(view.getValue()))) {
-
-                    int numoFCustomers = getCheckedCustomercount(logic);
-
-                    if (numoFCustomers > 0) {
-                        String ccpIds = logic.getCCPList(logic.buildCCPListQuery(true, session.getProjectionId()),
-                                totalCcp, session);
-                        totalccpCount = totalCcp.size();
-
-                        if (isNotHavingActuals(logic, ccpIds, rsModelSid, totalCcp)) {
-
-                            return true;
-
-                        } else {
-
-                            NotificationUtils.getAlertNotification("Invalid Record Selection",
-                                    "The selected Customer and Dicount combination already having actuals.");
-                            return false;
-                        }
-
-                    } else if (numoFCustomers == 0) {
-
-                        NotificationUtils.getAlertNotification("No Customer Level  Selected",
-                                "Please select a Customer level for which  Alternate History to be imported.");
-                        return false;
-
-                    }
-                } else if (PRODUCT.getConstant().equals(String.valueOf(view.getValue()))) {
-
-                    int numOfNDC = getCheckedProductCount(logic);
-
-                    if (numOfNDC == 1) {
-                        String ccpIds = logic.getCCPList(logic.buildCCPListQuery(false, session.getProjectionId()),
-                                totalCcp, session);
-                        totalccpCount = totalCcp.size();
-                        if (isNotHavingActuals(logic, ccpIds, rsModelSid, totalCcp)) {
-
-                            return true;
-
-                        } else {
-
-                            NotificationUtils.getAlertNotification("Invalid Record Selection",
-                                    "The selected Item and Dicount combination already having actuals.");
-                            return false;
-                        }
-
-                    } else if (numOfNDC > 0) {
-
-                        NotificationUtils.getAlertNotification("No NDC Level Selected",
-                                "Please select a NDC level for which  Alternate History to be imported.");
-                        return false;
-
-                    }
-                }
-
-            } else {
-                NotificationUtils.getAlertNotification("Multiple Discount Selected",
-                        "Please select a single discount for which  Alternate History to be imported.");
-                return false;
-            }
-
-        } else {
-            NotificationUtils.getAlertNotification("No Discount Selected",
-                    "Please select which discount Alternate History to be imported.");
-            return false;
-
-        }
-
-        return true;
-    }
-
     public boolean isNotHavingActuals(NMDiscountProjectionLogic logic, String ccpIds, int rsModelSid,
             Set<Integer> totalccp) {
         String actualCCPs = logic.getZeroActualCCPList(logic.buildActualValidateQuery(ccpIds, rsModelSid), totalccp, session);
@@ -5210,7 +5089,7 @@ private void createProjectSelectionDto(String freq,String hist,int historyNum,St
                 if (actualCCPs.isEmpty()) {
                     actualCCPs = StringUtils.EMPTY + ccpId;
                 } else {
-                    actualCCPs = actualCCPs + "," + ccpId;
+                    actualCCPs = actualCCPs.concat( "," ).concat(String.valueOf(ccpId));
 
                 }
             }

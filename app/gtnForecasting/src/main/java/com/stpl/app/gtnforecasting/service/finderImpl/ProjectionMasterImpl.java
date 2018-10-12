@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.service.finderImpl;
+package com.stpl.app.gtnforecasting.service.finderimpl;
 
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.app.gtnforecasting.utils.xmlparser.SQlUtil;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.CommonUtils;
-import com.stpl.app.serviceUtils.Constants;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.CommonUtils;
+import com.stpl.app.serviceutils.Constants;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.ifs.ui.util.converters.DataTypeConverter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -1106,10 +1106,10 @@ public static final Logger LOGGER = LoggerFactory.getLogger(ProjectionMasterImpl
                                 }
                                 if (prevNo >= currNo) {
                                     while (currNo <= prevNo) {
-                                        if (logic.size() > 0) {
+                                        if (!logic.isEmpty()) {
                                             logic.remove(logic.get(logic.size() - 1));
                                         }
-                                        if (condition.size() > 0) {
+                                        if (!condition.isEmpty()) {
                                             condition.remove(condition.get(condition.size() - 1));
                                         }
                                         prevNo--;

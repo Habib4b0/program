@@ -9,7 +9,7 @@ import com.liferay.portal.kernel.dao.orm.DynamicQuery;
 import com.liferay.portal.kernel.dao.orm.OrderFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.gtnforecasting.discountProjection.form.NMDiscountProjection;
+import com.stpl.app.gtnforecasting.discountprojection.form.NMDiscountProjection;
 import com.stpl.app.gtnforecasting.dto.ProjectionSelectionDTO;
 import static com.stpl.app.gtnforecasting.logic.CommonLogic.LOGGER;
 import com.stpl.app.gtnforecasting.logic.DataSelectionLogic;
@@ -18,7 +18,7 @@ import com.stpl.app.gtnforecasting.ui.form.DataSelection;
 import static com.stpl.app.gtnforecasting.utils.Constant.DASH;
 import com.stpl.app.model.HelperTable;
 import com.stpl.app.service.HelperTableLocalServiceUtil;
-import com.stpl.app.serviceUtils.ConstantsUtils;
+import com.stpl.app.serviceutils.ConstantsUtils;
 import com.stpl.app.utils.QueryUtils;
 import com.stpl.ifs.ui.util.GtnSmallHashMap;
 import com.stpl.ifs.ui.util.NumericConstants;
@@ -56,7 +56,7 @@ public class CommonUtil {
     public static final String CLOSE_PARANTHESIS = ")";
     public static final String BUSINESS_PROCESS = "businessProcess";
     public static final String BP_NAME = "ALLERGAN";
-    public static final DecimalFormat FORMAT_DECIMAL = new DecimalFormat("$#,##0.#####");
+    public static final DecimalFormat FORMAT_NO_DECIMAL = new DecimalFormat("$#,##0");
     public static final DecimalFormat FORMAT_TWO_DECIMAL = new DecimalFormat("$#,##0.00");
 
     /**
@@ -680,11 +680,11 @@ public class CommonUtil {
                 || StringUtils.isBlank(String.valueOf(selection.getConversionFactor()))
                 || Constant.CONVERSION_FACTOR_DEFALUT_VALUE.equals(String.valueOf(selection.getConversionFactor()))) {
             if (needZeroForNull && nullCheck(value)) {
-                return FORMAT_DECIMAL.format(Double.parseDouble(DASH));
+                return FORMAT_NO_DECIMAL.format(Double.parseDouble(DASH));
             } else if (nullCheck(value)) {
                 return String.valueOf(value);
             }
-            return FORMAT_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
+            return FORMAT_NO_DECIMAL.format(Double.parseDouble(String.valueOf(value)));
         }
         if (needZeroForNull && nullCheck(value)) {
             return FORMAT_TWO_DECIMAL.format(Double.parseDouble(DASH));

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.adminconsole.processscheduler.logic.tableLogic;
+package com.stpl.app.adminconsole.processscheduler.logic.tablelogic;
 
 import com.stpl.app.adminconsole.processscheduler.dto.ProcessSchedulerDTO;
 import com.stpl.app.adminconsole.processscheduler.logic.ManualLogic;

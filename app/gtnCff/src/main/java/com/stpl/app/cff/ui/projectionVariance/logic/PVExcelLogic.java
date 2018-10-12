@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.projectionVariance.logic;
+package com.stpl.app.cff.ui.projectionvariance.logic;
 
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.ui.projectionVariance.dto.PVParameters;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.dto.PVParameters;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.CommonConstants.VARIANCE;

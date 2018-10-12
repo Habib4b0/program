@@ -1,10 +1,10 @@
-package com.stpl.app.cff.ui.projectionVariance.form;
+package com.stpl.app.cff.ui.projectionvariance.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.abstractCff.AbstractComparisonLookup;
+import com.stpl.app.cff.abstractcff.AbstractComparisonLookup;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.ui.projectionVariance.dto.ComparisonLookupDTO;
+import com.stpl.app.cff.ui.projectionvariance.dto.ComparisonLookupDTO;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.WindowMessagesName.CONFIRMATION;

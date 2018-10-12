@@ -3,13 +3,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.dataSelection.form;
+package com.stpl.app.cff.ui.dataselection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.abstractCff.AbstractGroupLookup;
-import com.stpl.app.cff.lazyLoad.GroupSearchLogic;
-import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
+import com.stpl.app.cff.abstractcff.AbstractGroupLookup;
+import com.stpl.app.cff.lazyload.GroupSearchLogic;
+import com.stpl.app.cff.ui.dataselection.logic.DataSelectionLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import static com.stpl.app.cff.util.Constants.ButtonConstants.*;

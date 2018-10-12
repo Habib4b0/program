@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.gtnforecasting.discountProjection.logic.tableLogic;
+package com.stpl.app.gtnforecasting.discountprojection.logic.tablelogic;
 
-import com.stpl.app.gtnforecasting.discountProjection.dto.DiscountProjectionDTO;
+import com.stpl.app.gtnforecasting.discountprojection.dto.DiscountProjectionDTO;
 import com.stpl.app.gtnforecasting.logic.CommonLogic;
 import com.stpl.app.gtnforecasting.utils.Constant;
 import com.stpl.ifs.ui.extfilteringtable.PageTreeTableLogic;

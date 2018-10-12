@@ -3,18 +3,18 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.abstractCff;
+package com.stpl.app.cff.abstractcff;
 
 import com.stpl.app.cff.dto.CustomTreeBuild;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.SessionDTO;
-import com.stpl.app.cff.lazyLoad.VarianceTableLogic;
+import com.stpl.app.cff.lazyload.VarianceTableLogic;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.CommonLogic;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import static com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils.SELECT_ONE;
-import com.stpl.app.cff.ui.projectionVariance.dto.ProjectionVarianceDTO;
-import com.stpl.app.cff.ui.projectionVariance.logic.ProjectionVarianceLogic;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import static com.stpl.app.cff.ui.fileselection.util.ConstantsUtils.SELECT_ONE;
+import com.stpl.app.cff.ui.projectionvariance.dto.ProjectionVarianceDTO;
+import com.stpl.app.cff.ui.projectionvariance.logic.ProjectionVarianceLogic;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.Constants.LabelConstants;

@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.lazyLoad;
+package com.stpl.app.cff.lazyload;
 
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
-import com.stpl.app.cff.ui.fileSelection.dto.FileSelectionDTO;
+import com.stpl.app.cff.ui.fileselection.dto.FileSelectionDTO;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.util.BeanItemContainer;
 import java.util.Collections;

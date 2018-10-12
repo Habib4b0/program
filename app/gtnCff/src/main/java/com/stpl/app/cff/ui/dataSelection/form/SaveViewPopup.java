@@ -2,16 +2,16 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.dataSelection.form;
+package com.stpl.app.cff.ui.dataselection.form;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.abstractCff.AbstractSaveViewPopup;
+import com.stpl.app.cff.abstractcff.AbstractSaveViewPopup;
 import com.stpl.app.cff.dto.SaveViewDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.logic.CFFLogic;
 import com.stpl.app.cff.logic.ViewLogic;
-import com.stpl.app.cff.ui.dataSelection.logic.DataSelectionLogic;
+import com.stpl.app.cff.ui.dataselection.logic.DataSelectionLogic;
 import com.stpl.app.cff.util.AbstractNotificationUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.parttwo.model.CffViewMaster;

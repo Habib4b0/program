@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang.StringUtils;
-import com.stpl.app.cff.ui.dataSelection.dto.ForecastDTO;
+import com.stpl.app.cff.ui.dataselection.dto.ForecastDTO;
 
 /**
  *

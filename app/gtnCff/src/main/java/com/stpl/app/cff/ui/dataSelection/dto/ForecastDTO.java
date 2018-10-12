@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.dataSelection.dto;
+package com.stpl.app.cff.ui.dataselection.dto;
 
 import java.util.Date;
 

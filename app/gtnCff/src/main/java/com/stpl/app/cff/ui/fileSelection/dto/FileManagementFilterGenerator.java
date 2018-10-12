@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.stpl.app.cff.ui.fileSelection.dto;
+package com.stpl.app.cff.ui.fileselection.dto;
 
 import com.liferay.portal.kernel.exception.SystemException;
-import com.stpl.app.cff.ui.fileSelection.Util.ConstantsUtils;
-import com.stpl.app.cff.ui.fileSelection.logic.FileManagementLogic;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
+import com.stpl.app.cff.ui.fileselection.logic.FileManagementLogic;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.ifs.util.HelperDTO;
 import com.vaadin.v7.data.Container;
