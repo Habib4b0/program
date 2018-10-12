@@ -146,6 +146,7 @@ public class FileNameUtil {
                         map.put(Constants.DTX_ACTUAL_MASTER_COUPON_INTERFACE, Constants.DTX_ACTUAL_MASTER_COUPON_INTERFACE);
                         map.put(Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE, Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE);
                         map.put(Constants.DTX_ACTUALS_MASTER_REBATE_INTERFACE, Constants.DTX_ACTUALS_MASTER_REBATE_INTERFACE);
+                        map.put(Constants.DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE, Constants.DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE);
 
 		}
 		return map;
@@ -355,6 +356,8 @@ public class FileNameUtil {
                     Constants.DTX_ACTUAL_MASTER_MEDICAID_INTERFACE);
                         interfaceNameMap.put(Constants.DTX_ACTUALS_MASTER_REBATE_INTERFACE,
                     Constants.DTX_ACTUALS_MASTER_REBATE_INTERFACE);
+                        interfaceNameMap.put(Constants.DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE,
+                    Constants.DTX_ACTUAL_MASTER_CHARGEBACK_INTERFACE);
                         
 		}
 		return interfaceNameMap;
