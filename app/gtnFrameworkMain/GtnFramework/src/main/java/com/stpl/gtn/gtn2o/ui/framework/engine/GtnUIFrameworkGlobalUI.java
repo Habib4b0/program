@@ -2,7 +2,6 @@ package com.stpl.gtn.gtn2o.ui.framework.engine;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
