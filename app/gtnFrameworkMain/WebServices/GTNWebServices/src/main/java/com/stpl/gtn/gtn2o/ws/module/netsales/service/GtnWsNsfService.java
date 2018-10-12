@@ -201,7 +201,7 @@ public class GtnWsNsfService {
 		}
 	}
 
-	private void getNfsInfo(Session session, GtnWsGeneralRequest nsfSaveRequest, Integer nsfSystemId,boolean isEdit)
+	public void getNfsInfo(Session session, GtnWsGeneralRequest nsfSaveRequest, Integer nsfSystemId,boolean isEdit)
 			throws GtnFrameworkGeneralException {
 		
 		String salesBasisQuery = gtnWsSqlService.getQuery("getNsfSalesBasisMergeQuery");
