@@ -762,7 +762,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             } catch (InterruptedException ex) {
                LOGGER.info("exception",ex);
             } catch (ExecutionException ex) {
-                LOGGER.info("ex",ex);
+                LOGGER.info("ExecutionException",ex);
             }
         }
         List<Future> futureListDisData=cffLogicForTempTable.loadDiscountTempTableInThread(sessionDTO,false);
@@ -770,9 +770,9 @@ public class ProjectionVariance extends AbstractProjectionVariance {
             try {
                 future.get();
             } catch (InterruptedException ex) {
-               LOGGER.info("ex",ex);
+               LOGGER.info("InterruptedException",ex);
             } catch (ExecutionException ex) {
-                LOGGER.info("ex",ex);
+                LOGGER.info("Execution Exception",ex);
             }
         }
         cffLogicForTempTable.loadDiscountCustomTempTableInThread(sessionDTO,false);

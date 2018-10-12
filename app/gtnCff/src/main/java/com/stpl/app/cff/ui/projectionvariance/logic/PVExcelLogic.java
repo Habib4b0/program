@@ -1372,7 +1372,7 @@ public class PVExcelLogic {
             projectionIdList.add(String.valueOf(projId));
         }
         String projectionId = CommonUtils.collectionToString(projectionIdList, false);
-        String discountLevelName = !projSelDTO.getDeductionLevelValues().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
+        String discountLevelName = !projSelDTO.getDeductionLevelFilter().isEmpty() ? projSelDTO.getDeductionLevelValues() : projSelDTO.getDiscountLevel();
         discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM_CATEGORY) ? PROGRAM_TYPESMALL : discountLevelName;
         discountLevelName = discountLevelName.equalsIgnoreCase(PROGRAM) ? SCHEDULE_ID : discountLevelName;
         String viewName=projSelDTO.getView().equalsIgnoreCase(CUSTOM_CONSTANT)?String.valueOf(D_INDICATOR):projSelDTO.getView();
