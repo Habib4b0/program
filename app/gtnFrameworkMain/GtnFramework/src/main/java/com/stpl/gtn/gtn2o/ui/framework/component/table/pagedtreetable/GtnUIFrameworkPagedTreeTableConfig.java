@@ -76,6 +76,7 @@ public class GtnUIFrameworkPagedTreeTableConfig {
     private GtnWsReportDashboardBean gtnWsReportDashboardBean;
 
     private GtnReportDataRefreshBean gtnReportDataRefreshBean = null;
+    private int freezeColumnCount = 0;
 
     public GtnUIFrameworkPagedTreeTableConfig() {
         super();
@@ -777,4 +778,12 @@ public class GtnUIFrameworkPagedTreeTableConfig {
         this.aggregationColumnHeader = aggregationColumnHeader;
     }
 
+	public int getFreezeColumnCount() {
+		return freezeColumnCount;
+	}
+
+	public void setFreezeColumnCount(int freezeColumnCount) {
+		this.freezeColumnCount = freezeColumnCount;
+	}
+    
 }
