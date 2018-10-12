@@ -1,3 +1,4 @@
+
 package com.stpl.gtn.gtn2o.ws.search.service;
 
 import java.util.ArrayList;
@@ -17,11 +18,14 @@ import com.stpl.gtn.gtn2o.ws.GtnFrameworkPropertyManager;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
 import com.stpl.gtn.gtn2o.ws.constants.common.GtnFrameworkWebserviceConstant;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkServiceBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
+import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnSerachResponse;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.search.callqueryengine.CallQueryEngineSearchWs;
 import com.stpl.gtn.gtn2o.ws.search.implementation.ComboBoxSearch;
 import com.stpl.gtn.gtn2o.ws.search.implementation.CustomViewSearch;
@@ -189,6 +193,56 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
             logger.info("calling query engine via service registry");
             GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
+            GtnWsGeneralRequest generalRequest = gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest();
+            
+            List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
+            GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
+            GtnSerachResponse searchResponse = new GtnSerachResponse();
+            dataTable.addData(resultList);
+            searchResponse.setResultSet(dataTable);
+            response.setGtnSerachResponse(searchResponse);
+           
+    		
+        } catch (Exception e) {
+            logger.error("Exception in save view" + e);
+        }
+        return response;
+    }
+    
+    public GtnUIFrameworkWebserviceResponse updateView(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
+        GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+        try {
+
+            String viewType = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
+                    .getViewType();
+            String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean()
+                    .getViewName();
+            Integer userId = Integer.valueOf(gtnUiFrameworkWebservicerequest.getGtnWsGeneralRequest().getUserId());
+            
+            GtnFrameworkForecastDataSelectionBean dataSelectionBean = gtnUiFrameworkWebservicerequest
+                    .getGtnWsForecastNewArchRequest().getDataSelectionBean();
+            String viewData = gtnForecastJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'",
+                    "\\\\");
+
+            Object[] params = new Object[4];
+            params[0] =  viewType.replaceAll("\\*", "%");
+            params[1] = userId;
+            params[2] = viewData;
+            params[3] =viewName.replaceAll("\\*", "%");
+            
+            GtnFrameworkDataType[] dataType = {GtnFrameworkDataType.STRING, GtnFrameworkDataType.INTEGER,
+                GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING};
+            String query = gtnSearchSqlService.getQuery("updateView");
+            logger.debug("query for update view" + query);
+            GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+            queryExecutorBean.setSqlQuery(query);
+            queryExecutorBean.setQueryType("INSERTORUPDATEWITHPARAMS");
+            queryExecutorBean.setParams(params);
+            queryExecutorBean.setDataType(dataType);
+            GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+            gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+            logger.info("calling query engine via service registry");
+            GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
             List<Object[]> resultList = response1.getQueryResponseBean().getResultList();
             GtnUIFrameworkDataTable dataTable = new GtnUIFrameworkDataTable();
             GtnSerachResponse searchResponse = new GtnSerachResponse();
@@ -196,7 +250,7 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
             searchResponse.setResultSet(dataTable);
             response.setGtnSerachResponse(searchResponse);
         } catch (Exception e) {
-            logger.error("Exception in save view" + e);
+            logger.error("Exception in update view" + e);
         }
         return response;
     }
@@ -251,6 +305,32 @@ public class GtnGeneralSearchService extends GtnCommonWebServiceImplClass {
         gtnServiceRegistryBean.setRegisteredWebContext(
                 GtnFrameworkPropertyManager.getProperty("gtn.webservices.generalSearch.endPointServiceName"));
     }
+    
+    public int checkViewRecordCount(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest)
+			throws GtnFrameworkGeneralException {
+		int recordCount = 0;
+		String query = gtnSearchSqlService.getQuery("getViewCount");
+		String viewName = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean().getViewName();
+		String viewType = gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean().getViewType();
+		String userId =  gtnUiFrameworkWebservicerequest.getGtnWsForecastNewArchRequest().getDataSelectionBean().getUserId();
+		Object[] params = {viewName , viewType , userId };
+
+		GtnFrameworkDataType[] dataType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
+				GtnFrameworkDataType.STRING };
+		 GtnFrameworkQueryExecutorBean queryExecutorBean = new GtnFrameworkQueryExecutorBean();
+         queryExecutorBean.setSqlQuery(query);
+         queryExecutorBean.setQueryType("COUNTWITHPARAMS");
+         queryExecutorBean.setParams(params);
+         queryExecutorBean.setDataType(dataType);
+         GtnQueryEngineWebServiceRequest gtnQueryEngineWebServiceRequest = new GtnQueryEngineWebServiceRequest();
+         gtnQueryEngineWebServiceRequest.setQueryExecutorBean(queryExecutorBean);
+         logger.info("calling query engine via service registry");
+         GtnQueryEngineWebServiceResponse response1 = callServiceRegistryRedirectForQueryEngine(gtnQueryEngineWebServiceRequest);
+         recordCount = response1.getQueryResponseBean().getResultInteger();
+         logger.info("Check view record count------------>>>>>>>" + recordCount);
+		return recordCount;
+	}
+
 
     public Map<String, String> getQueryMap() {
         List<String> paramList = GtnFrameworkServiceBean.PROJECTION_SEARCH_VALUES;

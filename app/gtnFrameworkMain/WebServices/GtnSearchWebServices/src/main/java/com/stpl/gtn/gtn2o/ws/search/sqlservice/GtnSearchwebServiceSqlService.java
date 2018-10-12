@@ -7,6 +7,7 @@ package com.stpl.gtn.gtn2o.ws.search.sqlservice;
 
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +38,23 @@ public class GtnSearchwebServiceSqlService extends GtnServiceRegistryImplClass {
 
         return StringUtils.EMPTY;
     }
+    
+    public String getQuery(List input, String queryName) {
+		StringBuilder sql = new StringBuilder();
+		try {
+			sql = new StringBuilder(getQuery(queryName));
+			if (input != null) {
+				for (Object temp : input) {
+					if (sql.indexOf("?") != -1) {
+						sql.replace(sql.indexOf("?"), sql.indexOf("?") + 1, String.valueOf(temp));
+					}
+				}
+			}
+
+		} catch (Exception ex) {
+			logger.error("Exception in getQuery", ex);
+		}
+		return sql.toString();
+	}
 
 }

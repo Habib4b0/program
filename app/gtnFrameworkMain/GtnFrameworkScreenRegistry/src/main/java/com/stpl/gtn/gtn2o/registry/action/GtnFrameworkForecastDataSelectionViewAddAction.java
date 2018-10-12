@@ -51,11 +51,13 @@ public class GtnFrameworkForecastDataSelectionViewAddAction
 					.getVaadinBaseComponent(actionParameterList.get(3).toString(), componentId).getV8StringFromField()));
 			GtnUIFrameworkWebserviceRequest webServiceRequest = new GtnUIFrameworkWebserviceRequest();
 			GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest = new GtnWsForecastNewArchRequest();
+			forecastDSBean.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 			gtnWsForecastNewArchRequest.setDataSelectionBean(forecastDSBean);
 			webServiceRequest.setGtnWsForecastNewArchRequest(gtnWsForecastNewArchRequest);
 			 GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
 		        GtnServiceRegistryWsRequest serviceRegistryRequest = new GtnServiceRegistryWsRequest();
 		        GtnWsServiceRegistryBean serviceRegistryBean = new GtnWsServiceRegistryBean();
+		        logger.info("view name" + forecastDSBean.getViewName() +"View type " + forecastDSBean.getViewType()+"Getuser id" + GtnUIFrameworkGlobalUI.getCurrentUser());
 
 		        serviceRegistryBean.setRegisteredWebContext("/GtnSearchWebService");
 		        serviceRegistryBean.setUrl("/gtnForecastSaveView");
@@ -68,9 +70,7 @@ public class GtnFrameworkForecastDataSelectionViewAddAction
 		        webServiceRequest.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
 		        webServiceRequest.setGtnWsGeneralRequest(generalRequest);
 
-		        GtnUIFrameworkWebserviceResponse response = client.callGtnWebServiceUrl(
-		                GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, webServiceRequest,
-		                GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		        GtnUIFrameworkWebserviceResponse response = callWebservice(webServiceRequest, client);
 			
 			GtnUIFrameWorkActionConfig gtnUIFrameAlertWorkActionConfig = new GtnUIFrameWorkActionConfig();
 			gtnUIFrameAlertWorkActionConfig.setActionType(GtnUIFrameworkActionType.INFO_ACTION);
@@ -92,6 +92,13 @@ public class GtnFrameworkForecastDataSelectionViewAddAction
 						+ " Please enter a different view name.");
 			}
 			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, gtnUIFrameAlertWorkActionConfig);
+		}
+
+		public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebserviceRequest webServiceRequest,
+				GtnUIFrameworkWebServiceClient client) {
+			return client.callGtnWebServiceUrl(
+			        GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY_URL, GtnFrameworkScreenRegisteryConstants.SERVICE_REGISTRY, webServiceRequest,
+			        GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		}
 
 		@Override

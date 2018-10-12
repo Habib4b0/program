@@ -93,6 +93,30 @@
             ]]>
 
 	</entry>
+	<entry key="getViewCount">
+		<![CDATA[
+			SELECT
+				COUNT( VIEW_NAME )
+			FROM
+				FORECASTING_VIEWS
+			WHERE
+				VIEW_NAME =?
+				AND VIEW_TYPE =?
+				AND CREATED_BY =?
+		]]>
+	</entry>
+	
+	<entry key="updateView">
+		<![CDATA[
+			UPDATE FORECASTING_VIEWS
+			SET		
+			        VIEW_TYPE=?,
+					MODIFIED_BY=?,
+					MODIFIED_DATE=getDate(),
+					VIEW_DATA=?
+			WHERE 	VIEW_NAME = ?	
+		]]>
+	</entry>
 	<entry key="projectionSearch">
 
             <![CDATA[            

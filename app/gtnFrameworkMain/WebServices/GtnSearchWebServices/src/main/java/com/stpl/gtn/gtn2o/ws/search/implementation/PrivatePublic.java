@@ -122,6 +122,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
         Object[] ob = new Object[18];
         for (int i = 0; i < resultList.size(); i++) {
             Object[] obj = resultList.get(i);
+            ob = new Object[18];
             bean = convertJsonToObject(GtnFrameworkForecastDataSelectionBean.class,
                     ((String) obj[6]).replaceAll("\\\\", "'"));
             ob[0] = obj[0];
@@ -148,7 +149,7 @@ public class PrivatePublic extends GtnCommonWebServiceImplClass implements Searc
     }
 
     private GtnFrameworkForecastDataSelectionBean convertJsonToObject(Class<GtnFrameworkForecastDataSelectionBean> dataSelectionBean,
-            String viewData) throws  JsonMappingException, IOException {
+            String viewData) throws  IOException {
 
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readValue(viewData, dataSelectionBean);

@@ -7,8 +7,10 @@ package com.stpl.gtn.gtn2o.ws.search.controller;
 
 import com.stpl.dependency.serviceregistryabstract.GtnServiceRegistryImplClass;
 import com.stpl.gtn.gtn2o.ws.constants.GtnSearchWebServiceConstants;
+import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.response.GtnUIFrameworkWebserviceResponse;
+import com.stpl.gtn.gtn2o.ws.response.GtnWsGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.search.service.GtnGeneralSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,11 +57,30 @@ public class GtnSearchController extends GtnServiceRegistryImplClass {
 
 	@PostMapping(value = "/gtnForecastSaveView")
 	public GtnUIFrameworkWebserviceResponse gtnForecastSaveView(
+			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) throws GtnFrameworkGeneralException {
+		logger.info(GtnSearchWebServiceConstants.ENTER_LOG);
+		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
+		GtnWsGeneralResponse generalResponse = new GtnWsGeneralResponse();
+		int count = gtnGeneralSearch.checkViewRecordCount(gtnUiFrameworkWebservicerequest);
+		if(count==0) {
+			generalResponse.setSucess(true);
+		response = gtnGeneralSearch.saveView(gtnUiFrameworkWebservicerequest);
+		}
+		else
+		{
+			generalResponse.setSucess(false);
+		}
+		response.setGtnWsGeneralResponse(generalResponse);
+		return response;
+	}
+	@PostMapping(value = "/gtnForecastUpdateView")
+	public GtnUIFrameworkWebserviceResponse gtnForecastUpdateView(
 			@RequestBody GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest) {
 		logger.info(GtnSearchWebServiceConstants.ENTER_LOG);
 		GtnUIFrameworkWebserviceResponse response;
-		response = gtnGeneralSearch.saveView(gtnUiFrameworkWebservicerequest);
+		response = gtnGeneralSearch.updateView(gtnUiFrameworkWebservicerequest);
 		return response;
+		
 	}
 	
 	@PostMapping(value = "/deleteView")

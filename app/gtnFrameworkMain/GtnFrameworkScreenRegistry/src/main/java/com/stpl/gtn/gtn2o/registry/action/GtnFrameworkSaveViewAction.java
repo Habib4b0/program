@@ -84,7 +84,7 @@ public class GtnFrameworkSaveViewAction
 				.getVaadinBaseComponent(actionParamsList.get(5).toString()).getCaptionFromV8ComboBox())));
 		dataSelectionBean.setToPeriod(checkIfNotNull(Optional.ofNullable(GtnUIFrameworkGlobalUI
 				.getVaadinBaseComponent(actionParamsList.get(6).toString()).getCaptionFromV8ComboBox())));
-		GtnWsRecordBean customerHierarchyBean = null;
+	GtnWsRecordBean customerHierarchyBean = null;
 		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(actionParamsList.get(7).toString()).getComponentData()
 				.getCustomData() != null)
 			customerHierarchyBean = ((GtnWsRecordBean) GtnUIFrameworkGlobalUI
@@ -150,6 +150,11 @@ public class GtnFrameworkSaveViewAction
 						.getVaadinBaseComponent("Commercial Forecasting_publicView").getV8PopupFieldValue()))
 				.orElseGet(String::new);
 		dataSelectionBean.setPublicViewName(StringUtils.isBlank(publicViewName) ? null : publicViewName);
+		dataSelectionBean.setPrivateViewName(getViewName("Commercial Forecasting_privateViewLookup"));
+		
+		dataSelectionBean.setPublicViewName(getViewName("Commercial Forecasting_publicView"));
+		
+	
 
 		
 		GtnUIFrameWorkActionConfig popupAction = new GtnUIFrameWorkActionConfig();
@@ -166,21 +171,63 @@ public class GtnFrameworkSaveViewAction
 		GtnUIFrameworkActionExecutor.executeSingleAction(componentId, popupAction);
 		gtnLogger.info("privateViewName--------->" + privateViewName);
 		gtnLogger.info("publicViewName----------->" + publicViewName);
+		if (!"".equals(dataSelectionBean.getPrivateViewName()) || !"".equals(dataSelectionBean.getPublicViewName())) {
+			String viewName = !"".equals(dataSelectionBean.getPrivateViewName())
+					? dataSelectionBean.getPrivateViewName()
+					: "";
+			String viewName1 = viewName==null ? dataSelectionBean.getPublicViewName():viewName ;
+
+			GtnUIFrameworkGlobalUI.getVaadinBaseComponent("Commercial_Forecasting_saveViewName", componentId)
+					.loadV8FieldValue(viewName1);
+			
+	
+			if(viewName1==null)
+			{
+			GtnUIFrameWorkActionConfig updateEnableAction = new GtnUIFrameWorkActionConfig();
+			updateEnableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
+			updateEnableAction.addActionParameter("Commercial_Forecasting_saveViewUpdate");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateEnableAction);
+
+			GtnUIFrameWorkActionConfig updateDisableAction = new GtnUIFrameWorkActionConfig();
+			updateDisableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+			updateDisableAction.addActionParameter("Commercial_Forecasting_saveViewAdd");
+			GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateDisableAction);
 		}
+			else
+			{
+				GtnUIFrameWorkActionConfig updateEnableAction = new GtnUIFrameWorkActionConfig();
+				updateEnableAction.setActionType(GtnUIFrameworkActionType.ENABLE_ACTION);
+				updateEnableAction.addActionParameter("Commercial_Forecasting_saveViewUpdate");
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateEnableAction);
+
+				GtnUIFrameWorkActionConfig updateDisableAction = new GtnUIFrameWorkActionConfig();
+				updateDisableAction.setActionType(GtnUIFrameworkActionType.DISABLE_ACTION);
+				updateDisableAction.addActionParameter("Commercial_Forecasting_saveViewAdd");
+				GtnUIFrameworkActionExecutor.executeSingleAction(componentId, updateDisableAction);
+			}
+	}
+		}
+		
+
 		catch(Exception e)
 		{
 			gtnLogger.error("Exception", e);
 		}
-
 	}
-
-	@SuppressWarnings("rawtypes")
+	
 	private Integer checkIfNotNull(Optional input) {
 		return input.isPresent() && !"".equals(input.get().toString()) ? Integer.valueOf(input.get().toString()) : null;
 	}
+	private String getViewName(String viewComponentId) {
+		String viewName = Optional
+				.ofNullable(String
+						.valueOf(GtnUIFrameworkGlobalUI.getVaadinBaseComponent(viewComponentId).getV8PopupFieldValue()))
+				.orElseGet(String::new);
 
+		return StringUtils.isBlank(viewName) ? null : viewName;
+	}
 
-	private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
+private List<GtnWsRecordBean> getSelectedList(String tableComponentId, String componentId) {
 		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
 				.getVaadinComponentData(tableComponentId, componentId);
 		if (gtnUIFrameworkComponentData.getCustomData() == null)
