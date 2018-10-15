@@ -9,6 +9,7 @@ import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AbstractSele
 import com.stpl.app.arm.businessprocess.abstractbusinessprocess.dto.AdjustmentDTO;
 import com.stpl.app.arm.businessprocess.pipelineinventory.logic.InventoryLogic;
 import com.stpl.app.arm.common.CommonLogic;
+import com.stpl.app.arm.utils.ARMUtils;
 import com.stpl.app.utils.VariableConstants;
 import com.vaadin.v7.data.Container;
 import com.vaadin.v7.data.Property;
@@ -53,7 +54,10 @@ public class InventoryFieldFactory implements TableFieldFactory {
     @Override
     public Field<?> createField(Container container, Object itemId, Object propertyId, Component uiContext) {
         AdjustmentDTO dto = (AdjustmentDTO) itemId;
-        if (!dto.getChildrenAllowed() && VariableConstants.PRICE_OVERRIDE_INVENTORY.equals(propertyId.toString().split("\\.")[0])) {
+        if (!dto.getChildrenAllowed() 
+                && VariableConstants.PRICE_OVERRIDE_INVENTORY.equals(propertyId.toString().split("\\.")[0])
+                && !ARMUtils.levelVariablesVarables.BRAND.toString().equalsIgnoreCase(String.valueOf(selection.getSaleslevelFilterValue())))
+        {
             final TextField priceoverride = new TextField();
             priceoverride.setData(itemId);
             priceoverride.setImmediate(true);
