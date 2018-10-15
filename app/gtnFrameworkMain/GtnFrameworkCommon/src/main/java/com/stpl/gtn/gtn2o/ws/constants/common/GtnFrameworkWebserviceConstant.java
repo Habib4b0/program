@@ -359,5 +359,6 @@ public class GtnFrameworkWebserviceConstant {
 	public static final String RB_RELATIONSHIP_NAME = "RB.RELATIONSHIP_NAME";
 	public static final String HT_DESCRIPTION_CAPS = "HT.DESCRIPTION";
 	public static final String RB_RELATIONSHIP_DESCRIPTION = "RB.RELATIONSHIP_DESCRIPTION";
+	public static final String IN_PARAMETER = "inParameter";
 
 }

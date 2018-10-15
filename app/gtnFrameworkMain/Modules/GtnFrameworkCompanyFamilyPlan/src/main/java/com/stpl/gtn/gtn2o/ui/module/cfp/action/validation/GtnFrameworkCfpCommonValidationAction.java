@@ -41,10 +41,7 @@ public class GtnFrameworkCfpCommonValidationAction
 				.getDateFromDateField();
 		Date cfpEndDate = GtnUIFrameworkGlobalUI.getVaadinBaseComponent("cfpInformationCFPEndDate")
 				.getDateFromDateField();
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
-						+ GtnWsCFamilyPlanContants.GTN_WS_CFP_COMMON_VALIDATION_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = getCommonValidationResponse(request);
 		GtnCFamilyPlanValidationBean validationBean = response.getGtnWsCfpReponse().getGtnCFamilyPlanValidationBean();
 
 		validateDateEqualOrGreater(cfpStartDate, cfpEndDate, componentId);
@@ -55,6 +52,13 @@ public class GtnFrameworkCfpCommonValidationAction
 		validateDuplicateCompany(componentId, validationBean);
 		validateIsOneChecked(componentId, validationBean);
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
+	}
+
+	public GtnUIFrameworkWebserviceResponse getCommonValidationResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
+						+ GtnWsCFamilyPlanContants.GTN_WS_CFP_COMMON_VALIDATION_SERVICE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 	private void validateIsOneChecked(String componentId, GtnCFamilyPlanValidationBean validationBean)

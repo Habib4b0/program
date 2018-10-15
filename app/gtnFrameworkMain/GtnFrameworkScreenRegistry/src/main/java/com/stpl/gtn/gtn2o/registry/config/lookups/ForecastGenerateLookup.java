@@ -3,16 +3,19 @@ package com.stpl.gtn.gtn2o.registry.config.lookups;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.stpl.gtn.gtn2o.registry.action.GtnFrameworkForecastingDStabLoadAction;
 import com.stpl.gtn.gtn2o.registry.config.GtnUIFrameworkDataSelectionScreenConfig;
 import com.stpl.gtn.gtn2o.registry.config.additionalinformation.GtnFrameworkAdditionalInformationTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.dataassumptions.GtnFrameworkDataAssumptionsTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.discountprojection.GtnFrameworkDiscountProjectionTabConfig;
 import com.stpl.gtn.gtn2o.registry.config.projectionvariance.CommercialForecastingProjectionVarianceMain;
 import com.stpl.gtn.gtn2o.registry.config.salesprojection.GtnFrameworkSalesProjectionTabConfig;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.engine.view.GtnUIFrameworkViewConfig;
+import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkComponentType;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkLayoutType;
 
@@ -25,6 +28,7 @@ public class ForecastGenerateLookup {
 		view.setDefaultView(false);
 		view.setReplicable(true);
 		addComponentList(view, namespace);
+		view.addViewAction(getDataSelectionTabAction());
 		return view;
 	}
 
@@ -84,7 +88,7 @@ public class ForecastGenerateLookup {
 		GtnUIFrameworkDataSelectionScreenConfig dataSelectionConfig = new GtnUIFrameworkDataSelectionScreenConfig();
 		List<GtnUIFrameworkComponentConfig> dataSelectionTabConfigList = dataSelectionConfig.getDataSelectionView("CFDataSelection").getGtnComponentList();
 		dataSelection.setTabLayoutComponentConfigList(dataSelectionTabConfigList);
-		new GtnUIFrameworkDataSelectionScreenConfig().getDataSelectionView(namespace);
+		new GtnUIFrameworkDataSelectionScreenConfig().getDataSelectionView("CFDataSelection");
 		
 		
 		GtnUIFrameworkTabConfig dataAssumptions = new GtnUIFrameworkTabConfig();
@@ -134,6 +138,14 @@ public class ForecastGenerateLookup {
 
 		componentList.add(tabSheetConfig);
 
+	}
+	
+	private GtnUIFrameWorkActionConfig getDataSelectionTabAction() {
+		GtnUIFrameWorkActionConfig gtnUIFrameWorkDataSelectionTabAction = new GtnUIFrameWorkActionConfig();
+		gtnUIFrameWorkDataSelectionTabAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
+		gtnUIFrameWorkDataSelectionTabAction.addActionParameter(GtnFrameworkForecastingDStabLoadAction.class.getName());
+		gtnUIFrameWorkDataSelectionTabAction.addActionParameter("forecastGenerateLookupView");
+		return gtnUIFrameWorkDataSelectionTabAction;
 	}
 
 }

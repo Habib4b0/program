@@ -76,6 +76,16 @@ public class Trx7ExclusionDetailsLogic {
         }
     }
     
+    public void deleteExclusionDetailsLookUp(int projectionSid, SessionDTO sessionDTO) {
+        if(sessionDTO.getAction().equals(ARMUtils.VIEW_SMALL)) {
+            return;
+        }
+        String deleteQuery = SQlUtil.getQuery("deleteQueryExclusionDetails");
+        deleteQuery = deleteQuery.replace(CommonConstant.PROJECTION_MASTER_SID, String.valueOf(projectionSid));
+        deleteQuery = deleteQuery.replace(CommonConstant.TABLE_IN_SQUARE_BRACKET, "" + sessionDTO.getCurrentTableNames().get(CommonConstant.ST_ARM_PIPELINE_EXCLUSION_DETAILS));
+        DAO.executeUpdate(deleteQuery);
+    }
+    
     public void saveORUpdateExclusionDetailsLookUp(int projectionSid, List<ExclusionLookupDTO> list, String accountId, String accountName, String contractId, SessionDTO sessionDTO) {
         LOGGER.debug("--Inside saveORUpdate_Exclusion_Details_LookUp--{}", projectionSid);
         StringBuilder sbQuery = new StringBuilder();

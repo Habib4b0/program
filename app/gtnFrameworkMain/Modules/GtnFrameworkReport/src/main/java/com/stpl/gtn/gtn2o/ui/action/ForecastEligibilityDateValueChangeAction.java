@@ -15,36 +15,40 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import java.util.List;
 
-public class ForecastEligibilityDateValueChangeAction implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
+public class ForecastEligibilityDateValueChangeAction
+		implements GtnUIFrameWorkAction, GtnUIFrameworkActionShareable, GtnUIFrameworkDynamicClass {
 
-    @Override
-    public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        return;
-    }
+	@Override
+	public void configureParams(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		return;
+	}
 
-    @Override
-    public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig) throws GtnFrameworkGeneralException {
-        List<GtnUIFrameWorkActionConfig> levelactionConfigList = (List<GtnUIFrameWorkActionConfig>) gtnUIFrameWorkActionConfig.getActionParameterList().get(1);
-        GtnUIFrameWorkActionConfig actionConfig = (GtnUIFrameWorkActionConfig) levelactionConfigList.get(0).getActionParameterList().get(3);
+	@Override
+	public void doAction(String componentId, GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig)
+			throws GtnFrameworkGeneralException {
+		List<GtnUIFrameWorkActionConfig> levelactionConfigList = (List<GtnUIFrameWorkActionConfig>) gtnUIFrameWorkActionConfig
+				.getActionParameterList().get(1);
+		GtnUIFrameWorkActionConfig actionConfig = (GtnUIFrameWorkActionConfig) levelactionConfigList.get(0)
+				.getActionParameterList().get(3);
 
-        String hierarchyComponentId = (String) actionConfig.getActionParameterList().get(1);
-        GtnUIFrameworkComponentData gtnUIFrameworkComponentData = null;
+		String hierarchyComponentId = (String) actionConfig.getActionParameterList().get(1);
+		GtnUIFrameworkComponentData gtnUIFrameworkComponentData = null;
 
-        if (GtnUIFrameworkGlobalUI
-                .getVaadinBaseComponent(hierarchyComponentId).getComponent() != null) {
-            gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
-                    .getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData();
-        }
+		if (GtnUIFrameworkGlobalUI.getVaadinBaseComponent(hierarchyComponentId).getComponent() != null) {
+			gtnUIFrameworkComponentData = GtnUIFrameworkGlobalUI
+					.getVaadinBaseComponent(hierarchyComponentId, componentId).getComponentData();
+		}
 
-        if (gtnUIFrameworkComponentData != null && gtnUIFrameworkComponentData.getCustomData() != null) {
+		if (gtnUIFrameworkComponentData != null && gtnUIFrameworkComponentData.getCustomData() != null) {
 
-            GtnUIFrameworkActionExecutor.executeActionList(componentId, levelactionConfigList);
-        }
-    }
+			GtnUIFrameworkActionExecutor.executeActionList(componentId, levelactionConfigList);
+		}
+	}
 
-    @Override
-    public GtnUIFrameWorkAction createInstance() {
-        return this;
-    }
+	@Override
+	public GtnUIFrameWorkAction createInstance() {
+		return this;
+	}
 
 }
