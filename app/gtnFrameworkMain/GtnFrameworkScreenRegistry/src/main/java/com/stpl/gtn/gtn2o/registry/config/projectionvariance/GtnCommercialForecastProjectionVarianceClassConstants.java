@@ -43,5 +43,16 @@ public class GtnCommercialForecastProjectionVarianceClassConstants {
 	//*
 	public static final String GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION = RETURNS_FORECAST_PAGED_TREE_TABLE_PACKAGE
 			+ "GtnFrameworkConfigureRightTableHeaderForPTTCompoAction";
-
+        
+        public static final String DISP_SEL_INNER_LAYOUT="displaySelectionInnerMainLayout";
+        
+        public static final String DISP_SEL_INNER_LAYOUT_TWO="displaySelectionInnerMainLayout2";
+        
+        public static final String SELECT_ONE="-Select One-";
+        
+        public static final String SELECT="-Select-";
+        
+        public static final String BUTTON_LAYOUT_RESET = "generateResetButtonComponentsLayout";
+        
+        public static final String PPV_COMP_LAYOUT="ppvComponetsLayout";
 }

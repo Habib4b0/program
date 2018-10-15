@@ -58,9 +58,9 @@ import org.asi.ui.extfilteringtable.ExtCustomTable;
  *
  * @author Jayaram
  */
-public class processSchedulerForm extends CustomComponent {
+public class ProcessSchedulerForm extends CustomComponent {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(processSchedulerForm.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProcessSchedulerForm.class);
 
     @UiField("frequencyRadio")
     private OptionGroup frequencyRadio;
@@ -166,7 +166,7 @@ public class processSchedulerForm extends CustomComponent {
     private String intervalHourOne;
     private String intervalHourTwo;
 
-    public processSchedulerForm(final SessionDTO sessionDTO) {
+    public ProcessSchedulerForm(final SessionDTO sessionDTO) {
         super();
         this.sessionDTO = sessionDTO;
         init();

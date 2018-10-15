@@ -24,7 +24,9 @@ import com.stpl.gtn.gtn2o.ws.request.emailconfig.GtnWsMailConfigurationRequest;
 import com.stpl.gtn.gtn2o.ws.request.filemanagement.GtnWsFileManagementRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastProjectionSubmitRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecast.GtnWsForecastRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecast.newarch.GtnWsForecastNewArchRequest;
 import com.stpl.gtn.gtn2o.ws.request.forecastconfiguration.GtnWsForecastConfigurationRequest;
+import com.stpl.gtn.gtn2o.ws.request.forecastingsearch.GtnGeneralSearchRequest;
 import com.stpl.gtn.gtn2o.ws.request.ifprequest.GtnWsIfpRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemgroup.GtnWsItemGroupRequest;
 import com.stpl.gtn.gtn2o.ws.request.itemmaster.GtnWsItemMasterRequest;
@@ -38,6 +40,7 @@ import com.stpl.gtn.gtn2o.ws.request.rebateplan.GtnWsRebatePlanGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.rebateschedule.GtnWsRebateScheduleGeneralRequest;
 import com.stpl.gtn.gtn2o.ws.request.relationshipbuilder.GtnWsRelationshipBuilderRequest;
 import com.stpl.gtn.gtn2o.ws.request.report.GtnWsReportRequest;
+import com.stpl.gtn.gtn2o.ws.request.serviceregistry.GtnServiceRegistryWsRequest;
 import com.stpl.gtn.gtn2o.ws.request.transaction.GtnWsTransactionRequest;
 import com.stpl.gtn.gtn2o.ws.request.udc.GtnWsUdcRequest;
 import com.stpl.gtn.gtn2o.ws.request.workflow.GtnWsCommonWorkflowRequest;
@@ -65,6 +68,8 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsIfpRequest gtnWsIfpRequest;
 
     private GtnWsForecastRequest gtnWsForecastRequest;
+    
+    private GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest;
 
     private GtnWsArmRequest gtnWsArmRequest;
 
@@ -129,6 +134,16 @@ public class GtnUIFrameworkWebserviceRequest {
     private GtnWsUdcRequest gtnWsUdcRequest;
 
     private GtnWsAdjustmentDetailsSaveViewMasterRequest gtnWsAdjustmentDetailsSaveViewMasterRequest;
+    
+    private GtnGeneralSearchRequest gtnGeneralSearchReq;
+
+    public GtnGeneralSearchRequest getGtnGeneralSearchReq() {
+        return gtnGeneralSearchReq;
+    }
+
+    public void setGtnGeneralSearchReq(GtnGeneralSearchRequest gtnGeneralSearchReq) {
+        this.gtnGeneralSearchReq = gtnGeneralSearchReq;
+    }
 
     public GtnWsSearchRequest getGtnWsSearchRequest() {
         return gtnWsSearchRequest;
@@ -142,6 +157,8 @@ public class GtnUIFrameworkWebserviceRequest {
 
     private GtnWsAdjusmentDetailsRequest gtnWsAdjusmentDetailsRequest;
 
+    private GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest;
+    
     public GtnWsForecastHierarchyInsertRequest getGtnWshirarchyInsertRequest() {
         return gtnWshirarchyInsertRequest;
     }
@@ -225,6 +242,15 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsForecastRequest(GtnWsForecastRequest gtnWsForecastRequest) {
         this.gtnWsForecastRequest = gtnWsForecastRequest;
     }
+    
+    public GtnWsForecastNewArchRequest getGtnWsForecastNewArchRequest() {
+        return gtnWsForecastNewArchRequest;
+    }
+
+    public void setGtnWsForecastNewArchRequest(GtnWsForecastNewArchRequest gtnWsForecastNewArchRequest) {
+        this.gtnWsForecastNewArchRequest = gtnWsForecastNewArchRequest;
+    }
+
 
     public GtnWsCheckAllUpdateRequest getGtnWsCheckAllUpdateRequest() {
         return gtnWsCheckAllUpdateRequest;
@@ -516,5 +542,13 @@ public class GtnUIFrameworkWebserviceRequest {
     public void setGtnWsAdjustmentDetailsSaveViewMasterRequest(GtnWsAdjustmentDetailsSaveViewMasterRequest gtnWsAdjustmentDetailsSaveViewMasterRequest) {
         this.gtnWsAdjustmentDetailsSaveViewMasterRequest = gtnWsAdjustmentDetailsSaveViewMasterRequest;
     }
+
+	public GtnServiceRegistryWsRequest getGtnServiceRegistryWsRequest() {
+		return gtnServiceRegistryWsRequest;
+	}
+
+	public void setGtnServiceRegistryWsRequest(GtnServiceRegistryWsRequest gtnServiceRegistryWsRequest) {
+		this.gtnServiceRegistryWsRequest = gtnServiceRegistryWsRequest;
+	}
 
 }

@@ -186,7 +186,7 @@ public class GtnWsCustomViewControllerTest {
 
 		SessionFactory factory = Mockito.mock(SessionFactory.class);
 		Session session = Mockito.mock(Session.class);
-		Transaction tx = Mockito.mock(Transaction.class);
+		Transaction tx = Mockito.mock(Transaction.class);  
 
 		doReturn(factory).when(logic).getSessionFactory();
 		doNothing().when(tx).commit();

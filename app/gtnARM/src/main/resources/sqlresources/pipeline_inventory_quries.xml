@@ -1551,7 +1551,7 @@ INSERT
                                                           ARP.PROJECTION_MASTER_SID= '+CONVERT(VARCHAR(10),@PROJECTION_MASTER_SID)+
                                 'JOIN BRAND_MASTER BM ON BM.BRAND_MASTER_SID=IM.BRAND_MASTER_SID),CTE1 AS (SELECT ITEM_MASTER_SID AS ITEM
                                                  ,MAX(WEEKS_ON_HAND) AS WEEKS_ON_HAND,MAX(UNITS_PER_RETAIL) AS UNITS_PER_RETAIL,MAX(DEMAND_UNITS) AS DEMAND_UNITS
-                                                                                         ,MAX(CASE WHEN COMP_CUST_MASTER_SID='+convert(varchar(10),@CUST)+' THEN INVENTORY_UNITS ELSE 0 END) AS INVENTORY_UNITS
+                                                                                         ,MAX(CASE WHEN COMP_CUST_MASTER_SID='+convert(varchar(10),ISNULL(@CUST,0))+' THEN INVENTORY_UNITS ELSE 0 END) AS INVENTORY_UNITS
                                                    FROM  CTE GROUP BY  ITEM_MASTER_SID),'
 
 

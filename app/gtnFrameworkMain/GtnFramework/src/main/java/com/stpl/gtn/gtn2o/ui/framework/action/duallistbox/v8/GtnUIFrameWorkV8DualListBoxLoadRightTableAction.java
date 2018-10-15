@@ -24,7 +24,6 @@ import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
 import com.stpl.gtn.gtn2o.ws.constants.forecast.GtnFrameworkForecastAlertMsgConstants;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.logger.GtnWSLogger;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
@@ -132,7 +131,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableAction implements GtnUIFra
 	private GtnUIFrameworkWebserviceResponse callWebService(final String webServiceUrl, final String moduleName,
 			final GtnUIFrameworkWebserviceRequest request) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		return client.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + webServiceUrl,
+		return client.callGtnWebServiceUrl(webServiceUrl,
 				moduleName, request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 

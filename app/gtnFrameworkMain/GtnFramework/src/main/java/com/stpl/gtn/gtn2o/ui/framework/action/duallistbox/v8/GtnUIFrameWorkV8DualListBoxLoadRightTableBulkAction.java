@@ -15,7 +15,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.report.bean.GtnReportHierarchyLevelBean;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
@@ -66,24 +65,26 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 		Grid<GtnWsRecordBean> availableGrid = dualListBoxBean.getLeftTable();
 		Component component = availableGrid.getHeaderRow(1).getCell("levelValue").getComponent();
 		HorizontalLayout horizontalLayout = (HorizontalLayout) component;
-		TextField textField=(TextField) horizontalLayout.getComponent(0);
+		TextField textField = (TextField) horizontalLayout.getComponent(0);
 		String filterText = textField.getValue();
-		ListDataProvider<GtnWsRecordBean> availableDataProvider = (ListDataProvider<GtnWsRecordBean>) availableGrid.getDataProvider();
+		ListDataProvider<GtnWsRecordBean> availableDataProvider = (ListDataProvider<GtnWsRecordBean>) availableGrid
+				.getDataProvider();
 		List<GtnWsRecordBean> gtnWsRecordBeanList = new ArrayList<>();
 		List<GtnWsRecordBean> availableRecords = (List<GtnWsRecordBean>) availableDataProvider.getItems();
 		for (GtnWsRecordBean recordBean : availableRecords) {
-			if(recordBean.getPropertyValue("levelValue").toString().toLowerCase().contains(filterText.toLowerCase(Locale.ENGLISH))){
+			if (recordBean.getPropertyValue("levelValue").toString().toLowerCase()
+					.contains(filterText.toLowerCase(Locale.ENGLISH))) {
 				gtnWsRecordBeanList.add(recordBean);
 			}
 		}
-		
+
 		GtnUIFrameworkWebserviceResponse response = callWebService(dualListBoxConfig.getMoveAllDataURL(),
 				createRightTableRequest(dualListBoxBean.getGtnDualListBoxqueryParameters(), dualListBoxConfig,
 						isProduct, gtnWsRecordBeanList),
 				dualListBoxConfig);
-		
+
 		List<GtnWsRecordBean> selectedGridList = new ArrayList<>();
-		
+
 		for (GtnUIFrameworkDataRow data : response.getGtnSerachResponse().getResultSet().getDataTable()) {
 			GtnWsRecordBean selectedRecordBean = new GtnWsRecordBean();
 			selectedRecordBean.setProperties(data.getColList());
@@ -92,13 +93,14 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 			selectedGridList.add(selectedRecordBean);
 		}
 
-			treeBuilder.buildTree(selectedGridList);
-			treeBuilder.loadRightTreeTable(rightTable, dualListBoxConfig.getLoadingLevel());
-			rightTable.getDataProvider().refreshAll();
-			rightTable.markAsDirty();
+		treeBuilder.buildTree(selectedGridList);
+		treeBuilder.loadRightTreeTable(rightTable, dualListBoxConfig.getLoadingLevel());
+		rightTable.getDataProvider().refreshAll();
+		rightTable.markAsDirty();
 	}
 
-	private GtnWsReportRequest createReportRequest(final List<Object> queryParameters, boolean isProduct, List<GtnWsRecordBean> recordBeanList) {
+	private GtnWsReportRequest createReportRequest(final List<Object> queryParameters, boolean isProduct,
+			List<GtnWsRecordBean> recordBeanList) {
 		GtnWsReportRequest reportRequest = new GtnWsReportRequest();
 		reportRequest.setHierarchyInputBean((GtnReportHierarchyLevelBean) queryParameters.get(2));
 		reportRequest.setHierarchyLevelList((List<GtnReportHierarchyLevelBean>) queryParameters.get(3));
@@ -124,7 +126,8 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 	}
 
 	private GtnUIFrameworkWebserviceRequest createRightTableRequest(final List<Object> queryParameters,
-			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, boolean isProduct, List<GtnWsRecordBean> recordBeanList) {
+			GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig, boolean isProduct,
+			List<GtnWsRecordBean> recordBeanList) {
 		GtnUIFrameworkWebserviceRequest request = new GtnUIFrameworkWebserviceRequest();
 		request.setGtnWsSearchRequest(createSearchRequest(queryParameters, dualListBoxConfig));
 		request.setGtnWsGeneralRequest(createGeneralRequest());
@@ -135,8 +138,8 @@ public class GtnUIFrameWorkV8DualListBoxLoadRightTableBulkAction implements GtnU
 	private GtnUIFrameworkWebserviceResponse callWebService(final String webServiceUrl,
 			final GtnUIFrameworkWebserviceRequest request, GtnUIFrameworkV8DualListBoxConfig dualListBoxConfig) {
 		GtnUIFrameworkWebServiceClient client = new GtnUIFrameworkWebServiceClient();
-		return client.callGtnWebServiceUrl(GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + webServiceUrl,
-				dualListBoxConfig.getModuleType(), request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		return client.callGtnWebServiceUrl(webServiceUrl, dualListBoxConfig.getModuleType(), request,
+				GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 	}
 
 }

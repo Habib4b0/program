@@ -32,6 +32,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
+import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
+import com.stpl.gtn.gtn2o.ws.bean.GtnWsSecurityToken;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataTable;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceOrderByCriteria;
 import com.stpl.gtn.gtn2o.ws.components.GtnWebServiceSearchCriteria;
@@ -71,7 +73,6 @@ public class GtnWsForecastConfigurationController {
 	private Map<String, String> filterAndSortingCriteriaMap = new HashMap<>();
 
 	private static final GtnWSLogger LOGGER = GtnWSLogger.getGTNLogger(GtnWsForecastConfigurationController.class);
-
 
 	@Autowired
 	private org.hibernate.SessionFactory sysSessionFactory;
@@ -206,6 +207,7 @@ public class GtnWsForecastConfigurationController {
 			GtnWsForecastConfigurationResponse forecastResponse = new GtnWsForecastConfigurationResponse();
 			gtnResponse.setGtnWsForecastConfigurationResponse(forecastResponse);
 			saveForecastConfiguration(gtnWsRequest.getForecastConfigurationRequest(), forecastResponse);
+			triggerPeriodConfiguration(gtnWsRequest);
 		} catch (Exception ex) {
 			LOGGER.error(
 					GtnFrameworkWebserviceConstant.ERROR_IN + GtnWsForecastConfigurationConstants.SAVE_FORECAST_CONF,
@@ -391,8 +393,7 @@ public class GtnWsForecastConfigurationController {
 		try {
 			GtnSerachResponse forecastConfigurationSerachResponse = new GtnSerachResponse();
 			String forecastConfigurationQueryName = gtnWsRequest.getGtnWsSearchRequest().isCount()
-					? "getForecastConfigurationCount"
-					: "getForecastConfigurationResults";
+					? "getForecastConfigurationCount" : "getForecastConfigurationResults";
 			List<Object> inputlist = getSearchInput(gtnWsRequest);
 			@SuppressWarnings("unchecked")
 			List<Object[]> result = executeQuery(gtnWsSqlService.getQuery(inputlist, forecastConfigurationQueryName));
@@ -428,16 +429,17 @@ public class GtnWsForecastConfigurationController {
 
 					StringBuilder value = new StringBuilder();
 					if ("LIKE".equalsIgnoreCase(forecastConfigurationSearchCriteria.getExpression())) {
-						 value.append('%').append(forecastConfigurationSearchCriteria.getFilterValue1()).append('%');
+						value.append('%').append(forecastConfigurationSearchCriteria.getFilterValue1()).append('%');
 					}
-                                        if(value.toString().isEmpty()) {
-                                            value.append(forecastConfigurationSearchCriteria.getFilterValue1());
-                                        }
+					if (value.toString().isEmpty()) {
+						value.append(forecastConfigurationSearchCriteria.getFilterValue1());
+					}
 					inputWhereConditions.append(where).append(and)
-							.append(GtnCommonUtil.getWhereClauseForAColumn(
-									forecastConfigurationSearchCriteria.getExpression(),
-									filterAndSortingCriteriaMap().get(forecastConfigurationSearchCriteria.getFieldId()),
-									value.toString(), forecastConfigurationSearchCriteria.getFilterValue2()));
+							.append(GtnCommonUtil
+									.getWhereClauseForAColumn(forecastConfigurationSearchCriteria.getExpression(),
+											filterAndSortingCriteriaMap()
+													.get(forecastConfigurationSearchCriteria.getFieldId()),
+											value.toString(), forecastConfigurationSearchCriteria.getFilterValue2()));
 					and = " AND ";
 					where = "";
 				}
@@ -750,6 +752,7 @@ public class GtnWsForecastConfigurationController {
 			tx.commit();
 			fcResponse.setMessageType("success");
 			fcResponse.setMessage(businessProcess.getDescription() + " business process Saved Successfully.");
+
 		} catch (Exception e) {
 			tx.rollback();
 			fcResponse.setSuccess(false);
@@ -759,6 +762,21 @@ public class GtnWsForecastConfigurationController {
 		} finally {
 			session.close();
 		}
+	}
+
+	private void triggerPeriodConfiguration(GtnUIFrameworkWebserviceRequest fcRequest) {
+		if (fcRequest.getForecastConfigurationRequest().getBusinessProcessName().equals("Commercial")) {
+			new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+					"/gtnPeriodConfigurationController/loadRefreshDate", "periodConfiguration", fcRequest,
+					getSecurityToken(fcRequest));
+		}
+	}
+
+	private GtnWsSecurityToken getSecurityToken(GtnUIFrameworkWebserviceRequest fcRequest) {
+		GtnWsSecurityToken token = new GtnWsSecurityToken();
+		token.setUserId(fcRequest.getGtnWsGeneralRequest().getUserId());
+		token.setSessionId(fcRequest.getGtnWsGeneralRequest().getSessionId());
+		return token;
 	}
 
 	private void getModifiedProcessModeValue(ForecastConfig forecastConfig, GtnWsForecastConfigurationRequest fcRequest)

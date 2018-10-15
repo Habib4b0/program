@@ -117,6 +117,9 @@
 		<move todir="${DB_Script}/App_Schema/Sql_Script/11_Arm">
 			<fileset dir="${DB_Script}/App_Schema/db-accounting-close" />
 		</move>
+        <move todir="${DB_Script}/App_Schema/Sql_Script/12_Forecasting_NewArch">
+			<fileset dir="${DB_Script}/App_Schema/db-forecasting-newarchitecture" />
+		</move>
 		<move todir="${DB_Script}/Staging_Schema/Sql_Script/01_Staging">
 			<fileset dir="${DB_Script}/Staging_Schema/db-staging" />
 		</move>

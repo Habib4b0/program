@@ -47,10 +47,7 @@ public class GtnFrameworkCfpIdAndNoValidationAction
 		cfpBean.setCfpInfo(cfpInfpBean);
 		cfpRequest.setGtnCFamilyPlan(cfpBean);
 		request.setGtnWsCfpRequest(cfpRequest);
-		GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
-						+ GtnWsCFamilyPlanContants.GTN_WS_CFP_CFPID_CFPNO_VALIDATION_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse reponse = callWebservice(request);
 		boolean iscfpID = (boolean) reponse.getEditRecord().get("cfpId");
 		boolean isCfpNo = (boolean) reponse.getEditRecord().get("cfpNo");
 
@@ -67,6 +64,14 @@ public class GtnFrameworkCfpIdAndNoValidationAction
 			throw new GtnFrameworkValidationFailedException(msg, componentId);
 		}
 		GtnUIFrameworkActionExecutor.clearErrorBanner(componentId);
+	}
+
+	public GtnUIFrameworkWebserviceResponse callWebservice(GtnUIFrameworkWebserviceRequest request) {
+		return  new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsCFamilyPlanContants.GTN_WS_CFP_SERVICE
+						+ GtnWsCFamilyPlanContants.GTN_WS_CFP_CFPID_CFPNO_VALIDATION_SERVICE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		
 	}
 
 	@Override

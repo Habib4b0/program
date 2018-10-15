@@ -69,6 +69,8 @@ public final class GtnWebServiceUrlConstants {
 	public static final String GTN_BCP_SERVICE = "/gtnBcpService";
 	public static final String CALCULATE = "/calulate";
 	public static final String GTN_DOWNLOAD_FILE_SERVICE = "/gtnDownloadAttachmentService";
+	public static final String GTN_DEDUCTION_LEVEL_COMBOBOX_SERVICE = "/GtnSearchWebService";
+	public static final String GTN_DEDUCTION_LEVEL_COMBOBOX_LOAD = "/gtnSearch";
 
 	/**
 	 * Forecast dataselection Constants
