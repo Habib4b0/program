@@ -41,11 +41,11 @@ echo %{prefix}
 
 if [ -d "$RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_Server/"  ] ; then
 cp -R  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/GTN_Framework_Server/*   $RPM_BUILD_ROOT%{prefix}/
-cp -R  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_User_Configuration/*   $RPM_BUILD_ROOT%{prefix}/conf/
+cp -R  $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/WS_Wildfly_User_Configuration/*   $RPM_BUILD_ROOT%{prefix}/conf/
 
 #Moving JBOSS configurations
 
-cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/JBoss_Configuration/*  $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/
+cp -R $RPM_BUILD_DIR/$RPM_PACKAGE_NAME-$RPM_PACKAGE_VERSION/WS_Wildfly_Configuration/*  $RPM_BUILD_ROOT%{prefix}/wildfly-10.0.0/
 
 # Create Log directories
 
