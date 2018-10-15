@@ -54,6 +54,7 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableCollapseAct
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableExpandAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkTreeTableLevelFilterAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8AddRecordAction;
+import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8GridAlertAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkV8PopupSelectAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkValueChangeAction;
 import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameworkVisibleAction;
@@ -216,7 +217,9 @@ public enum GtnUIFrameworkActionType {
         
         PAGEDGRID_EXCEL_EXPORT_ACTION(new GtnUIFrameWorkPagedGridExcelExportAction()),
 	
-	V8_ADD_RECORD_ACTION(new GtnUIFrameworkV8AddRecordAction());
+	V8_ADD_RECORD_ACTION(new GtnUIFrameworkV8AddRecordAction()),
+	
+	V8_GRID_ALERT_ACTION(new GtnUIFrameworkV8GridAlertAction());
 
 	private final GtnUIFrameWorkAction gtnUIFrameWorkAction;
 

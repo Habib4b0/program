@@ -761,6 +761,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                  future.get();
             } catch (InterruptedException ex) {
                LOGGER.info("exception",ex);
+               Thread.currentThread().interrupt();
             } catch (ExecutionException ex) {
                 LOGGER.info("ExecutionException",ex);
             }
@@ -771,6 +772,7 @@ public class ProjectionVariance extends AbstractProjectionVariance {
                 future.get();
             } catch (InterruptedException ex) {
                LOGGER.info("InterruptedException",ex);
+               Thread.currentThread().interrupt();
             } catch (ExecutionException ex) {
                 LOGGER.info("Execution Exception",ex);
             }

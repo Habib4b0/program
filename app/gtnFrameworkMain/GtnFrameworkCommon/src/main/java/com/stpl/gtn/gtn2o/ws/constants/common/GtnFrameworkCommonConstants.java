@@ -633,8 +633,10 @@ public class GtnFrameworkCommonConstants {
 	public static final String LOWEST_LEVEL = "Lowest_Level";
 
 	public static final String PRIVATE_VIEW_NAME = "privateViewName";
-	public static final String PUBLIC_VIEW_NAME = "publicViewName";
+    public static final String PUBLIC_VIEW_NAME = "publicViewName";
 	public static final String PRIVATE_SEARCH_RESULT_TABLE = "privateSearchResultTable";
+
+	
 	public static final String SAVE_VIEW_NAME = "saveViewName";
 	public static final String SAVE_VIEW_TYPE = "saveViewType";
 	public static final String A_PRIVATE = "Private";
@@ -643,6 +645,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String ROOT_VERTICAL_LAYOUT = "rootVerticalLayout";
 	public static final String PUBLIC_SEARCH_RESULT_TABLE = "publicSearchResultTable";
 	public static final String PUBLIC_VIEW_SEARCH_LOOKUP_VIEW = "publicViewSearchLookupView";
+	public static final String COMMERCIAL_PUBLIC_VIEW_SEARCH_LOOKUP_VIEW = "Commercial Forecasting_publicView";
 	public static final String VIEW_NAME = "viewName";
 	public static final String SEARCH_AND_RESET_BUTTON_LAYOUT = "searchAndResetButtonLayout";
 	public static final String PRODUCT_GROUP_NO = "productGroupNo";
@@ -651,6 +654,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String NO_RECORD_WAS_SELECTED_PLEASE_TRY_AGAIN = "No record was selected.  Please try again.";
 	public static final String RETURNS_FORECAST_TAB_SHEET_DS_TAB_TO_PERIOD = "returnsForecastTabSheet_dsTabToPeriod";
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_VIEW = "privateViewSearchLookupView";
+	public static final String COMMERCIAL_PRIVATE_VIEW_SEARCH_LOOKUP_VIEW = "Commercial Forecasting_privateViewLookup";
 	public static final String PROD_GROUP_LOOKUP_VIEW = "prodGroupLookupView";
 	public static final String PRODUCT_GROUP_SEARCH_RESULT_TABLE = "productGroupSearchResultTable";
 	public static final String PROD_HIERARCHY_LOOKUP_VIEW = "prodHierarchyLookupView";
@@ -1293,7 +1297,7 @@ public class GtnFrameworkCommonConstants {
 	public static final String SCREEN_REGISTRY_FILTERCOMBOBOX = "filterComboBox";
 	public static final String SCREEN_REGISTRY_CUSTOMER_SELECTION_LAYOUT = "customerSelectionLayout";
 	public static final String SCREEN_REGISTRY_CUSTOMER_SELECTION_CSS_LAYOUT = "customerSelectionCssLayout";
-	public static final String SCREEN_REGISTRY_CF_CUST_SEL_REL = "Commercial_Forecasting_customerSelectionRelationship";
+	public static final String SCREEN_REGISTRY_CF_CUST_SEL_REL = "Commercial Forecasting_customerSelectionRelationship";
 	public static final String SCREEN_REGISTRY_CUSTOMER_SELECTION_INNER_LAYOUT = "customerSelectionInnerLayout";
 	public static final String SERVICE_REGISTRY_PRODUCT_SELECTION_INNER_LAYOUT = "productSelectionInnerLayout";
 	public static final String SERVICE_REGISTRY_PRODUCT_SELECTION_CSS_LAYOUT = "productSelectionCssLayout";

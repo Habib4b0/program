@@ -26,19 +26,53 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String UNDERSCORE = "_";
 
+	public static final String INVALID_SEARCH = "Invalid Search";
+
 	public static final String STATUS = "STATUS";
 
 	public static final String FORECAST = "forecast";
 
 	public static final String HIER_NAME = "hierName";
 
+	public static final String SEARCH_BUTTON = "privateViewSearchLookupSearchButton";
+
 	public static final String HIGHEST_LEVEL = "highestLevel";
+
+	public static final String RESULT_CONFIG = "privateViewSearchLookupResultConfig";
+
+	public static final String RESULTS_PANEL = "privateViewSearchLookupResultsPanel";
 
 	public static final String CUSTOMER_HIERARCHY_GROUP_BUILDER = "Customer Hierarchy Group Builder";
 
 	public static final String PRODUCT_HIERARCHY_GROUP_BUILDER = "Product Hierarchy Group Builder";
 
+	public static final String DO_NOT_ADD_BUTTON_CUSTOM_STYLE = "doNotAddButtonCustomStyle";
+
+	public static final String VIEW_INVALID_SEARCH_MESSAGE_BODY = "There are no Views that match the search criteria.  Please try again.";
+
+	public static final String BUTTON_CUSTOM_STYLE_FOR_LESS_SPACE_BETWEEN_BUTTONS = "buttonCustomStyleForLessSpaceBetweenButtons";
+
 	public static final String RESET_CONFIRMATION = "Reset Confirmation";
+
+	public static final String VIEW_LAYOUT = "privateViewLookupRootLayout";
+
+	public static final String VIEW_LAYOUT_PUBLIC = "publicViewLookupRootLayout";
+
+	public static final String CRITERIA_PANEL = "privateViewSearchLookupSearchCriteriaPanel";
+
+	public static final String CRITERIA_PANEL_PUBLIC = "publicViewSearchLookupSearchCriteriaPanel";
+
+	public static final String CRITERIA_LAYOUT = "privateViewSearchLookupSearchCriteriaLayout";
+
+	public static final String PRIVATE_VIEW_SEARCH_LOOKUP = "PrivateViewSearchLookUp";
+
+	public static final String PUBLIC_VIEW_SEARCH_LOOKUP = "PublicViewSearchLookUp";
+
+	public static final String REPORT_PRIVATEVIEW_SEARCHLOOKUP = "reportLandingScreen_privateViews";
+
+	public static final String CRITERIA_LAYOUT_PUBLIC = "publicViewSearchLookupSearchCriteriaLayout";
+
+	public static final String REPORT = "report";
 
 	public static final String RESET_CONFIRMATION_MESSAGE = "Are you sure you want to reset the values in the Search Criteria ?";
 
@@ -60,11 +94,17 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String PRIVATE_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "privateViewSearchLookupSearchAndResetLayout";
 
+	public static final String PUBLIC_VIEW_SEARCH_LOOKUP_SEARCH_AND_RESET_LAYOUT = "publicViewSearchLookupSearchAndResetLayout";
+
 	public static final String FORECAST_PRODUCT_HIERARCHY_LOOKUP_SEARCH_CRITERIA_LAYOUT = "forecastProductHierarchyLookUpSearchCriteriaLayout";
 
 	public static final String FORECAST_CUSTOMER_HIERARCHY_SEARCH_CRITERIA_LAYOUT = "forecastCustomerHierarchySearchCriteriaLayout";
 
 	public static final String FORECAST_CUSTOMER_HIERARCHY_SEARCH_AND_RESULT_LAYOUT = "forecastCustomerHierarchySearchAndResetLayout";
+
+	public static final String FORECAST_CUSTOMER_PRODUCT_GROUP_SEARCH_AND_RESULT_LAYOUT = "forecastCustomerProductGroupSearchAndResetLayout";
+
+	public static final String FORECAST_CUSTOMER_PRODUCT_GROUP_SEARCH_CRITERIA_LAYOUT = "forecastCustomerProductGroupSearchCriteriaLayout";
 
 	public static final String PUBLIC_VIEW_LOOKUP_SEARCH_AND_RESET_LAYOUT = "publicViewLookUpSearchAndResetLayout";
 
@@ -81,6 +121,8 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String PRODUCT_FORCAST_LEVEL = "ProductForecastLevel";
 
 	public static final String CUSTOMER_HIERARCHY_SEARCH_RESULT_TABLE = "customerHierarchySearchResultTableNEW";
+
+	public static final String CUSTOMER_AND_PRODUCT_GROUP_SEARCH_RESULT_TABLE = "customerAndProductGroupSearchResultTable";
 
 	public static final String CUSTOM_VIEW_LOOKUP_PRODUCT_TABLE = "customViewLookupProductTable";
 
@@ -114,7 +156,7 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String REMOVE_VARIABLES_BTN = "removeVariablesBtn";
 
-	public static final String MODULE_TYPE = FORECAST;
+	public static final String MODULE_TYPE = "forecast";
 
 	public static final String HUNDRED_ONE_PERCENT = "101%";
 
@@ -129,6 +171,8 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String TAB_SHEET = "tabSheet";
 
 	public static final String SEARCH_QUERY = "searchQuery";
+
+	public static final String CUSTOMER_SELECTION_LEVEL = "customerSelectionLevel";
 
 	public static final String FORECAST_LANDING_SCREEN = "forecastLandingScreen";
 
@@ -292,6 +336,12 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String FILTER_OPTIONS_TAB_DEDUCTION_INCLUSION = "filterOptionsTabDeductionInclusion";
 
+	public static final String FORECAST_PROJECTION_NAME = "projectionName";
+
+	public static final String FROM_PERIOD = "fromPeriod";
+
+	public static final String TO_PERIOD = "toPeriod";
+
 	public static final String FORECAST_OPTIONS_TAB = "forecastOptionsTab";
 
 	public static final String FORECAST_OPTIONS_TAB_CSS_LAYOUT = "forecastOptionsTabCssLayout";
@@ -332,7 +382,25 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String COMPANY_MASTER_GLCOMP = "CompanyMasterGLcomp";
 
+	public static final String COMPANY = "company";
+
+	public static final String CUSTOMER_SELECTION_RELATIONSHIP = "customerSelectionRelationship";
+
+	public static final String CUSTOMER_SELECTION_FORECAST_LEVEL = "customerSelectionForecastLevel";
+
+	public static final String RELATIONSHIP = "relationship";
+
+	public static final String LEVEL_LOWERCASE = "level";
+
+	public static final String FORECAST_DS_SAVE_VIEW_LOOK_UP = "forecastDsSaveViewLookUp";
+
+	public static final String FORECAST_PROJECTION_DESCRIPTION = "projectionDescription";
+
 	public static final String BUSINESS_UNIT_GLCOMP = "BusinessUnitGLcomp";
+
+	public static final String PRODUCTDUAL_LIST_BOX_COMP = "productdualListBoxComp";
+
+	public static final String BUSINESS_UNIT = "businessUnit";
 
 	public static final String TIME_PERIOD_FROM_DATE = "TimePeriodFromDate";
 
@@ -350,6 +418,10 @@ public final class GtnFrameworkForecastingStringConstants {
 
 	public static final String FORECAST_CUSTOMER_HIERARCHY_NAME_TEXTBOX = "forecastCustomerHierarchyNameTextBox";
 
+	public static final String FORECAST_CUSTOMER_PRODUCT_GROUP_NAME_TEXTBOX = "forecastCustomerProductGroupNameTextBox";
+
+	public static final String FORECAST_CUSTOMER_PRODUCT_GROUP_NO_TEXTBOX = "forecastCustomerProductGroupNoTextBox";
+
 	public static final String NO_LEVEL_SELECTED_CAPTION = "No level Selected";
 
 	public static final String NO_LEVEL_SELECTED_MSG = "Please select a row to move.";
@@ -357,6 +429,79 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static final String VARIABLE_POSITION_OPTION_GROUP = "custom_Variable_OptionGroup";
 
 	public static final String VARIABLE_TYPE_OPTION_GROUP = "custom_Variable_Type_OptionGroup";
+
+	
+        public static final String PUBLIC_VIEW = "publicView";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTOMERDUALLISTBOX = "_customerDualListBox";
+        public static final String CUSTOMERDUALLISTBOX = "_customerDualListBox";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODUCTDUALLISTBOX = "_productDualListBox";
+        
+        public static final String FREQUENCY = "_frequency";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTRELATIONVERSION = "_customerRelationshipVersion";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTOMERSELECTIONFORECASTLEVEL = "_customerSelectionForecastLevel";
+        
+        public static final String CUSTOMER_SELECTION_FORECASTELIGIBILITY_DATE = "_customerSelectionForecastEligibilityDate";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODHIERNAME = "Commercial Forecasting_prodhierarchyName";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONSHIP = "Commercial Forecasting_prodrelationship";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODFORECASTLEVEL = "_prodforecastLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODRELATIONVERSION = "_productRelationshipVersion";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODUCTGROUP = "_productGroup";
+        
+        public static final String COMMERCIAL_FORECASTING_PRODUCTLEVEL = "_productLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTGROUP = "_customerGroup";
+        
+        public static final String COMMERCIAL_FORECASTING_CUSTSELECTIONLEVEL = "_customerSelectionLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_DEDUCTIONLEVEL = "Commercial Forecasting_deductionLevel";
+        
+        public static final String COMMERCIAL_FORECASTING_FREQUENCY = "Commercial Forecasting_frequency";
+        
+        public static final String PROJECTION_RESULTS_TABLE = "projectionResultsTable";
+        
+        public static final String COMMERCIAL_FORECASTING = "Commercial Forecasting";
+        
+        public static final String GENERAL_SEARCH = "generalSearch";
+        
+        public static final String PROFILE_MODE = "profileMode";
+        
+        public static final String HIERARCHY_RELATIONSHIP = "hierarchyRelationship";
+        public static final String CF_DATASELECTION_CUSTOMERHIERARCHY = "CFDataSelection_customerHierarchy";
+        public static final String CF_DATASELECTION_PROD_HIERARCHY_NAME = "CFDataSelection_prodhierarchyName";
+        public static final String CUSTOMER_HIERARCHY = "_customerHierarchy";
+        public static final String UNDERSCORE_CUSTOMER_SELECTION_RELATIONSHIP = "_customerSelectionRelationship";
+        public static final String UNDERSCORE_CUSTOMER_SELECTION_FORECAST_LEVEL = "_customerSelectionForecastLevel";
+        public static final String PROD_HIER_NAME = "_prodhierarchyName";
+        public static final String PROD_RELATIONSHIP = "_prodrelationship";
+        public static final String PROD_FORECAST_LEVEL = "_prodforecastLevel";
+        public static final String UNDERSCORE_CUSTOMER_SELECTION_LEVEL = "_customerSelectionLevel";
+        public static final String CUSTOMER_RELATION_VERSION = "_customerRelationshipVersion";
+        public static final String PROD_RELATION_VERSION = "_productRelationshipVersion";
+        public static final String FROM = "from";
+        public static final String TO = "to";
+        public static final String CUSTOMER_SELECTION_LAYOUT = "customerSelectionLayout";
+        public static final String PROD_SELECTION_LAYOUT = "productSelectionLayout";
+        public static final String CUSTOMER_SELECTION_CSS_LAYOUT = "customerSelectionCssLayout";
+        public static final String PROD_SELECTION_CSS_LAYOUT = "productSelectionCssLayout";
+        public static final String LEVEL_VALUE = "levelValue";
+        public static final String SALES_CUSTOM_VIEW = "salesCustomView";
+        public static final String DEDUCTION_CUSTOM_VIEW = "deductionCustomView";
+        public static final String PRODUCT_CSS_LAYOUT = "productCssLayout";
+        public static final String PRODUCT_SELECTION_INNER_LAYOUT = "productSelectionInnerLayout";
+        public static final String PRODUCT_DUAL_LIST_BOX = "productDualListBox";
+        public static final String CUSTOMER = "Customer";
+        public static final String VIEW_NAME = "viewName";
+        public static final String CUSTOMER_DUAL_LIST_BOX = "customerDualListBox";
+        
 
 	private static final List<String> FORECAST_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
@@ -370,6 +515,24 @@ public final class GtnFrameworkForecastingStringConstants {
 	private static final Object[] FORECAST_CUSTOMER_HIERARCHY_TABLE_COLUMNS_MAPPING_ID = new Object[] {
 			"custHierarchyLookupHierName", "custHierarchyLookupHighestLevel", "custHierarchyLookupLowestLevel",
 			"custHierarchyLookupCreatedDate", "custHierarchyLookupModifiedDate" };
+
+	private static final String[] FORECAST_CUSTOMER_GROUP_TABLE_COLUMNS_VISIBLE_HEADER = new String[] {
+			"Customer Group Name", "Customer Group No", "Segment Group", "Segment" };
+
+	private static final Object[] FORECAST_CUSTOMER_GROUP_TABLE_COLUMNS_MAPPING_ID = new Object[] { "customerGroupName",
+			"customerGroupNo", "segmentGroup", "segment" };
+
+	private static final Class<?>[] FORECAST_CUSTOMER_GROUP_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] { String.class,
+			String.class, String.class, String.class };
+
+	private static final String[] FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_VISIBLE_HEADER = new String[] {
+			"Product Group Name", "Product Group No", "Company", "Segment Group", "Segment" };
+
+	private static final Object[] FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_MAPPING_ID = new Object[] { "productGroupName",
+			"productGroupNo", "companyProduct", "segmentGroupProduct", "segmentProduct" };
+
+	private static final Class<?>[] FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_DATA_TYPE = new Class<?>[] { String.class,
+			String.class, String.class, String.class, String.class };
 
 	public static Class<?>[] getForecastCustomerHierarchyTableColumnsDataType() {
 		return FORECAST_CUSTOMER_HIERARCHY_TABLE_COLUMNS_DATA_TYPE.clone();
@@ -386,6 +549,30 @@ public final class GtnFrameworkForecastingStringConstants {
 	public static List<String> getForecastDataSourceLoadCombobox() {
 		return FORECAST_DATA_SOURCE_LOAD_COMBOBOX == null ? FORECAST_DATA_SOURCE_LOAD_COMBOBOX
 				: Collections.unmodifiableList(FORECAST_DATA_SOURCE_LOAD_COMBOBOX);
+	}
+
+	public static String[] getForecastCustomerGroupTableColumnsVisibleHeader() {
+		return FORECAST_CUSTOMER_GROUP_TABLE_COLUMNS_VISIBLE_HEADER.clone();
+	}
+
+	public static Object[] getForecastCustomerGroupTableColumnsMappingId() {
+		return FORECAST_CUSTOMER_GROUP_TABLE_COLUMNS_MAPPING_ID.clone();
+	}
+
+	public static Class<?>[] getForecastCustomerGroupTableColumnsDataType() {
+		return FORECAST_CUSTOMER_GROUP_TABLE_COLUMNS_DATA_TYPE.clone();
+	}
+
+	public static String[] getForecastProductGroupTableColumnsVisibleHeader() {
+		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_VISIBLE_HEADER.clone();
+	}
+
+	public static Object[] getForecastProductGroupTableColumnsMappingId() {
+		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_MAPPING_ID.clone();
+	}
+
+	public static Class<?>[] getForecastProductGroupTableColumnsDataType() {
+		return FORECAST_PRODUCT_GROUP_TABLE_COLUMNS_DATA_TYPE.clone();
 	}
 
 }
