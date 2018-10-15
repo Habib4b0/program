@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<context:component-scan base-package="com.stpl.gtn.gtn2o.ws.queryengine" />
+	
+	<bean id="gtnSqlQueryEngineService"
+		class="com.stpl.gtn.gtn2o.ws.queryengine.service.GtnFrameworkWsSqlQueryEngineService">
+		<property name="gtnSqlQueryEngine"> <ref bean="gtnSqlQueryEngine"/></property>
+	</bean>
+	
+	<bean id="gtnSqlQueryEngine"
+          class="com.stpl.gtn.gtn2o.ws.queryengine.engine.GtnFrameworkWsSqlQueryEngine">
+        <property name="sessionFactory">
+            <ref bean="sessionFactory" />
+        </property>
+        <property name="queryLogger">
+            <ref bean="queryLogger" />
+        </property>
+        
+    </bean>
+   
+   <bean id="gtnFrameworkWsSqlQueryEngineController" 
+   class="com.stpl.gtn.gtn2o.ws.queryengine.controller.GtnFrameworkWsSqlQueryEngineController">
+   </bean>
+   <bean id="gtnFrameworkWsSqlQueryEngine"
+   class="com.stpl.gtn.gtn2o.ws.queryengine.engine.GtnFrameworkWsSqlQueryEngine">
+   </bean>
+   <bean id="gtnFrameworkQueryExecutorBean"
+   class="com.stpl.dependency.queryengine.bean.GtnFrameworkQueryExecutorBean">
+   
+   </bean>
+     <bean id="queryLogger" class="com.stpl.gtn.gtn2o.ws.logger.GtnQueryLogger">
+    </bean>
+    
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url"
+			value="jdbc:sqlserver://10.4.48.18:1433;databaseName=BPIGTN_AGN_APPL7_QA" />
+		<property name="username" value="bpigtn_db" />
+		<property name="password" value="^D$b2K5!" />
+    </bean>
+</beans>

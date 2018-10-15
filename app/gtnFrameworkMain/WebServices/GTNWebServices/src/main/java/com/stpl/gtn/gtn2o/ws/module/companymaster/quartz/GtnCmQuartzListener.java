@@ -18,6 +18,7 @@ import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
 import org.quartz.impl.matchers.GroupMatcher;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.stpl.gtn.gtn2o.datatype.GtnFrameworkDataType;
 import com.stpl.gtn.gtn2o.queryengine.engine.GtnFrameworkSqlQueryEngine;
@@ -44,7 +45,7 @@ public class GtnCmQuartzListener {
 	 *
 	 * @param servletContext
 	 */
-
+	@Autowired
 	private GtnWsGeneralController gtnGeneralServiceController;
 
 	public GtnWsGeneralController getGtnGeneralServiceController() {
@@ -149,8 +150,7 @@ public class GtnCmQuartzListener {
 	 * from scheduler. Job will be present in scheduler but trigger will be removed
 	 * from scheduler
 	 *
-	 * @param trigger
-	 *            trigger which should be de attached from Specific job
+	 * @param trigger trigger which should be de attached from Specific job
 	 */
 	@SuppressWarnings("unused")
 	private void killTrigger() {

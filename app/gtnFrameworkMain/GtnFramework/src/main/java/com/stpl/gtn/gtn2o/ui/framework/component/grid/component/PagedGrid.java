@@ -71,8 +71,9 @@ public class PagedGrid {
 	private static final String SPECIAL_CHAR = " - ";
 
 	private static final String EMPTY = "";
-      
-        private GtnUIFrameworkComponentConfig componentConfig;
+
+	private GtnUIFrameworkComponentConfig componentConfig;
+
 	public PagedGrid(GtnUIFrameworkPagedTableConfig tableConfig, GtnUIFrameworkComponentConfig componentConfig) {
 		this.tableConfig = tableConfig;
 		this.componentConfig = componentConfig;
@@ -119,12 +120,16 @@ public class PagedGrid {
 		}
 		gtnlogger.info("count------" + count);
 		gtnlogger.info("pageLength------" + pageLength);
+		gtnlogger.info("getCount()------->" + getCount());
 		dataSet = loadData((pageNumber * pageLength), pageLength);
 
 		if (dataSet.getRows() != null) {
 
 			grid.setItems(dataSet.getRows());
-			int countLabel = getCount()%pageLength==0?getCount()/pageLength:getCount()/pageLength+1;
+			int countLabel=0;
+			if(pageLength!=0) {
+				 countLabel = getCount()%pageLength==0?getCount()/pageLength:getCount()/pageLength+1;
+			}
 			if (pageCountLabel != null) {
 				pageCountLabel.setValue(String.valueOf(countLabel == 0 ? 1 : countLabel));
 			}
@@ -279,7 +284,7 @@ public class PagedGrid {
 	}
 
 	public HorizontalLayout getControlLayout() {
-	
+
 		if (controlLayout == null) {
 			controlLayout = new HorizontalLayout();
 			controlLayout.setSpacing(false);
@@ -346,7 +351,6 @@ public class PagedGrid {
 		return comboHorizontalLayout;
 	}
 
-	
 	private void setFilterToGrid() {
 		HeaderRow filterRow = grid.appendHeaderRow();
 		Component vaadinComponent = null;
@@ -388,7 +392,7 @@ public class PagedGrid {
 				return getTextFieldFilterComponent(property, filterConfig);
 			}
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.DATEFIELDVAADIN8) {
-				return getDateFieldFilterComponent(property,filterConfig);
+				return getDateFieldFilterComponent(property, filterConfig);
 			}
 			if (filterConfig.getGtnComponentType() == GtnUIFrameworkComponentType.COMBOBOX_VAADIN8) {
 				return getComboboxFilterComponent(property, filterConfig);
@@ -456,7 +460,8 @@ public class PagedGrid {
 		return h3;
 	}
 
-	private Component getDateFieldFilterComponent(String property,GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
+	private Component getDateFieldFilterComponent(String property,
+			GtnUIFrameworkPagedTableCustomFilterConfig filterConfig) {
 		HorizontalLayout h2 = new HorizontalLayout();
 		h2.setMargin(false);
 		h2.setWidth("118%");
@@ -465,7 +470,7 @@ public class PagedGrid {
 		dateField.setWidth("114%");
 		dateField.setSizeFull();
 		dateField.setId(property);
-                List<String> componentStyle = filterConfig.getGtnComponentConfig().getDateFieldStyle();
+		List<String> componentStyle = filterConfig.getGtnComponentConfig().getDateFieldStyle();
 		if (!(componentStyle.isEmpty())) {
 			dateField.setStyleName(componentStyle.get(0));
 		}
@@ -548,23 +553,26 @@ public class PagedGrid {
 	}
 
 	private void onFilterTextChange(HasValue.ValueChangeEvent<String> event) {
-            try {
+		try {
 
-                if (tableConfig.isFilteron()) {
+			if (tableConfig.isFilteron()) {
 
-                    String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
-                    GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
-                    action.addActionParameter(event.getValue());
-                    action.addActionParameter(event.getComponent().getId());
-                    gtnlogger.info("component......."+componentConfig.getComponentId());
-                    classLoader(action, classPath,componentConfig.getComponentId());
-                } else {
-                    tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
-                    refreshGrid();
-                }
-            } catch (GtnFrameworkGeneralException exception) {
-                gtnlogger.error("Exception while  filtering component", exception);
-            }
+				String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
+				GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
+				action.addActionParameter(event.getValue());
+				action.addActionParameter(event.getComponent().getId());
+                                if(tableConfig.getGridHeaderCustomParameter()!=null){
+                                    action.addActionParameter(tableConfig.getGridHeaderCustomParameter());
+                                }
+				gtnlogger.info("component......." + componentConfig.getComponentId());
+				classLoader(action, classPath, componentConfig.getComponentId());
+			} else {
+				tableConfig.getFilterValueMap().put(event.getComponent().getId(), getFilterValueForEventChange(event));
+				refreshGrid();
+			}
+		} catch (GtnFrameworkGeneralException exception) {
+			gtnlogger.error("Exception while  filtering component", exception);
+		}
 	}
 
 	private String getFilterValueForEventChange(HasValue.ValueChangeEvent<String> event) {
@@ -576,29 +584,34 @@ public class PagedGrid {
 	}
 
 	public void onFilterDateChange(HasValue.ValueChangeEvent<LocalDate> event) {
-            try{
-        
-                if (tableConfig.isFilteron()) {
-                    String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
-                    GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
-                    action.addActionParameter(event.getValue());
-                    action.addActionParameter(event.getComponent().getId());
-                    classLoader(action, classPath, componentConfig.getComponentId());
-                } else {
-                    tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
-                    refreshGrid();
-                }
-            } catch (GtnFrameworkGeneralException exception) {
-                gtnlogger.error("Exception while  filtering Date component", exception);
-            }
+		try {
+
+			if (tableConfig.isFilteron()) {
+				String classPath = tableConfig.getGridHeaderCustomClassLoadURL();
+				GtnUIFrameWorkActionConfig action = new GtnUIFrameWorkActionConfig();
+				action.addActionParameter(event.getValue());
+				action.addActionParameter(event.getComponent().getId());
+                                if(tableConfig.getGridHeaderCustomParameter()!=null){
+                                    action.addActionParameter(tableConfig.getGridHeaderCustomParameter());
+                                }
+				classLoader(action, classPath, componentConfig.getComponentId());
+			} else {
+				tableConfig.getFilterValueMap().put(event.getComponent().getId(), event.getValue());
+				refreshGrid();
+			}
+		} catch (GtnFrameworkGeneralException exception) {
+			gtnlogger.error("Exception while  filtering Date component", exception);
+		}
 	}
-        private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
+
+	private void classLoader(GtnUIFrameWorkActionConfig gtnUIFrameWorkActionConfig, String classPath,
 			String sourceViewId) throws GtnFrameworkGeneralException {
 		GtnUIFrameworkClassLoader classLoader = new GtnUIFrameworkClassLoader();
 		GtnUIFrameWorkAction loader = (GtnUIFrameWorkAction) classLoader.loadDynamicClass(classPath);
 		loader.configureParams(gtnUIFrameWorkActionConfig);
 		loader.doAction(sourceViewId, gtnUIFrameWorkActionConfig);
 	}
+
 	public Set<GtnWsRecordBean> getValue() {
 		return grid.getSelectedItems();
 	}

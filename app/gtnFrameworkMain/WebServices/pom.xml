@@ -16,9 +16,14 @@
 		<module>GTNWebServices</module>
 		<module>GtnWsBpmWebService</module>
 <!-- 	<module>GtnMethodologyCalculation</module> -->
-<!-- 	<module>GtnForecastWebServices</module> -->
+		<module>GtnForecastWebServices</module>
 		<module>GtnWsParentReportEngine</module>
-	</modules>
+		<module>GtnServiceRegistryWebServices</module>
+		<module>GtnWsQueryEngineWebService</module>
+		<module>GtnWsPeriodConfigurationWebService</module>
+      	<module>GtnHierarchyAndRelaionshipWebService</module>
+    <module>GtnSearchWebServices</module>
+  </modules>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javacomplier>1.8</javacomplier>

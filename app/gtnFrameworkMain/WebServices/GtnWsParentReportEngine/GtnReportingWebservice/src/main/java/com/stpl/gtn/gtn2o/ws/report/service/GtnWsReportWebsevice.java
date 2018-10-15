@@ -471,9 +471,9 @@ public class GtnWsReportWebsevice {
 			throws GtnFrameworkGeneralException {
 		int recordCount = 0;
 		String query = sqlService.getQuery("getViewCount");
-		Object[] params = { dataSelectionBean.getViewName(), dataSelectionBean.getViewType(), userId };
+		Object[] params = { dataSelectionBean.getViewName(), dataSelectionBean.getViewType(), userId ,dataSelectionBean.getFlag() };
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.INTEGER };
+				GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER };
 		List<Integer> resultList = (List<Integer>) gtnSqlQueryEngine.executeSelectQuery(query, params, paramsType);
 		recordCount = resultList.get(0);
 		return recordCount;
@@ -508,9 +508,9 @@ public class GtnWsReportWebsevice {
 		int reportProfileCountRecordCount = 0;
 		String reportProfileCountQuery = sqlService.getQuery("getViewCount");
 		Object[] reportProfileCountParams = { reportingDashboardSaveProfileLookupBean.getReportProfileviewName(),
-				reportingDashboardSaveProfileLookupBean.getReportProfileviewType(), userId };
+				reportingDashboardSaveProfileLookupBean.getReportProfileviewType(), userId,reportingDashboardSaveProfileLookupBean.getFlag() };
 		GtnFrameworkDataType[] paramsType = { GtnFrameworkDataType.STRING, GtnFrameworkDataType.STRING,
-				GtnFrameworkDataType.INTEGER };
+				GtnFrameworkDataType.INTEGER,GtnFrameworkDataType.INTEGER };
 		List<Integer> reportProfileCountResultList = (List<Integer>) gtnSqlQueryEngine
 				.executeSelectQuery(reportProfileCountQuery, reportProfileCountParams, paramsType);
 		reportProfileCountRecordCount = reportProfileCountResultList.get(0);
@@ -526,7 +526,7 @@ public class GtnWsReportWebsevice {
 		inputList.add(userId);
 		String viewData = gtnReportJsonService.convertObjectAsJsonString(dataSelectionBean).replaceAll("'", "\\\\");
 		inputList.add("'" + viewData + "'");
-		inputList.add(0);
+		inputList.add(dataSelectionBean.getFlag());
 		String query = sqlService.getQuery(inputList, "insertView");
 		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(query);
 	}
@@ -556,7 +556,7 @@ public class GtnWsReportWebsevice {
 		String reportProfileViewData = gtnReportJsonService
 				.convertObjectAsJsonString(reportingDashboardSaveProfileLookupBean).replaceAll("'", "\\\\");
 		reportProfileInputList.add("'" + reportProfileViewData + "'");
-		reportProfileInputList.add(1);
+		reportProfileInputList.add(reportingDashboardSaveProfileLookupBean.getFlag());
 		String reportProfileQuery = sqlService.getQuery(reportProfileInputList, "insertView");
 		return gtnSqlQueryEngine.executeInsertOrUpdateQuery(reportProfileQuery);
 	}
