@@ -39,10 +39,7 @@ public class GtnFrameworkItemGrpCommonValidationAction implements GtnUIFrameWork
 		gtnWsGeneralRequest.setUserId(GtnUIFrameworkGlobalUI.getCurrentUser());
 		gtnWsGeneralRequest.setSessionId(String.valueOf(GtnUIFrameworkGlobalUI.getSessionProperty("sessionId")));
 		request.setGtnWsGeneralRequest(gtnWsGeneralRequest);
-		GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsItemGrpContants.GTN_WS_ITEM_GRP_SERVICE
-						+ GtnWsItemGrpContants.GTN_WS_ITEM_GRP_COMMON_VALIDATION_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse response = getResponse(request);
 		GtnUIFrameWorkActionConfig alertActionConfig = new GtnUIFrameWorkActionConfig();
 		alertActionConfig.setActionType(GtnUIFrameworkActionType.ALERT_ACTION);
 		GtnWsItemGrpValidationBean validationBean = response.getGtnWsItemGroupResponse()
@@ -55,6 +52,14 @@ public class GtnFrameworkItemGrpCommonValidationAction implements GtnUIFrameWork
 			throw new GtnFrameworkValidationFailedException(
 					"Validation Error :" + GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_VALIDATION_MSG);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsItemGrpContants.GTN_WS_ITEM_GRP_SERVICE
+						+ GtnWsItemGrpContants.GTN_WS_ITEM_GRP_COMMON_VALIDATION_SERVICE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		 
 	}
 
 	@Override
