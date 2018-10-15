@@ -131,7 +131,7 @@ public class GtnSearchWebServiceTest {
 		 inputBean.setCustomerRelationVersionNo(0);
 		 inputBean.setProductRelationVersionNo(0);
 		 gtnGeneralSearchRequest.setInputBean(inputBean);
-		 gtnUiFrameworkWebservicerequest.setGtnGeneralSearchRequest(gtnGeneralSearchRequest);
+		 gtnUiFrameworkWebservicerequest.setGtnGeneralSearchReq(gtnGeneralSearchRequest);
 		GtnUIFrameworkWebserviceResponse response = gtnSearchController.gtnGeneralSearch(gtnUiFrameworkWebservicerequest); 
 		GtnUIFrameworkWebserviceComboBoxResponse comboBoxResponse = response.getGtnUIFrameworkWebserviceComboBoxResponse();
 		gtnLogger.info( "" +comboBoxResponse);

@@ -5,6 +5,7 @@
  */
 package com.stpl.gtn.gtn2o.ws.generalsearch;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ public class GtnGeneralSearchBean {
     private Map<String,List<String>> generalMap;
     private String key;
     private List<String> list;
-    private String Object[];
+    private String[] obj;
     private String query;
 
     public String getQuery() {
@@ -27,12 +28,12 @@ public class GtnGeneralSearchBean {
         this.query = query;
     }
 
-    public String[] getObject() {
-        return Object;
+    public String[] getObj() {
+        return obj != null ? obj.clone() : null;
     }
 
-    public void setObject(String[] Object) {
-        this.Object = Object;
+    public void setObj(String[] obj) {
+        this.obj = obj != null ? obj.clone() : null;
     }
 
     public String getKey() {
@@ -44,11 +45,11 @@ public class GtnGeneralSearchBean {
     }
 
     public List<String> getList() {
-        return list;
+        return list != null ? new ArrayList<>(list) : list;
     }
 
     public void setList(List<String> list) {
-        this.list = list;
+        this.list = list != null ? new ArrayList<>(list) : list;
     }
     public Map<String, List<String>> getGeneralMap() {
         return generalMap;

@@ -63,19 +63,21 @@ public class GtnForecastHierarchyInputBean implements Serializable {
         private List<Object> inputList;
 
     public List<Object> getInputList() {
-        return inputList;
+        return inputList != null ? new ArrayList<>(inputList) : inputList;
     }
 
     public void setInputList(List<Object> inputList) {
-        this.inputList = inputList;
+        this.inputList = inputList != null ? new ArrayList<>(inputList)
+				: inputList;
     }
         
     public List<Object[]> getResultList() {
-        return resultList;
+        return resultList != null ? new ArrayList<>(resultList) : resultList;
     }
 
     public void setResultList(List<Object[]> resultList) {
-        this.resultList = resultList;
+        this.resultList = resultList != null ? new ArrayList<>(resultList)
+				: resultList;
     }
 
 	public GtnForecastHierarchyInputBean() {

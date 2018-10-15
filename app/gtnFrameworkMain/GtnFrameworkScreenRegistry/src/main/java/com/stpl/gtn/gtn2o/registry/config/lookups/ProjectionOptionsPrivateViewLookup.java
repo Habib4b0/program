@@ -346,12 +346,8 @@ public class ProjectionOptionsPrivateViewLookup
 		additionalSearchCriteria.add(namespace);
                 additionalSearchCriteria.add("non mandated");
                 privateViewPagedTableConfig.setAdditionalSearchCriteriaListValues(additionalSearchCriteria);
-
-		//privateViewPagedTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
-		
 		privateViewPagedTableConfig.setSelectionListener(true);
 	
-		
 		List<GtnUIFrameWorkActionConfig> privateViewItemClickActionConfigList = new ArrayList<>();
 		GtnUIFrameWorkActionConfig privateViewItemClickActionConfig = new GtnUIFrameWorkActionConfig(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		privateViewItemClickActionConfig.addActionParameter(GtnSelectButtonEnableAction.class.getName());
