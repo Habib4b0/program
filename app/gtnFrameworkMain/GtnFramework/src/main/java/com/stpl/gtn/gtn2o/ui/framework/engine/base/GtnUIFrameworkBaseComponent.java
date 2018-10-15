@@ -78,7 +78,6 @@ import com.vaadin.v7.ui.Tree;
 
 public class GtnUIFrameworkBaseComponent {
 
-
 	private final AbstractComponent component;
 
 	private final String componentId;
@@ -432,7 +431,8 @@ public class GtnUIFrameworkBaseComponent {
 			ComboBoxMultiselect vaadinMultiSelect = (ComboBoxMultiselect) this.getComponent();
 			vaadinMultiSelect.setItems(idList);
 			vaadinMultiSelect.setItemCaptionGenerator(item -> valueList.get(idList.indexOf(item)));
-			new GtnUIFrameworkComboBoxMultiselectComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size() ,vaadinMultiSelect);
+			new GtnUIFrameworkComboBoxMultiselectComponent().setPageLengthBasedOnTheNumberOfRecords(valueList.size(),
+					vaadinMultiSelect);
 			vaadinMultiSelect.markAsDirty();
 
 		} catch (Exception typeException) {
@@ -478,7 +478,7 @@ ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.get
 				String defaultValue = comboboxConfig.getDefaultValue() != null
 						? String.valueOf(comboboxConfig.getDefaultValue())
 						: GtnFrameworkCommonStringConstants.SELECT_ONE;
-				if (!idList.isEmpty() &&!idList.get(0).equals("0") &&!valueList.get(0).equals("-Select one-")) {
+				if (!idList.isEmpty() && !idList.get(0).equals("0") && !valueList.get(0).equals("-Select one-")) {
 					idList.add(0, "0");
 					valueList.add(0, defaultValue);
 				}
@@ -486,6 +486,34 @@ ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.get
 				for (int i = 0; i < valueList.size(); i++) {
 					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))) {
 						vaadinComboBox.setValue(valueList.get(i));
+						break;
+					}
+				}
+			}
+		} catch (Exception typeException) {
+			throw new GtnFrameworkValidationFailedException(componentId, typeException);
+		}
+	}
+
+	public void loadItemsToCombobox(List<String> valueList, List<Integer> idList)
+			throws GtnFrameworkValidationFailedException {
+		try {
+			com.vaadin.ui.ComboBox vaadinComboBox = (com.vaadin.ui.ComboBox) this.component;
+			vaadinComboBox.setItems(idList);
+			vaadinComboBox
+					.setItemCaptionGenerator(item -> Optional.ofNullable(valueList.get(idList.indexOf(item))).get());
+			GtnUIFrameworkComboBoxConfig comboboxConfig = this.getComponentConfig().getGtnComboboxConfig();
+			if (!comboboxConfig.isHasDefaultValue()) {
+				String defaultValue = comboboxConfig.getDefaultValue() != null
+						? String.valueOf(comboboxConfig.getDefaultValue())
+						: GtnFrameworkCommonStringConstants.SELECT_ONE;
+				idList.add(0, 0);
+				valueList.add(0, defaultValue);
+			} else {
+				for (int i = 0; i < valueList.size(); i++) {
+					if (comboboxConfig.getDefaultDesc().equals(valueList.get(i))
+							|| comboboxConfig.getDefaultDesc().equals("next")) {
+						vaadinComboBox.setValue(idList.get(i));
 						break;
 					}
 				}
@@ -1462,13 +1490,13 @@ ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.get
 	}
 
 	public void setNewPropertyValue(Object value) {
-		AbstractField<Object> property = (AbstractField<Object>)getComponent();
+		AbstractField<Object> property = (AbstractField<Object>) getComponent();
 		boolean isReadOnly = property.isReadOnly();
-		 property.setReadOnly(false);
-		 property.setValue(GtnUIFrameworkGlobalUI.getConvertedPropertyValue(property.getStateType(), value));
-		 property.setReadOnly(isReadOnly);
+		property.setReadOnly(false);
+		property.setValue(GtnUIFrameworkGlobalUI.getConvertedPropertyValue(property.getStateType(), value));
+		property.setReadOnly(isReadOnly);
 	}
-	
+
 	public Object getV8CalenderValue() throws GtnFrameworkValidationFailedException {
 		try {
 
@@ -1478,18 +1506,19 @@ ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.get
 			throw new GtnFrameworkValidationFailedException(componentId, typeException);
 		}
 	}
-        
-    public void reloadPagedTable(GtnUIFrameworkPagedTableConfig tableConfig, ExtPagedTable resultsTable, Class[] classProperties, Object[] visibleColumns, String[] columnHeaders) {
-        ExtContainer resultsContainer = (ExtContainer) resultsTable.getContainerDataSource();
-        Map properties = new HashMap();
-        for (int i = 0; i < visibleColumns.length; i++) {
-            properties.put(visibleColumns[i], classProperties[i]);
-        }
-        resultsContainer.setColumnProperties(properties);
-        resultsContainer.setRecordHeader(Arrays.asList(visibleColumns));
-        resultsTable.setVisibleColumns(visibleColumns);
-        resultsTable.setColumnHeaders(columnHeaders);
-        resultsTable.setFilterGenerator(new GtnUIFrameworkPagedTableFilterGenerator(tableConfig));
-        resultsTable.setRefresh(true);
-    }
+
+	public void reloadPagedTable(GtnUIFrameworkPagedTableConfig tableConfig, ExtPagedTable resultsTable,
+			Class[] classProperties, Object[] visibleColumns, String[] columnHeaders) {
+		ExtContainer resultsContainer = (ExtContainer) resultsTable.getContainerDataSource();
+		Map properties = new HashMap();
+		for (int i = 0; i < visibleColumns.length; i++) {
+			properties.put(visibleColumns[i], classProperties[i]);
+		}
+		resultsContainer.setColumnProperties(properties);
+		resultsContainer.setRecordHeader(Arrays.asList(visibleColumns));
+		resultsTable.setVisibleColumns(visibleColumns);
+		resultsTable.setColumnHeaders(columnHeaders);
+		resultsTable.setFilterGenerator(new GtnUIFrameworkPagedTableFilterGenerator(tableConfig));
+		resultsTable.setRefresh(true);
+	}
 }

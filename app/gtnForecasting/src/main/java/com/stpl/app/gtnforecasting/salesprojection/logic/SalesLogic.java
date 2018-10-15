@@ -116,7 +116,7 @@ public class SalesLogic {
     public static final DecimalFormat MONEY = new DecimalFormat("$0.00");
     public static final DecimalFormat UNIT = new DecimalFormat("0.00");
     public static final DecimalFormat MONEYNODECIMAL = new DecimalFormat("$#,##0");
-    public static final DecimalFormat UNITDECIMAL = new DecimalFormat("#,##0.#####");
+    public static final DecimalFormat UNITDECIMAL = new DecimalFormat("#,##0");
     public static final DecimalFormat UNITTWODECIMAL = new DecimalFormat("#,##0.00");
     public static final DecimalFormat PROJECTEDUNITDECIMAL = new DecimalFormat("#,##0.0");
     public static final String UPDATE = "  UPDATE ";

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+  <CustomLevels>
+        <CustomLevel name="NOTICE" intLevel="190" />
+  </CustomLevels>
+  <Appenders>
+    <File name="file" fileName="app.log">
+      <PatternLayout>
+        <Pattern>%d %p %c{1.} [%t] %m %ex%n</Pattern>
+      </PatternLayout>
+    </File>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%m%n"/>
+       <Filters>
+         <ThresholdFilter level="NOTICE"  onMatch="DENY"   onMismatch="NEUTRAL"/>
+       </Filters>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="trace">
+      <AppenderRef ref="file" level="DEBUG"/>
+      <AppenderRef ref="STDOUT" level="INFO"/>
+    </Root>
+  </Loggers>
+</Configuration>

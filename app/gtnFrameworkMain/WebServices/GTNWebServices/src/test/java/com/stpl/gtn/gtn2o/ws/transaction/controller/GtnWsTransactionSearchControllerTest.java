@@ -172,7 +172,7 @@ public class GtnWsTransactionSearchControllerTest {
     /**
      * Test of getValidationResults method, of class GtnWsTransactionSearchController.
      */
-    @Test
+//    @Test
     public void testGetValidationResults() {
         System.out.println("getValidationResults");
         GtnUIFrameworkWebserviceRequest gtnWsRequest = new GtnUIFrameworkWebserviceRequest();

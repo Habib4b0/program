@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+	<entry key="loadDate">
+    <![CDATA[SELECT FORECAST_CONFIG.FROM_DATE AS FROM_DATE, FORECAST_CONFIG.TO_DATE  as TO_DATE, HELPER_TABLE.DESCRIPTION FROM FORECAST_CONFIG JOIN HELPER_TABLE ON FORECAST_CONFIG.BUSINESS_PROCESS_TYPE=HELPER_TABLE.HELPER_TABLE_SID WHERE FORECAST_CONFIG.ACTIVE_END_DATE IS NULL]]>
+	</entry>
+	<entry key="periodCounterStartDate">
+    <![CDATA[1965-01-01]]>
+	</entry>
+</properties>

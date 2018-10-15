@@ -175,7 +175,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 		addDSMassUpdateForecastAdjustmentTabSheetPanel(componentList, discountProjectionPanelLayout.getComponentId(),
 				nameSpace);
 		new ResultsLayout().addResultsLayout(componentList, discountProjectionPanelLayout.getComponentId(), nameSpace);
-		addDiscountProjectionResultTable(componentList, discountProjectionPanelLayout.getComponentId(), nameSpace);
+		addDiscountProjectionResultTable(discountProjectionPanelLayout.getComponentId(), nameSpace);
 		addDiscountProjectionExcelRefreshButton(componentList, discountProjectionPanelLayout.getComponentId(),
 				nameSpace);
 	}
@@ -200,8 +200,7 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 
 	}
 
-	private void addDiscountProjectionResultTable(List<GtnUIFrameworkComponentConfig> componentList,
-			String parentComponentId, String nameSpace) {
+	private void addDiscountProjectionResultTable(String parentComponentId, String nameSpace) {
 
 		GtnUIFrameworkComponentConfig discountProjectionResultTableComponentConfig = new GtnUIFrameworkComponentConfig();
 		discountProjectionResultTableComponentConfig.setComponentType(GtnUIFrameworkComponentType.PAGED_TREE_GRID);
@@ -327,7 +326,6 @@ public class GtnFrameworkDiscountProjectionTabConfig {
 
 		discountProjectionResultTableComponentConfig
 				.setGtnPagedTreeTableConfig(discountProjectionGtnPagedTreeTableConfig);
-		componentList.add(discountProjectionResultTableComponentConfig);
 
 	}
 
