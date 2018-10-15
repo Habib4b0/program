@@ -1,5 +1,6 @@
 package com.stpl.gtn.gtn2o.ws.forecastnewarch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GtnFrameworkFromAndToLoadBean {
@@ -22,35 +23,35 @@ public class GtnFrameworkFromAndToLoadBean {
 	}
 
 	public List<String> getFromPeriodItemValueList() {
-		return fromPeriodItemValueList;
+		return fromPeriodItemValueList != null ? new ArrayList<>(fromPeriodItemValueList) : fromPeriodItemValueList;
 	}
 
 	public void setFromPeriodItemValueList(List<String> fromPeriodItemValueList) {
-		this.fromPeriodItemValueList = fromPeriodItemValueList;
+		this.fromPeriodItemValueList = fromPeriodItemValueList != null ? new ArrayList<>(fromPeriodItemValueList) : fromPeriodItemValueList;
 	}
 
 	public List<Integer> getFromPeriodItemCodeList() {
-		return fromPeriodItemCodeList;
+		return fromPeriodItemCodeList != null ? new ArrayList<>(fromPeriodItemCodeList) : fromPeriodItemCodeList;
 	}
 
 	public void setFromPeriodItemCodeList(List<Integer> fromPeriodItemCodeList) {
-		this.fromPeriodItemCodeList = fromPeriodItemCodeList;
+		this.fromPeriodItemCodeList = fromPeriodItemCodeList != null ? new ArrayList<>(fromPeriodItemCodeList) : fromPeriodItemCodeList;
 	}
 
 	public List<String> getToPeriodItemValueList() {
-		return toPeriodItemValueList;
+		return toPeriodItemValueList != null ? new ArrayList<>(toPeriodItemValueList) : toPeriodItemValueList;
 	}
 
 	public void setToPeriodItemValueList(List<String> toPeriodItemValueList) {
-		this.toPeriodItemValueList = toPeriodItemValueList;
+		this.toPeriodItemValueList = toPeriodItemValueList != null ? new ArrayList<>(toPeriodItemValueList) : toPeriodItemValueList;
 	}
 
 	public List<Integer> getToPeriodItemCodeList() {
-		return toPeriodItemCodeList;
+		return toPeriodItemCodeList != null ? new ArrayList<>(toPeriodItemCodeList) : toPeriodItemCodeList;
 	}
 
 	public void setToPeriodItemCodeList(List<Integer> toPeriodItemCodeList) {
-		this.toPeriodItemCodeList = toPeriodItemCodeList;
+		this.toPeriodItemCodeList = toPeriodItemCodeList != null ? new ArrayList<>(toPeriodItemCodeList) : toPeriodItemCodeList;
 	}
 
 }

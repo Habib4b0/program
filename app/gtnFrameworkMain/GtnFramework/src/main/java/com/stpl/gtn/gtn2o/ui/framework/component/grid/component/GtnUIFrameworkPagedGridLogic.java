@@ -40,7 +40,6 @@ import com.stpl.gtn.gtn2o.ws.serviceregistry.bean.GtnWsServiceRegistryBean;
 import com.vaadin.data.HasValue;
 import com.vaadin.ui.AbstractComponent;
 import com.vaadin.ui.AbstractComponentContainer;
-import com.vaadin.ui.HorizontalLayout;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

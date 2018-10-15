@@ -26,7 +26,7 @@ public class CustomViewSearch extends GtnCommonWebServiceImplClass implements Se
     public GtnUIFrameworkWebserviceResponse getSearchResults(GtnUIFrameworkWebserviceRequest gtnUiFrameworkWebservicerequest,
             String query, GtnSearchwebServiceSqlService gtnSearchSqlService) {
         GtnUIFrameworkWebserviceResponse response = new GtnUIFrameworkWebserviceResponse();
-        GtnFrameworkForecastInputBean inputBean = gtnUiFrameworkWebservicerequest.getGtnGeneralSearchRequest()
+        GtnFrameworkForecastInputBean inputBean = gtnUiFrameworkWebservicerequest.getGtnGeneralSearchReq()
                 .getInputBean();
         Object[] params = {inputBean.getCustomerRelationSid(), inputBean.getProductRelationSid(),
             inputBean.getCustomerRelationVersionNo(), inputBean.getProductRelationVersionNo()};

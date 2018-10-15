@@ -1,6 +1,5 @@
 package com.stpl.gtn.gtn2o.ws.hierarchyrelationship.bean;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 

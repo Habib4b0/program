@@ -37,6 +37,7 @@ import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
 import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
 import com.stpl.gtn.gtn2o.ws.response.transaction.GtnWsTransactionResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
+import java.util.ArrayList;
 
 public class GtnUIFrameworkWebserviceResponse {
 
@@ -99,7 +100,6 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsReportResponse gtnReportResponse;
     private GtnWsPagedTableResponse gtnWsPagedTableResponse;
     private GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean;
-//    private Listbean listBean;
     private List<Object[]> gtnGeneralSearchWsList;
 
     public List<Object[]> getGtngeneralSearchWsList() {
@@ -107,7 +107,7 @@ public class GtnUIFrameworkWebserviceResponse {
     }
 
     public void setGtnGeneralSearchWsList(List<Object[]> gtnGeneralSearchWsList) {
-        this.gtnGeneralSearchWsList = gtnGeneralSearchWsList;
+        this.gtnGeneralSearchWsList = new ArrayList<>(gtnGeneralSearchWsList);
     }
     private GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse;
     
