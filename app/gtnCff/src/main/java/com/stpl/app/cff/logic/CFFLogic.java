@@ -1527,30 +1527,7 @@ public class CFFLogic {
 
 
 
-    public Map<String, List> getRelationshipDetailsDeduction(SessionDTO sessionDTO) {
 
-        String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeduction");
-        customSql = customSql.replace(ConstantsUtil.RS_ID_REPLACE, sessionDTO.getDedRelationshipBuilderSid());
-        customSql = customSql.replace(StringConstantsUtil.RELATION_VER, String.valueOf(sessionDTO.getDeductionRelationVersion()));
-        List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-        Map<String, List> resultMap = new HashMap<>();
-        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, sessionDTO.getDedRelationshipBuilderSid(), "D", sessionDTO);
-        tempList.clear();
-        tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
-        for (int j = tempList.size() - 1; j >= 0; j--) {
-            Object[] object = (Object[]) tempList.get(j);
-            final List detailsList = new ArrayList();
-            detailsList.add(object[1]); // Level Value
-            detailsList.add(object[NumericConstants.TWO]); // Level No
-            detailsList.add(object[NumericConstants.THREE]); // Level Name
-            detailsList.add(object[NumericConstants.FOUR]); // RL Level Value - Actual System Id
-            detailsList.add("D"); // HIERARCHY INDICATOR
-            commonUtils.updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-            resultMap.put(String.valueOf(object[0]), detailsList);
-        }
-        return resultMap;
-    }
-    
     public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
