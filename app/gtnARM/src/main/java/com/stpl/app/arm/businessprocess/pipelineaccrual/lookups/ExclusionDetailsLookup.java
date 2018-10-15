@@ -348,6 +348,9 @@ public class ExclusionDetailsLookup extends Window {
     @UiHandler("closeBtn")
     public void closeButtonClick(Button.ClickEvent event) {
         try {
+            if (selectedCustomer.getItemIds().isEmpty()) {
+                arLogic.deleteExclusionDetailsLookUp(dataSelection.getProjectionId(), sessionDTO);
+            }
             this.close();
         } catch (Exception e) {
             LOGGER.error("Error in closeButtonClick", e);

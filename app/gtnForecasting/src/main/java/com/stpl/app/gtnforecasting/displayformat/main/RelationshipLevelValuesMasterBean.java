@@ -37,6 +37,7 @@ public class RelationshipLevelValuesMasterBean {
 	public static final String HT_DESC = "HT.DESCRIPTION";
 	public static final String FIELD_VALUE = "?FIELD_VALUE";
 	private static final String DISPLAYFORMATCOLUMN = "?DISPLAYFORMATCOLUMN";
+	private static final String ORDERBYCOLUMN = "ORDER BY LEVEL_NO,VALUE DESC";
 
 	public RelationshipLevelValuesMasterBean(List<Object[]> tempList, String relationshipBuilderSid,
 			String hierarchyNoType, SessionDTO sessionDTO) {
@@ -63,7 +64,7 @@ public class RelationshipLevelValuesMasterBean {
 			finalQry.append(
 					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
-		finalQry.append("ORDER BY LEVEL_NO,VALUE DESC");
+		finalQry.append(ORDERBYCOLUMN);
 		return finalQry.toString();
 	}
 
@@ -84,6 +85,7 @@ public class RelationshipLevelValuesMasterBean {
 			finalQry.append(
 					query.getQuery().replace(DEFAULT_QUESTION, generateDefaultSelect(query.getNoOfSelectFormed())));
 		}
+                finalQry.append(ORDERBYCOLUMN);
 		return finalQry.toString();
 	}
 
