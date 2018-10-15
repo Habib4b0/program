@@ -723,7 +723,8 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     public static void truncateTempTable(SessionDTO session){
     String truncateStatus=SQlUtil.getQuery("TableTruncationCFF");
     HelperTableLocalServiceUtil.executeUpdateQuery(QueryUtil.replaceTableNames(truncateStatus, session.getCurrentTableNames()));
-    
+     LOGGER.info("truncateStatus Truncate Query{}",
+				QueryUtil.replaceTableNames(truncateStatus, session.getCurrentTableNames()));
     }
     /**
      * To convert the given Result Set into List of Objects

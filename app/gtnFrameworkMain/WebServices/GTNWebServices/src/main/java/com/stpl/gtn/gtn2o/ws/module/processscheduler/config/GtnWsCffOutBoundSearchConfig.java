@@ -21,7 +21,7 @@ public class GtnWsCffOutBoundSearchConfig implements GtnWsSearchQueryConfigLoade
 	private static final GtnWSLogger logger = GtnWSLogger.getGTNLogger(GtnWsCffOutBoundSearchConfig.class);
 
 	@Override
-	public Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
+	public synchronized Map<String, GtnWsSearchQueryConfig> getSearchQueryConfigMap() {
 		if(cffOutboundSearchQueryConfigMap == null) {
 			cffOutboundSearchQueryConfigMap = new HashMap<>();
 			loadSearchQueryConfig();
@@ -29,7 +29,7 @@ public class GtnWsCffOutBoundSearchConfig implements GtnWsSearchQueryConfigLoade
 		return cffOutboundSearchQueryConfigMap;
 	}
 	
-	public void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
+	public synchronized void setSearchQueryConfigMap(Map<String, GtnWsSearchQueryConfig> searchQueryConfigMap) {
 		this.cffOutboundSearchQueryConfigMap = searchQueryConfigMap;
 	}
 

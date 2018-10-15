@@ -30,11 +30,15 @@ public class GtnUIFrameworkComboBoxConfig {
 	private GtnUIFrameWorkActionConfig newItemHandlerActionConfig;
 	private boolean isIntegerItemCode = true;
 	private boolean isReadOnly = false;
-	private String moduleName="";
+	private String moduleName = "";
 	private boolean isLoadAtStart = false;
 	private boolean isFocus = false;
-	
-    public boolean isFocus() {
+	private String actualWsUrl;
+	private String actualWsContext;
+	private String actualWsModuleName;
+
+        
+        public boolean isFocus() {
 		return isFocus;
 	}
 
@@ -43,12 +47,13 @@ public class GtnUIFrameworkComboBoxConfig {
 	}
 
 	public boolean isIsLoadAtStart() {
-        return isLoadAtStart;
-    }
+		return isLoadAtStart;
+	}
 
-    public void setIsLoadAtStart(boolean isLoadAtStart) {
-        this.isLoadAtStart = isLoadAtStart;
-    }
+	public void setIsLoadAtStart(boolean isLoadAtStart) {
+		this.isLoadAtStart = isLoadAtStart;
+	}
+
 	public GtnUIFrameworkComboBoxConfig() {
 		super();
 	}
@@ -229,6 +234,30 @@ public class GtnUIFrameworkComboBoxConfig {
 
 	public void setModuleName(String moduleName) {
 		this.moduleName = moduleName;
+	}
+
+	public String getActualWsUrl() {
+		return actualWsUrl;
+	}
+
+	public void setActualWsUrl(String actualWsUrl) {
+		this.actualWsUrl = actualWsUrl;
+	}
+
+	public String getActualWsContext() {
+		return actualWsContext;
+	}
+
+	public void setActualWsContext(String actualWsContext) {
+		this.actualWsContext = actualWsContext;
+	}
+
+	public String getActualWsModuleName() {
+		return actualWsModuleName;
+	}
+
+	public void setActualWsModuleName(String actualWsModuleName) {
+		this.actualWsModuleName = actualWsModuleName;
 	}
 
 }

@@ -351,6 +351,9 @@ public class Trx7ExclusionDetailsLookup extends Window implements Serializable {
     @UiHandler("closeBtn")
     public void tr7CloseButtonClick(Button.ClickEvent event) {
         try {
+            if (tr7SelectedCustomer.getItemIds().isEmpty()) {
+                tr7ArLogic.deleteExclusionDetailsLookUp(tr7ProjectionSid, tr7SessionDTO);
+            }
             this.close();
         } catch (Exception e) {
             LOGGER.error("Error in closeButtonClick :", e);

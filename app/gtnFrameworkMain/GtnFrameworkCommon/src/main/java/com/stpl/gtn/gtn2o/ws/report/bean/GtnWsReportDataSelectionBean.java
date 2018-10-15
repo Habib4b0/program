@@ -66,6 +66,7 @@ public class GtnWsReportDataSelectionBean {
 	private String privateViewName;
 	private String publicViewName;
 	private List<Object> customDataList;
+        private Integer flag;
 
 	public String getFromOrToForDataSelection() {
 		return fromOrToForDataSelection;
@@ -465,6 +466,14 @@ public class GtnWsReportDataSelectionBean {
 	public void setCustomViewStructureChanged(boolean isCustomViewStructureChanged) {
 		this.isCustomViewStructureChanged = isCustomViewStructureChanged;
 	}
+        
+         public Integer getFlag() {
+            return flag;
+        }
+
+        public void setFlag(Integer flag) {
+            this.flag = flag;
+        }
 
 	public GtnWsReportDataSelectionBean reportDataSelectionBeanCopy() {
 		GtnWsReportDataSelectionBean reportDataSelectionCopyBean = new GtnWsReportDataSelectionBean();
@@ -514,6 +523,7 @@ public class GtnWsReportDataSelectionBean {
 		reportDataSelectionCopyBean.setPrivateViewName(this.privateViewName);
 		reportDataSelectionCopyBean.setPublicViewName(this.publicViewName);
 		reportDataSelectionCopyBean.setCustomDataList(this.customDataList);
+                reportDataSelectionCopyBean.setFlag(this.flag);
 		return reportDataSelectionCopyBean;
 	}
 

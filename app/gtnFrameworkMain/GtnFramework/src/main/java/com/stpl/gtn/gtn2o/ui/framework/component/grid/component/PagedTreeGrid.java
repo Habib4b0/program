@@ -868,7 +868,7 @@ public class PagedTreeGrid {
 		int end = getColumnsPerPage();
 		HeaderUtils.configureGridColumns(start, end <= 0 ? 10 : end, this);
 		setTotalColumns(getTotalPageCount());
-
+		setFreezeColumns(this, tableConfig);
 	}
 
 	public int getColumnPageNumber() {
@@ -932,5 +932,10 @@ public class PagedTreeGrid {
 	public TreeDataProvider<GtnWsRecordBean> getTreeDataProvider() {
 		return (TreeDataProvider<GtnWsRecordBean>) grid.getDataProvider();
 	}
-
+	
+	private void setFreezeColumns(PagedTreeGrid pagedTreeGrid, GtnUIFrameworkPagedTreeTableConfig tableConfig) {
+		if (tableConfig.getFreezeColumnCount() != 0) {
+			pagedTreeGrid.getGrid().setFrozenColumnCount(tableConfig.getFreezeColumnCount());
+		}
+	}
 }
