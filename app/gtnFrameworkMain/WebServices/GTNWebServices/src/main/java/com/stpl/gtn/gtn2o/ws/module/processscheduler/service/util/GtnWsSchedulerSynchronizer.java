@@ -2,7 +2,9 @@ package com.stpl.gtn.gtn2o.ws.module.processscheduler.service.util;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GtnWsSchedulerSynchronizer {
 	/**
      * Initializing value
