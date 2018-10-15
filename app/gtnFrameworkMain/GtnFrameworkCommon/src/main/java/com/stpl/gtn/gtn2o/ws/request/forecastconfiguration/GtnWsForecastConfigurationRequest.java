@@ -30,6 +30,7 @@ public class GtnWsForecastConfigurationRequest implements GtnWSRequestData {
 	private Date toDate;
 	private int userId;
 	private boolean count;
+	private String businessProcessName;
 
 	public String getHistoryInterval() {
 		return historyInterval;
@@ -56,19 +57,19 @@ public class GtnWsForecastConfigurationRequest implements GtnWSRequestData {
 	}
 
 	public Date getFromDate() {
-		return  fromDate==null ? null :(Date)fromDate.clone();
+		return fromDate == null ? null : (Date) fromDate.clone();
 	}
 
 	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate==null ? null :(Date)fromDate.clone();
+		this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
 	}
 
 	public Date getToDate() {
-		return  toDate==null ? null :(Date)toDate.clone();
+		return toDate == null ? null : (Date) toDate.clone();
 	}
 
 	public void setToDate(Date toDate) {
-		this.toDate = toDate==null ? null :(Date)toDate.clone();
+		this.toDate = toDate == null ? null : (Date) toDate.clone();
 	}
 
 	public int getBusinessProcess() {
@@ -119,12 +120,20 @@ public class GtnWsForecastConfigurationRequest implements GtnWSRequestData {
 		this.futureFrequency = futureFrequency;
 	}
 
+	public String getBusinessProcessName() {
+		return businessProcessName;
+	}
+
+	public void setBusinessProcessName(String businessProcessName) {
+		this.businessProcessName = businessProcessName;
+	}
+
 	@Override
 	public String toString() {
 		return "historyFrequency=" + historyFrequency + "\nhistoryInterval=" + historyInterval + "\nfutureFrequency="
 				+ futureFrequency + "\nfutureInterval=" + futureInterval + "\nbusinessProcess=" + businessProcess
 				+ "\nmode=" + mode + "\nprocessType=" + processType + "\nfromDate=" + fromDate + "\ntoDate=" + toDate
-				+ "\nuserId=" + userId;
+				+ "\nuserId=" + userId + "\nbusinessProcessName=" + businessProcessName;
 	}
 
 }

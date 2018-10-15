@@ -89,7 +89,7 @@ public class GtnWsQuartzListener {
 	}
 
 	@SuppressWarnings("unchecked")
-	private List<WorkflowProfile> getWorkFlowProfileData() {
+	public List<WorkflowProfile> getWorkFlowProfileData() {
 		List<WorkflowProfile> workFlowProfileList = new ArrayList<>();
 		try (Session quartzJobSchedularSession = getSessionFactory().openSession()) {
 			Transaction quartzJobSchedularTransaction = quartzJobSchedularSession.beginTransaction();
@@ -149,7 +149,7 @@ public class GtnWsQuartzListener {
 
 	}
 
-	private synchronized void getTriggeredElse(WorkflowProfile profile, int i, String cronString) {
+	public synchronized void getTriggeredElse(WorkflowProfile profile, int i, String cronString) {
 		try {
 			Trigger trigger = getTriggerBuilderWithDate(profile, i + 1)
 					.withSchedule(CronScheduleBuilder.cronSchedule(cronString)).build();
@@ -160,7 +160,7 @@ public class GtnWsQuartzListener {
 		}
 	}
 
-	private synchronized int getTriggeredIf(WorkflowProfile profile, JobDetail job, int i, String cronString) {
+	public synchronized int getTriggeredIf(WorkflowProfile profile, JobDetail job, int i, String cronString) {
 		int j=i;
 		try {
 			Trigger trigger = getTriggerBuilderWithDate(profile, j + 1)

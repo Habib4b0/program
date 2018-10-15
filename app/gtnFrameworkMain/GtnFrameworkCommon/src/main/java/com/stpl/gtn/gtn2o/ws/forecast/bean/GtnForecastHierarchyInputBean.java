@@ -59,6 +59,24 @@ public class GtnForecastHierarchyInputBean implements Serializable {
 
 	private boolean isCff;
 	private boolean forecastInsert;
+        private List<Object[]> resultList;
+        private List<Object> inputList;
+
+    public List<Object> getInputList() {
+        return inputList;
+    }
+
+    public void setInputList(List<Object> inputList) {
+        this.inputList = inputList;
+    }
+        
+    public List<Object[]> getResultList() {
+        return resultList;
+    }
+
+    public void setResultList(List<Object[]> resultList) {
+        this.resultList = resultList;
+    }
 
 	public GtnForecastHierarchyInputBean() {
 		super();

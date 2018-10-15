@@ -300,6 +300,7 @@
 				VIEW_NAME =?
 				AND VIEW_TYPE =?
 				AND CREATED_BY =?
+                                AND FLAG = ?
 		]]>
 	</entry>
 	

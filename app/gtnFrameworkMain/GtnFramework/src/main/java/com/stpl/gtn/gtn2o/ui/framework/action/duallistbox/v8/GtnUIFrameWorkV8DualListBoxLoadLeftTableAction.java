@@ -15,7 +15,6 @@ import com.stpl.gtn.gtn2o.ui.framework.engine.data.GtnUIFrameworkComponentData;
 import com.stpl.gtn.gtn2o.ws.GtnUIFrameworkWebServiceClient;
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
 import com.stpl.gtn.gtn2o.ws.components.GtnUIFrameworkDataRow;
-import com.stpl.gtn.gtn2o.ws.constants.url.GtnWebServiceUrlConstants;
 import com.stpl.gtn.gtn2o.ws.exception.GtnFrameworkGeneralException;
 import com.stpl.gtn.gtn2o.ws.request.GtnUIFrameworkWebserviceRequest;
 import com.stpl.gtn.gtn2o.ws.request.GtnWsGeneralRequest;
@@ -50,8 +49,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 		Grid<GtnWsRecordBean> leftTable = dualListBoxBean.getLeftTable();
 		Optional.ofNullable(dualListBoxBean.getGtnDualListBoxqueryParameters()).ifPresent(e -> {
 			Map<String, String> levelValueMap = (Map<String, String>) e.get(1);
-			GtnUIFrameworkWebserviceResponse response = callWebService(
-					GtnWebServiceUrlConstants.GTN_DATASELCTION_EDIT_SERVICE + dualListBoxConfig.getLeftTableURL(),
+			GtnUIFrameworkWebserviceResponse response = callWebService(dualListBoxConfig.getLeftTableURL(),
 					createLeftTableRequest(dualListBoxBean, dualListBoxConfig), dualListBoxConfig);
 			List<GtnWsRecordBean> outputList = new ArrayList<>(10);
 			for (GtnUIFrameworkDataRow record : response.getGtnSerachResponse().getResultSet().getDataTable()) {
@@ -96,7 +94,7 @@ public class GtnUIFrameWorkV8DualListBoxLoadLeftTableAction implements GtnUIFram
 			return wsClient.callGtnWebServiceUrl(webServiceUrl, "forecast", wsRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		} else {
-			return wsClient.callGtnWebServiceUrl(webServiceUrl, wsRequest,
+			return wsClient.callGtnWebServiceUrl(webServiceUrl, v8DualListBoxConfig.getModuleType(), wsRequest,
 					GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
 		}
 	}

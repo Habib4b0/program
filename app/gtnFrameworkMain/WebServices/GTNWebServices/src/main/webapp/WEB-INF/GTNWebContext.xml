@@ -474,13 +474,13 @@
 	</bean>
 	<bean id="quartzListner"
 		class="com.stpl.gtn.gtn2o.ws.module.companymaster.quartz.GtnCmQuartzListener">
-		<property name="gtnGeneralServiceController" ref="gtnGeneralServiceController"></property>
+		<!-- <property name="gtnGeneralServiceController" ref="gtnGeneralServiceController"></property> -->
 	</bean>
-	<bean id="gtnGeneralServiceController" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsGeneralController">
+	<!-- <bean id="gtnGeneralServiceController" class="com.stpl.gtn.gtn2o.ws.controller.GtnWsGeneralController">
 		<property name="sysSessionFactory" ref="sysSessionFactory"></property>
 		<property name="queryLogger" ref="queryLogger"></property>
 		<property name="gtnSqlQueryEngine" ref="gtnSqlQueryEngine"></property>
-	</bean>
+	</bean> -->
 	<bean id="gtnWebServieJmx" class="com.stpl.gtn.gtn2o.ws.jmx.GtnWebServiceJmx" />
 	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
 		<property name="beans">
