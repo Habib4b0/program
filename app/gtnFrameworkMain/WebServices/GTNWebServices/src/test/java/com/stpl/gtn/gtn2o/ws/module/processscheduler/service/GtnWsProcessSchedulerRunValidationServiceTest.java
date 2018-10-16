@@ -88,39 +88,5 @@ public class GtnWsProcessSchedulerRunValidationServiceTest {
         System.out.println("getSessionFactory");
         SessionFactory result = gtnWsProcessSchedulerRunValidationService.getSessionFactory();
         assertFalse(result==null);
-    }
-
-    /**
-     * Test of validateProcessRun method, of class GtnWsProcessSchedulerRunValidationService.
-     */
-    @Test
-    public void testValidateProcessRun() throws Exception {
-        System.out.println("validateProcessRun");
-        List<String> validationCriteria = new ArrayList<>();
-        validationCriteria.add("value");
-        validationCriteria.add("COMPANY_MASTER_INTERFACE");
-        List<Object> inputlist = new ArrayList<>();
-        inputlist.add("COMPANY_MASTER_INTERFACE");
-        boolean result = gtnWsProcessSchedulerRunValidationService.validateProcessRun(validationCriteria, inputlist);
-        assertFalse(inputlist.isEmpty());
-    }
-    
-    @Test
-    public void testValidateProcessRunIf() throws Exception {
-        System.out.println("validateProcessRun");
-        List<String> validationCriteria = new ArrayList<>();
-        validationCriteria.add("value");
-        validationCriteria.add("value");
-        List<Object> inputlist = new ArrayList<>();
-        inputlist.add("Value");
-        try{
-        boolean result = gtnWsProcessSchedulerRunValidationService.validateProcessRun(validationCriteria, inputlist);
-        assertFalse(inputlist.isEmpty());
-        //Assert.fail();
-        } catch (IndexOutOfBoundsException e) {
-			
-	}
-
-    }
-    
+    }    
 }
