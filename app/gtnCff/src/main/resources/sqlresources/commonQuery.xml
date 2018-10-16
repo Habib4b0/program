@@ -309,8 +309,8 @@ ORDER BY
     <entity id="updatePendingdetails">
         <query>
              <![CDATA[ 
-            INSERT INTO CFF_APPROVAL_DETAILS( APPROVED_BY, CFF_MASTER_SID,INBOUND_STATUS,APPROVAL_SEQUENCE,APPROVAL_STATUS,NO_OF_LEVEL ) 
-            VALUES( '?', '?' ,'A','?','?','?' )
+            INSERT INTO CFF_APPROVAL_DETAILS( APPROVED_BY, CFF_MASTER_SID,INBOUND_STATUS,APPROVAL_SEQUENCE,APPROVAL_STATUS,NO_OF_LEVEL,APPROVED_DATE ) 
+            VALUES( '?', '?' ,'A','?','?','?',? )
                       ]]>
         </query>
     </entity> 
