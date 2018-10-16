@@ -671,6 +671,8 @@ public final class GtnFrameworkReportStringConstants {
 	public static final String DATA_SELECTION_DISPLAY_VARIABLE = "dataSelectionTab_displaySelectionTabVariable";
 
 	public static final String DATA_SELECTION_VARIABLE_BREAKDOWN_FREQUENCY_CONFIG = "dataSelectionTab_landingScreenVariableBreakdownFrequencyConfig";
+	
+	public static final String REPORT_DASHBOARD_COMPARISON_LOOKUP = "reportingDashboardTab_reportingDashboardComparisonConfig";
 
 	private static final List<String> REPORT_DATA_SOURCE_LOAD_COMBOBOX = Arrays.asList("Approved Projections",
 			"Consolidated Financial Forecasts", "No Source");
