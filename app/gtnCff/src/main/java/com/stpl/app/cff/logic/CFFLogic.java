@@ -435,6 +435,7 @@ public class CFFLogic {
             }
             input.add(workFlowId);
             input.add(noOfLevel);
+            input.add("GETDATE()");
             CommonQueryUtils.updateAppData(input, "updatePendingdetails");
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -487,12 +488,12 @@ public class CFFLogic {
                     updateActiveFromDate(cffId);
                 } else {
                     callOutboundPrc = false;
-                    input.add(null);
+                    input.add("GETDATE()");
                     input.add(CommonUtils.WORKFLOW_STATUS_PENDING);
                     input.add(CommonUtils.WORKFLOW_STATUS_PENDING);
                 }
             } else {
-                input.add(null);
+                input.add("GETDATE()");
                 input.add(status);
                 input.add(CommonUtils.WORKFLOW_STATUS_CANCELLED.equals(status) ? "Canceled" : status);
             }

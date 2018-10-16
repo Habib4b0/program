@@ -1464,7 +1464,7 @@ public class CommonUtils {
         if (!nullCheck(customMenuItem)) {
             for (CustomMenuBar.CustomMenuItem string : customMenuItem) {
                 if (string.getMenuItem().getId() == Integer.parseInt(col[i])
-                        || (!nullCheck(string.getMenuItem().getWindow()) && string.getMenuItem().getWindow().equals(col[i].trim()))
+                        || (!nullCheck(string.getMenuItem().getWindow()) && (col[i].trim()).equals(string.getMenuItem().getWindow().toString()))
                         || string.getText().equals(String.valueOf(col[i]).trim())) {
                     string.setChecked(true);
                 } else {
