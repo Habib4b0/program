@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import com.stpl.gtn.gtn2o.ws.forecastnewarch.GtnFrameworkForecastDataSelectionBean;
 import com.stpl.gtn.gtn2o.ws.rebateschedule.GtnWsRebateScheduleInfoBean;
 import com.stpl.gtn.gtn2o.ws.response.arm.GtnWsARMResponse;
 import com.stpl.gtn.gtn2o.ws.response.authorization.GtnWsModuleAuthorizationGeneralResponse;
@@ -33,8 +34,10 @@ import com.stpl.gtn.gtn2o.ws.response.processmonitor.GtnWsProcessMonitorResponse
 import com.stpl.gtn.gtn2o.ws.response.rebateplan.GtnWsRebatePlanGeneralResponse;
 import com.stpl.gtn.gtn2o.ws.response.relationshipbuilder.GtnWsRelationshipBuilderResponse;
 import com.stpl.gtn.gtn2o.ws.response.report.GtnWsReportResponse;
+import com.stpl.gtn.gtn2o.ws.response.serviceregistry.GtnServiceRegistryWSResponse;
 import com.stpl.gtn.gtn2o.ws.response.transaction.GtnWsTransactionResponse;
 import com.stpl.gtn.gtn2o.ws.response.workflow.GtnWsCommonWorkflowResponse;
+import java.util.ArrayList;
 
 public class GtnUIFrameworkWebserviceResponse {
 
@@ -96,7 +99,18 @@ public class GtnUIFrameworkWebserviceResponse {
     private GtnWsReportResponse gtnWsReportResponse;
     private GtnWsReportResponse gtnReportResponse;
     private GtnWsPagedTableResponse gtnWsPagedTableResponse;
+    private GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean;
+    private List<Object[]> gtnGeneralSearchWsList;
 
+    public List<Object[]> getGtngeneralSearchWsList() {
+        return gtnGeneralSearchWsList == null ? gtnGeneralSearchWsList : Collections.unmodifiableList(gtnGeneralSearchWsList);
+    }
+
+    public void setGtnGeneralSearchWsList(List<Object[]> gtnGeneralSearchWsList) {
+        this.gtnGeneralSearchWsList = new ArrayList<>(gtnGeneralSearchWsList);
+    }
+    private GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse;
+    
     public GtnWsPagedTableResponse getGtnWsPagedTableResponse() {
         return gtnWsPagedTableResponse;
     }
@@ -483,5 +497,22 @@ public class GtnUIFrameworkWebserviceResponse {
     public void setGtnWsARMResponse(GtnWsARMResponse gtnWsARMResponse) {
         this.gtnWsARMResponse = gtnWsARMResponse;
     }
+
+	public GtnServiceRegistryWSResponse getGtnServiceRegistryWSResponse() {
+		return gtnServiceRegistryWSResponse;
+	}
+
+	public void setGtnServiceRegistryWSResponse(GtnServiceRegistryWSResponse gtnServiceRegistryWSResponse) {
+		this.gtnServiceRegistryWSResponse = gtnServiceRegistryWSResponse;
+	}
+
+	public GtnFrameworkForecastDataSelectionBean getGtnFrameworkForecastDataSelectionBean() {
+		return gtnFrameworkForecastDataSelectionBean;
+	}
+
+	public void setGtnFrameworkForecastDataSelectionBean(
+			GtnFrameworkForecastDataSelectionBean gtnFrameworkForecastDataSelectionBean) {
+		this.gtnFrameworkForecastDataSelectionBean = gtnFrameworkForecastDataSelectionBean;
+	}
 
 }

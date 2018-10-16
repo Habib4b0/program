@@ -2,9 +2,7 @@ package com.stpl.gtn.gtn2o.registry.config.salesprojection;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.stpl.gtn.gtn2o.config.GtnFrameworkComponentConfigProvider;
 import com.stpl.gtn.gtn2o.registry.config.common.AdjustmentTab;
@@ -20,7 +18,6 @@ import com.stpl.gtn.gtn2o.ui.framework.action.GtnUIFrameWorkActionConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.GtnUIFrameworkComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.checkbox.GtnUIFrameworkCheckBoxComponentConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.layout.GtnUIFrameworkLayoutConfig;
-import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtable.filter.GtnUIFrameworkPagedTableCustomFilterConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.table.pagedtreetable.GtnUIFrameworkPagedTreeTableConfig;
 import com.stpl.gtn.gtn2o.ui.framework.component.tabsheet.GtnUIFrameworkTabConfig;
 import com.stpl.gtn.gtn2o.ui.framework.type.GtnUIFrameworkActionType;
@@ -34,10 +31,6 @@ import com.stpl.gtn.gtn2o.ws.forecast.constants.GtnWsForecastReturnsConstants;
 public class GtnFrameworkSalesProjectionTabConfig {
 
 	private GtnFrameworkComponentConfigProvider configProvider = GtnFrameworkComponentConfigProvider.getInstance();
-	private String[] propertyIds = { "filterTextBox1", "filterTextBox2", "filterTextBox3", "filterTextBox4" };
-	private GtnUIFrameworkComponentType[] componentType = { GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8, GtnUIFrameworkComponentType.TEXTBOX_VAADIN8,
-			GtnUIFrameworkComponentType.TEXTBOX_VAADIN8 };
 
 	public void addSalesProjectionTabComponents(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
 		addSalesProjectionPanel(componentList, nameSpace);
@@ -83,24 +76,24 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		tabSheet.setComponentWidth(GtnFrameworkCssConstants.HUNDRED_PERCENTAGE);
 		componentList.add(tabSheet);
 
-		GtnUIFrameworkTabConfig displaySelectionTabConfig = new GtnUIFrameworkTabConfig();
-		displaySelectionTabConfig.setComponentId(nameSpace + "_" + "displaySelectionTabConfig");
-		displaySelectionTabConfig.setTabCaption("Display Selection");
+		GtnUIFrameworkTabConfig displaySelectionTabConfigSalesProjection = new GtnUIFrameworkTabConfig();
+		displaySelectionTabConfigSalesProjection.setComponentId(nameSpace + "_" + "displaySelectionTabConfig");
+		displaySelectionTabConfigSalesProjection.setTabCaption("Display Selection");
 		List<GtnUIFrameworkComponentConfig> displaySelectionComponentList = new ArrayList<>();
-		displaySelectionTabConfig.setTabLayoutComponentConfigList(displaySelectionComponentList);
+		displaySelectionTabConfigSalesProjection.setTabLayoutComponentConfigList(displaySelectionComponentList);
 		addDisplaySelectionTab(displaySelectionComponentList, nameSpace);
 
-		GtnUIFrameworkTabConfig filterOptionTab = new GtnUIFrameworkTabConfig();
-		filterOptionTab.setComponentId(nameSpace + "_" + "filterTab");
-		filterOptionTab.setTabCaption("Filter Option");
+		GtnUIFrameworkTabConfig filterOptionTabSalesProjection = new GtnUIFrameworkTabConfig();
+		filterOptionTabSalesProjection.setComponentId(nameSpace + "_" + "filterTab");
+		filterOptionTabSalesProjection.setTabCaption("Filter Option");
 		List<GtnUIFrameworkComponentConfig> filterComponentList = new ArrayList<>();
-		filterOptionTab.setTabLayoutComponentConfigList(filterComponentList);
+		filterOptionTabSalesProjection.setTabLayoutComponentConfigList(filterComponentList);
 		addFilterTab(filterComponentList, nameSpace);
 
-		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigList = new ArrayList<>();
-		gtnTabSheetConfigList.add(displaySelectionTabConfig);
-		gtnTabSheetConfigList.add(filterOptionTab);
-		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigList);
+		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigListSalesProjection = new ArrayList<>();
+		gtnTabSheetConfigListSalesProjection.add(displaySelectionTabConfigSalesProjection);
+		gtnTabSheetConfigListSalesProjection.add(filterOptionTabSalesProjection);
+		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigListSalesProjection);
 
 	}
 
@@ -210,11 +203,11 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		adjustmentTabConfig.setTabLayoutComponentConfigList(adjustmentComponentList);
 		addAdjustmentTab(adjustmentComponentList, nameSpace);
 
-		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigList = new ArrayList<>();
-		gtnTabSheetConfigList.add(massUpdateTabConfig);
-		gtnTabSheetConfigList.add(forecastTabConfig);
-		gtnTabSheetConfigList.add(adjustmentTabConfig);
-		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigList);
+		List<GtnUIFrameworkTabConfig> gtnTabSheetConfigListSalesProjection = new ArrayList<>();
+		gtnTabSheetConfigListSalesProjection.add(massUpdateTabConfig);
+		gtnTabSheetConfigListSalesProjection.add(forecastTabConfig);
+		gtnTabSheetConfigListSalesProjection.add(adjustmentTabConfig);
+		tabSheet.setGtnTabSheetConfigList(gtnTabSheetConfigListSalesProjection);
 	}
 
 	private void addForecastTab(List<GtnUIFrameworkComponentConfig> componentList, String nameSpace) {
@@ -389,26 +382,10 @@ public class GtnFrameworkSalesProjectionTabConfig {
 		salesProjectionTreeTableConfig.setRightHeaderCustomClassLoadUrl(
 				GtnCommercialForecastProjectionVarianceClassConstants.GTN_WS_RETURNS_FORECAST_RIGHT_HEADER_CONFIG_ACTION);
 
-		salesProjectionTreeTableConfig.setCustomFilterConfigMap(getCustomFilterConfig());
-
 		salesProjectionTreeTableConfig.setModuleName(GtnFrameworkCommonStringConstants.FORECAST_MODULE_NAME);
 
 		salesProjectionResultTableComponentConfig.setGtnPagedTreeTableConfig(salesProjectionTreeTableConfig);
-		componentList.add(salesProjectionResultTableComponentConfig);
 
-	}
-
-	private Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> getCustomFilterConfig() {
-		Map<String, GtnUIFrameworkPagedTableCustomFilterConfig> customFilterConfigMap = new HashMap<>(
-				propertyIds.length);
-		for (int i = 0; i < propertyIds.length; i++) {
-			GtnUIFrameworkPagedTableCustomFilterConfig pagedTableCustomFilterConfig = new GtnUIFrameworkPagedTableCustomFilterConfig();
-			pagedTableCustomFilterConfig.setPropertId(propertyIds[i]);
-			pagedTableCustomFilterConfig.setGtnComponentType(componentType[i]);
-			customFilterConfigMap.put(pagedTableCustomFilterConfig.getPropertId(), pagedTableCustomFilterConfig);
-
-		}
-		return customFilterConfigMap;
 	}
 
 	private void addUpdatePreviousNextCloseSubmitButtonLayout(List<GtnUIFrameworkComponentConfig> componentList,

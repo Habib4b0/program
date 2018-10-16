@@ -23,8 +23,8 @@ import com.stpl.app.cff.dto.CFFSearchDTO;
 import com.stpl.app.cff.dto.SessionDTO;
 import com.stpl.app.cff.queryutils.CFFQueryUtils;
 import com.stpl.app.cff.queryutils.CommonQueryUtils;
-import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.ui.fileselection.dto.FileSelectionDTO;
+import com.stpl.app.cff.ui.fileselection.util.ConstantsUtils;
 import com.stpl.app.cff.util.CommonUtils;
 import com.stpl.app.cff.util.Constants;
 import com.stpl.app.cff.util.ConstantsUtil;
@@ -69,6 +69,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -1527,30 +1528,7 @@ public class CFFLogic {
 
 
 
-    public Map<String, List> getRelationshipDetailsDeduction(SessionDTO sessionDTO) {
 
-        String customSql = SQlUtil.getQuery("getHierarchyTableDetailsDeduction");
-        customSql = customSql.replace(ConstantsUtil.RS_ID_REPLACE, sessionDTO.getDedRelationshipBuilderSid());
-        customSql = customSql.replace(StringConstantsUtil.RELATION_VER, String.valueOf(sessionDTO.getDeductionRelationVersion()));
-        List tempList = HelperTableLocalServiceUtil.executeSelectQuery(customSql);
-        Map<String, List> resultMap = new HashMap<>();
-        RelationshipLevelValuesMasterBean bean = new RelationshipLevelValuesMasterBean(tempList, sessionDTO.getDedRelationshipBuilderSid(), "D", sessionDTO);
-        tempList.clear();
-        tempList = HelperTableLocalServiceUtil.executeSelectQuery(QueryUtil.replaceTableNames(bean.getDeductionFinalQuery(), sessionDTO.getCurrentTableNames()));
-        for (int j = tempList.size() - 1; j >= 0; j--) {
-            Object[] object = (Object[]) tempList.get(j);
-            final List detailsList = new ArrayList();
-            detailsList.add(object[1]); // Level Value
-            detailsList.add(object[NumericConstants.TWO]); // Level No
-            detailsList.add(object[NumericConstants.THREE]); // Level Name
-            detailsList.add(object[NumericConstants.FOUR]); // RL Level Value - Actual System Id
-            detailsList.add("D"); // HIERARCHY INDICATOR
-            commonUtils.updateRelationShipLevelList(object, detailsList, String.valueOf(object[1]));
-            resultMap.put(String.valueOf(object[0]), detailsList);
-        }
-        return resultMap;
-    }
-    
     public Map<String, List> getRelationshipDetailsCustom(SessionDTO sessionDTO, String relationshipBuilderSid) {
 		String customSql = SQlUtil.getQuery("getHierarchyTableDetailsCustom");
 		customSql = customSql.replace(RBSID, relationshipBuilderSid);
@@ -1685,31 +1663,33 @@ public class CFFLogic {
         }
     }
     
-    public void loadSalesTempTableInThread(SessionDTO session,boolean isDataSelection){
-        service.submitRunnable(new Runnable() {
+    public List<Future> loadSalesTempTableInThread(SessionDTO session,boolean isDataSelection){
+        List<Future> futureListSales=new ArrayList<>();
+        futureListSales.add(service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, CUSTOMER_CONSTANT);
                 Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.SALES,session.getDeductionName(),"C",isDataSelection?EACH:session.getDiscountUom(),null};
                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
-        });
-       service.submitRunnable(new Runnable() {
+        }));
+       futureListSales.add(service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, PRODUCT_CONSTANT);
                 Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.SALES,session.getDeductionName(),"P",isDataSelection?EACH:session.getDiscountUom(),null};
                   CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
-        });
-        service.submitRunnable(new Runnable() {
+        }));
+        futureListSales.add(service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.SALES, CUSTOM_CONSTANT);
-                Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.SALES,session.getDeductionName(),"U",isDataSelection?EACH:session.getDiscountUom(),null};
-                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
+                Object[] orderedArgs = {session.getProjectionId() + (session.getPriorProjectionId().isEmpty() ? ConstantsUtils.EMPTY : STRING_COMMA + session.getPriorProjectionId()), session.getUserId(), session.getSessionId(), session.getStatusName(), session.getFrequency(), session.getCustomViewMasterSid(), Constants.SALES, session.getDeductionName(), "U", isDataSelection ? EACH : session.getDiscountUom(), null};
+                CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
-        });
+        }));
+        return futureListSales;
         
     }
    
@@ -1724,25 +1704,26 @@ public class CFFLogic {
         });
     }
     
-    public void loadDiscountTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
-        service.submitRunnable(new Runnable() {
+    public List<Future> loadDiscountTempTableInThread(SessionDTO session,boolean isDataSelectionDiscount){
+        List<Future> futureListDiscount=new ArrayList<>();
+        futureListDiscount.add(service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, CUSTOMER_CONSTANT);
                 Object[] orderedArgs = {session.getProjectionId() + (session.getPriorProjectionId().isEmpty() ? ConstantsUtils.EMPTY : STRING_COMMA + session.getPriorProjectionId()), session.getUserId(), session.getSessionId(), session.getStatusName(), session.getFrequency(), session.getCustomViewMasterSid(), Constants.DISCOUNT, session.getDeductionName(), "C", isDataSelectionDiscount ? EACH : session.getDiscountUom(), null};
                 CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
-        });
+        }));
       
-        service.submitRunnable(new Runnable() {
+        futureListDiscount.add(service.submitRunnable(new Runnable() {
             @Override
             public void run() {
                 CommonLogic.updateStatusForProcedure(Constants.RUNNING_STATUS, session, Constants.DISCOUNT, PRODUCT_CONSTANT);
                 Object[] orderedArgs={session.getProjectionId() + (session.getPriorProjectionId().isEmpty()?ConstantsUtils.EMPTY:STRING_COMMA + session.getPriorProjectionId()),session.getUserId(),session.getSessionId(),session.getStatusName(),session.getFrequency(),session.getCustomViewMasterSid(), Constants.DISCOUNT,session.getDeductionName(),"P", isDataSelectionDiscount?EACH:session.getDiscountUom(),null};
                   CommonLogic.callProcedureUpdate(Constants.PRC_CFF_VIEW_POPULATION, orderedArgs);
             }
-        });
-        
+        }));
+        return futureListDiscount;
     }
 
     public void callCFFHierarachyDetailsProcedure(SessionDTO session) {

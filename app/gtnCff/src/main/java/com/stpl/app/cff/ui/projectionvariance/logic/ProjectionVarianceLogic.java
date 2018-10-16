@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.dao.orm.ProjectionFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.ProjectionList;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
 import com.stpl.app.cff.abstractcff.AbstractFilterLogic;
 import com.stpl.app.cff.dto.PVSelectionDTO;
 import com.stpl.app.cff.dto.ProjectionSelectionDTO;
@@ -829,7 +828,7 @@ public class ProjectionVarianceLogic {
         if (projSelDTO.getLevel().equals(DETAIL)) {
             getCCPIds(projSelDTO);
         }
-        String discountLevelName = projSelDTO.getSessionDTO().getDeductionName();
+        String discountLevelName = projSelDTO.getDeductionLevelValues();
         String viewName=projSelDTO.getView().equalsIgnoreCase("Custom")?"D":projSelDTO.getView();
         Object[] orderedArg = {projectionId, frequency, null, null,discountLevelName,salesInclusion, deductionInclusion, null , 
                       projSelDTO.getSessionDTO().getCustomViewMasterSid()

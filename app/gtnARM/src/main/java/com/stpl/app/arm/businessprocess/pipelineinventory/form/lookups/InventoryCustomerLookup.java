@@ -81,6 +81,7 @@ public class InventoryCustomerLookup extends Window {
     private AbstractSelectionDTO selectionDto;
     private static final Logger LOGGER = LoggerFactory.getLogger(InventoryCustomerLookup.class);
     private boolean submitted = false;
+    private boolean sbmtAtOnce = false;
     private Window instance = null;
 
     public InventoryCustomerLookup(int projectionId, AbstractSelectionDTO selectionDto) {
@@ -251,6 +252,7 @@ public class InventoryCustomerLookup extends Window {
                     loadCustomerGroupList();
                     pipelineLogic.saveCustomerGroupValue(resultsContainer.getItemIds(), projectionId, selectionDto);
                     submitted = true;
+                    sbmtAtOnce=true;
                     instance.close();
                 }
             }.getConfirmationMessage("Confirm Submit", ARMMessages.getCLookUpSubmitConfirmTransaction3());
@@ -381,6 +383,10 @@ public class InventoryCustomerLookup extends Window {
             public void buttonClicked(final ButtonId buttonId) {
                 if ("yes".equalsIgnoreCase(buttonId.name())) {
                     LOGGER.debug("Entering Close operation");
+                    if (!sbmtAtOnce){
+                        privateView.setValue(StringUtils.EMPTY);
+                        publicView.setValue(StringUtils.EMPTY);
+                    }
                     close();
                     LOGGER.debug("Ending Close operation");
                 }

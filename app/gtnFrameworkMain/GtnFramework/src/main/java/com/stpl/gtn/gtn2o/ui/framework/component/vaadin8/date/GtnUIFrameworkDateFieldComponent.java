@@ -30,16 +30,15 @@ public class GtnUIFrameworkDateFieldComponent implements GtnUIFrameworkComponent
 		DateField dateField = new DateField(componentConfig.getComponentName());
 		Binder<ComponentBinderValidatorBean> dateFieldBinder = new Binder<>();
 		loadStyles(dateField, componentConfig.getComponentStyle());
-                dateField.setHeight(componentConfig.getComponentHight());
+		dateField.setHeight(componentConfig.getComponentHight());
 		dateField.setVisible(componentConfig.isVisible());
 		dateField.setId(componentConfig.getComponentId());
 		dateField.setDateFormat("MM/dd/yyyy");
 		dateField.setEnabled(componentConfig.isEnable());
 		dateField.setValue((LocalDate) componentConfig.getComponentValue());
-                if(!(componentConfig.getDateFieldStyle().isEmpty()))
-                {
-                    loadStyles(dateField, componentConfig.getDateFieldStyle());
-                }
+		if (!(componentConfig.getDateFieldStyle().isEmpty())) {
+			loadStyles(dateField, componentConfig.getDateFieldStyle());
+		}
 		GtnUIFrameworkDateFieldConfig dateFieldConfig = componentConfig.getGtnDateFieldConfig();
 		if (dateFieldConfig != null) {
 
