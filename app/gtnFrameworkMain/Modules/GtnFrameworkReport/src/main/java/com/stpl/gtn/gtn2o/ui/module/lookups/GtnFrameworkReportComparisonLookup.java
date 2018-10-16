@@ -930,6 +930,8 @@ public class GtnFrameworkReportComparisonLookup {
 				GtnFrameworkReportStringConstants.COMPARISON_LOOKUP_PROJECTIONS_RESULTS_PAGED_TABLE_COMPONENT);
 		clBeforeCloseAction.addActionParameter(
 				GtnFrameworkReportStringConstants.REPORT_LANDING_SCREEN_REPORTING_DASHBOARD_COMPARISON_CONFIG);
+		clBeforeCloseAction.addActionParameter("reportingDashboard_displaySelectionTabComparisonBasis");
+		clBeforeCloseAction.addActionParameter(nameSpace);
 
 		GtnUIFrameWorkActionConfig clCloseAction = new GtnUIFrameWorkActionConfig();
 		clCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
