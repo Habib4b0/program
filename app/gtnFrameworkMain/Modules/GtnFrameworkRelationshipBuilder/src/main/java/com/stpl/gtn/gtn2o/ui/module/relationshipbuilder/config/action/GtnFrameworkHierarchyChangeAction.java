@@ -41,11 +41,14 @@ public class GtnFrameworkHierarchyChangeAction implements GtnUIFrameWorkAction, 
 			if (hierarchySid != 0) {
 				versionNoList = getVersion(hierarchySid);
 			}
+                         if(versionNoList!=null && !versionNoList.isEmpty())
+	  {
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(false);
 			GtnUIFrameworkGlobalUI
 					.getVaadinBaseComponent(gtnUIFrameWorkActionConfig.getActionParameterList().get(2).toString())
 					.loadDefaultComboboxAll(versionNoList, 0);
 			GtnFrameworkValueChangeManager.setValueChangeAllowed(true);
+          }
 		}
 	}
 

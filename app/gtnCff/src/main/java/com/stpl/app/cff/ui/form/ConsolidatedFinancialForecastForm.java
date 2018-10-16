@@ -725,6 +725,10 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 				vSessionDTO.setCustomerRelationVersion(dataSelectionDto.getCustomerRelationShipVersionNo());
 				vSessionDTO.setProductRelationVersion(dataSelectionDto.getProductRelationShipVersionNo());
                                 vSessionDTO.setDeductionRelationVersion(dataSelectionDto.getDeductionRelationShipVersionNo());
+                                List inputList=new ArrayList();
+                                inputList.add(vSessionDTO.getProjectionId());
+                                final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
+                                vSessionDTO.setDeductionNo(loadDeduction.isEmpty() ? 1 : loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
 				dataSelectionDto.setCustomerHierSid(String.valueOf(vSessionDTO.getCustomerHierarchyId()));
 				dataSelectionDto
 						.setCustRelationshipBuilderSid(String.valueOf(vSessionDTO.getCustRelationshipBuilderSid()));
@@ -775,6 +779,7 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
 					cffLogic.callDeductionCCPHierarchyInsertion(vSessionDTO, vSessionDTO.getCurrentTableNames(),
 							BooleanConstant.getFalseFlag());
 				}
+                                 vSessionDTO.setDeductionName(getDeductionCaptionWithSid(vSessionDTO));
 				approvalDetailsBean.addAll(cffLogic.getApprovalDetailsForCff(dto.getCffMasterSid()));
 				approvalWindow = new CffApprovalDetailsForm(cffSearchBinder, dto, approvalDetailsBean, resultsBean,
 						vSessionDTO, dataSelectionDto);
