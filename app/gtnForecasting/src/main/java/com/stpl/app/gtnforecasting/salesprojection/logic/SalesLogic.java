@@ -1854,17 +1854,18 @@ public class SalesLogic {
                     break;
                 case PROJECTED_SALES:
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
-                        updateLine.append(" PROJECTION_SALES=").append(finalvalue).append("");
-                        updateLine.append(" ,PROJECTION_UNITS= ").append(finalvalue).append(" /")
-                                  .append(WAC_PRICE);
+                         updateLine.append(" SP.PROJECTION_SALES = (SP.PROJECTION_SALES/NULLIF(TOTAL_SALES,0))*").append(editedValueSave)
+                         .append(" ,SP.PROJECTION_UNITS = ((SP.PROJECTION_SALES/NULLIF(TOTAL_SALES,0))*").append(editedValueSave).append(")").append(" /")
+                         .append(WAC_PRICE);
                     break;
                 case Constant.PROJECTED_UNITS1:
                         finalvalue = value.divide(new BigDecimal(rowcount), MathContext.DECIMAL64);
                         if (CommonUtil.isValueEligibleForLoading()) {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
-                            updateLine.append(" ,PROJECTION_SALES=").append('(').append(finalvalue).append(") * ").append(WAC_PRICE);
+                            updateLine.append(" SP.PROJECTION_UNITS = (SP.PROJECTION_UNITS/NULLIF(TOTAL_UNITS,0))*").append(editedValueSave)
+                         .append(" ,SP.PROJECTION_SALES = ((SP.PROJECTION_UNITS/NULLIF(TOTAL_UNITS,0))*").append(editedValueSave).append(")").append("*")
+                         .append(WAC_PRICE);
                         } else {
-                            updateLine.append(" PROJECTION_UNITS=").append(finalvalue).append(' ');
+                            updateLine.append(" SP.PROJECTION_UNITS = (SP.PROJECTION_UNITS/NULLIF(TOTAL_UNITS,0))*").append(editedValueSave);
                         }
                     break;
                 default:
@@ -2143,13 +2144,13 @@ public class SalesLogic {
         sqlUnitsQuery = sqlUnitsQuery.replace("@SALES_INCLUSION", getSalesInclusion(projectionSelectionDTO,"SP1"));
         StringBuilder updateLine = new StringBuilder();
         if(input.get(4).equals("PROJECTION_SALES")){
-          updateLine.append(" SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
-                    .append(" ,SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0)/")
+        updateLine.append(" SP.PROJECTION_SALES = (SP.PROJECTION_SALES/NULLIF(TOTAL_SALES,0))*@DISCOUNT_AMOUNT  ")
+                    .append(" ,SP.PROJECTION_UNITS = ((SP.PROJECTION_SALES/NULLIF(TOTAL_SALES,0))*@DISCOUNT_AMOUNT )/")
                     .append(WAC_PRICE);
                        
         }else{
-        updateLine.append(" SP.PROJECTION_UNITS = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) ")
-                  .append(" ,SP.PROJECTION_SALES = COALESCE((@DISCOUNT_AMOUNT * ISNULL(@QUARTERS_COUNT, 0)) / NULLIF(((CCPS_COUNT * ISNULL(@QUARTERS_COUNT, 0)) * @FREQUENCY_COUNT), 0), 0) * ")
+        updateLine.append(" SP.PROJECTION_UNITS = (SP.PROJECTION_UNITS/NULLIF(TOTAL_UNITS,0))*@DISCOUNT_AMOUNT ")
+                  .append(" ,SP.PROJECTION_SALES = ((SP.PROJECTION_UNITS/NULLIF(TOTAL_UNITS,0))*@DISCOUNT_AMOUNT )* ")
                   .append(WAC_PRICE);
         }
         sqlUnitsQuery = sqlUnitsQuery.replace("[UPDATE_LINE]", updateLine.toString());
