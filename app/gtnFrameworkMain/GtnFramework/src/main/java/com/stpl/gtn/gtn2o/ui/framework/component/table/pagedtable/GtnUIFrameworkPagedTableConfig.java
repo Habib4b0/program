@@ -673,11 +673,11 @@ public class GtnUIFrameworkPagedTableConfig {
 	}
 
 	public List<String> getAdditionalSearchCriteriaListValues() {
-		return additionalSearchCriteriaListValues;
+		return additionalSearchCriteriaListValues == null ? additionalSearchCriteriaListValues : Collections.unmodifiableList(additionalSearchCriteriaListValues);
 	}
 
 	public void setAdditionalSearchCriteriaListValues(List<String> additionalSearchCriteriaListValues) {
-		this.additionalSearchCriteriaListValues = additionalSearchCriteriaListValues;
+		this.additionalSearchCriteriaListValues = new ArrayList<>(additionalSearchCriteriaListValues);
 	}
 
 	public String getPagedTableWsUrl() {

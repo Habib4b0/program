@@ -86,7 +86,7 @@ public class GtnFrameworkForecastCustomViewLoadAction
 
 				request.setGtnServiceRegistryWsRequest(serviceRegistryRequest);
 				request.setGtnWsGeneralRequest(generalRequest);
-				request.setGtnGeneralSearchRequest(searchRequest);
+				request.setGtnGeneralSearchReq(searchRequest);
 				request.setGtnWsSearchRequest(webserviceSearchRequest);
 
 				GtnUIFrameworkWebserviceResponse response = callWebservice(request);

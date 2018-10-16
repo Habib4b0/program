@@ -70,8 +70,6 @@ public class GtnFrameworkForecastDataSelectionBean {
 
 	private Map<String, String> sessionTableMap = null;
 
-	private List variableBreakdownHeaderLoadList;
-
 	private List<Object> variablesList;
 	private Integer customView;
 	private boolean dataRefreshDone = false;
@@ -291,26 +289,26 @@ public class GtnFrameworkForecastDataSelectionBean {
 	}
 
 	public List<GtnWsRecordBean> getSelectedCustomerHierarchyList() {
-		return selectedCustomerHierarchyList;
+		return selectedCustomerHierarchyList != null ? new ArrayList<>(selectedCustomerHierarchyList) : selectedCustomerHierarchyList;
 	}
 
 	public void setSelectedCustomerHierarchyList(List<GtnWsRecordBean> selectedCustomerHierarchyList) {
-		this.selectedCustomerHierarchyList = selectedCustomerHierarchyList;
+		this.selectedCustomerHierarchyList = selectedCustomerHierarchyList != null ? new ArrayList<>(selectedCustomerHierarchyList) : selectedCustomerHierarchyList;
 	}
 
 	public List<GtnWsRecordBean> getCustomerDualListBox() {
-		return customerDualListBox;
+		return customerDualListBox != null ? new ArrayList<>(customerDualListBox) : customerDualListBox;
 	}
 
 	public void setCustomerDualListBox(List<GtnWsRecordBean> customerDualListBox) {
-		this.customerDualListBox = customerDualListBox;
+		this.customerDualListBox = customerDualListBox != null ? new ArrayList<>(customerDualListBox) : customerDualListBox;
 	}
 	public List<GtnWsRecordBean> getSelectedProductHierarchyList() {
-		return selectedProductHierarchyList;
+		return selectedProductHierarchyList != null ? new ArrayList<>(selectedProductHierarchyList) : selectedProductHierarchyList;
 	}
 
 	public void setSelectedProductHierarchyList(List<GtnWsRecordBean> selectedProductHierarchyList) {
-		this.selectedProductHierarchyList = selectedProductHierarchyList;
+		this.selectedProductHierarchyList = selectedProductHierarchyList != null ? new ArrayList<>(selectedProductHierarchyList) : selectedProductHierarchyList;
 	}
 
 	public GtnWsRecordBean getProductHierarchyRecordBean() {
@@ -337,19 +335,19 @@ public class GtnFrameworkForecastDataSelectionBean {
 	}
 
 	public List<GtnWsRecordBean> getAvailableCustomerHierarchyList() {
-		return availableCustomerHierarchyList;
+		return availableCustomerHierarchyList != null ? new ArrayList<>(availableCustomerHierarchyList) : availableCustomerHierarchyList;
 	}
 
 	public void setAvailableCustomerHierarchyList(List<GtnWsRecordBean> availableCustomerHierarchyList) {
-		this.availableCustomerHierarchyList = availableCustomerHierarchyList;
+		this.availableCustomerHierarchyList = availableCustomerHierarchyList != null ? new ArrayList<>(availableCustomerHierarchyList) : availableCustomerHierarchyList;
 	}
 
 	public List<GtnWsRecordBean> getAvailableProductHierarchyList() {
-		return availableProductHierarchyList;
+		return availableProductHierarchyList != null ? new ArrayList<>(availableProductHierarchyList) : availableProductHierarchyList;
 	}
 
 	public void setAvailableProductHierarchyList(List<GtnWsRecordBean> availableProductHierarchyList) {
-		this.availableProductHierarchyList = availableProductHierarchyList;
+		this.availableProductHierarchyList = availableProductHierarchyList != null ? new ArrayList<>(availableProductHierarchyList) : availableProductHierarchyList;
 	}
 
 	public String getViewName() {
@@ -373,7 +371,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	}
 
 	public void setFromPeriod(Date fromPeriod) {
-		this.fromPeriod = fromPeriod;
+		this.fromPeriod = fromPeriod == null ? null : (Date) fromPeriod.clone();
 	}
 
 	public Date getToPeriodReport() {
@@ -381,7 +379,7 @@ public class GtnFrameworkForecastDataSelectionBean {
 	}
 
 	public void setToPeriodReport(Date toPeriodReport) {
-		this.toPeriodReport = toPeriodReport;
+		this.toPeriodReport = toPeriodReport == null ? null : (Date) toPeriodReport.clone();
 	}
 
 	public Integer getViewId() {
@@ -452,11 +450,11 @@ public class GtnFrameworkForecastDataSelectionBean {
 	}
 
 	public List<Object> getVariablesList() {
-		return variablesList;
+		return variablesList != null ? new ArrayList<>(variablesList) : variablesList;
 	}
 
 	public void setVariablesList(List<Object> variablesList) {
-		this.variablesList = variablesList;
+		this.variablesList = variablesList != null ? new ArrayList<>(variablesList) : variablesList;
 	}
 
 	public boolean isDataRefreshDone() {

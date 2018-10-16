@@ -83,10 +83,7 @@ public class GtnFrameworkItemGrpNameValidationAction implements GtnUIFrameWorkAc
 		itemGrpBean.setItemGrpInfoBean(itemGrpInfoBean);
 		itemGrpRequest.setGtnWsItemGroupBean(itemGrpBean);
 		request.setGtnWsItemGroupRequest(itemGrpRequest);
-		GtnUIFrameworkWebserviceResponse reponse = new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
-				GtnWsItemGrpContants.GTN_WS_ITEM_GRP_SERVICE
-						+ GtnWsItemGrpContants.GTN_WS_ITEM_GRP_NAME_DUPLICATE_VALIDATION_SERVICE,
-				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+		GtnUIFrameworkWebserviceResponse reponse = getResponse(request);
 		boolean itemGrpName = reponse.getGtnWsItemGroupResponse().getGtnWsItemGrpValidationBean().isGroupNameExists();
 
 		if (itemGrpName) {
@@ -98,6 +95,14 @@ public class GtnFrameworkItemGrpNameValidationAction implements GtnUIFrameWorkAc
 			throw new GtnFrameworkValidationFailedException("Validation Error :"
 					+ GtnFrameworkItemGrpStringContants.GTN_ITEM_GRP_VALIDATION_MSG_DUPLICATION_NAME);
 		}
+	}
+
+	public GtnUIFrameworkWebserviceResponse getResponse(GtnUIFrameworkWebserviceRequest request) {
+		return new GtnUIFrameworkWebServiceClient().callGtnWebServiceUrl(
+				GtnWsItemGrpContants.GTN_WS_ITEM_GRP_SERVICE
+						+ GtnWsItemGrpContants.GTN_WS_ITEM_GRP_NAME_DUPLICATE_VALIDATION_SERVICE,
+				request, GtnUIFrameworkGlobalUI.getGtnWsSecurityToken());
+
 	}
 
 	@Override

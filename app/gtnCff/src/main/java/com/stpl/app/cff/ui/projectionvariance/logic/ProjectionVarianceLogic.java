@@ -3137,6 +3137,7 @@ public class ProjectionVarianceLogic {
 		String countQuery = SQlUtil.getQuery("customViewDeclaration");
 		countQuery = countQuery.replace("[$CUSTOM_VIEW_MASTER_SID]", String.valueOf(projSelDTO.getCustomId()));
 		countQuery += insertAvailableHierarchyNoForCount(projSelDTO);
+                countQuery += WHERE_FILTER_CCPD;
 	       countQuery += SQlUtil.getQuery("custom-view-count-condition-query-forPV");
         List list = HelperTableLocalServiceUtil.executeSelectQuery(
                 QueryUtil.replaceTableNames(countQuery, projSelDTO.getSessionDTO().getCurrentTableNames()));
@@ -3180,16 +3181,21 @@ public class ProjectionVarianceLogic {
     
     public String insertAvailableHierarchyNo(ProjectionSelectionDTO projSelDTO) {
         String sql;
-        sql = projSelDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-for-customer-pv"):SQlUtil.getQuery("selected-hierarchy-no-for-custom");
+        sql = !projSelDTO.isIsCustomHierarchy() ? SQlUtil.getQuery("selected-hierarchy-no-for-custom")
+				: SQlUtil.getQuery("selected-hierarchy-no-for-customer-pv");
         if (projSelDTO.isIsCustomHierarchy()) {
             String currentHierarchyIndicator = commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO);
             int levelNo = commonLogic.getActualLevelNoFromCustomView(projSelDTO);
             switch (String.valueOf(currentHierarchyIndicator)) {
                 case "C":
-                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getCustomerHierarchyNo(), currentHierarchyIndicator, levelNo,projSelDTO));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchyCustom(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(),
+							commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), projSelDTO.getTreeLevelNo(),
+							false));
                     break;
                 case "P":
-                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchy(projSelDTO.getSessionDTO(), projSelDTO.getProductHierarchyNo(), currentHierarchyIndicator, levelNo,projSelDTO));
+                    sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION, getSelectedHierarchyCustom(projSelDTO.getSessionDTO(), projSelDTO.getHierarchyNo(),
+							commonLogic.getHiearchyIndicatorFromCustomView(projSelDTO), projSelDTO.getTreeLevelNo(),
+							false));
                     break;
                 case D_INDICATOR:
                         sql = sql.replace(StringConstantsUtil.HIERARCHY_NO_VALUES_QUESTION,
@@ -3290,6 +3296,7 @@ public class ProjectionVarianceLogic {
         String query = SQlUtil.getQuery("customViewDeclaration");
         query = query.replace("[$CUSTOM_VIEW_MASTER_SID]", String.valueOf(projSelDTO.getCustomId()));
         query += insertAvailableHierarchyNo(projSelDTO);
+        query += WHERE_FILTER_CCPD;
         query += SQlUtil.getQuery("custom-view-count-condition-query-forPVLoad");
         query = query.replace("[?START]", String.valueOf(start));
         query = query.replace("[?END]", String.valueOf(end));

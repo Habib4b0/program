@@ -200,7 +200,7 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		reportComparisonLookupModeSelectionConfig
 				.setParentComponentId(namespace + GtnFrameworkReportStringConstants.UNDERSCORE
 						+ GtnFrameworkCommonConstants.PROJECTION_OPTION_INNER_LAYOUT);
-		
+
 		componentList.add(reportComparisonLookupModeSelectionConfig);
 
 		GtnUIFrameworkLayoutConfig reportComparisonLookupFromToMainLayout = new GtnUIFrameworkLayoutConfig();
@@ -933,10 +933,11 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		gridReloadAction.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_RESULTS_GRID);
 		resetActionConfigList.add(gridReloadAction);
 		reportDSResetButton.addGtnUIFrameWorkActionConfig(reportDSLowerConfirmResetAction);
-		GtnUIFrameWorkActionConfig clrSortOrder=new GtnUIFrameWorkActionConfig();
+		GtnUIFrameWorkActionConfig clrSortOrder = new GtnUIFrameWorkActionConfig();
 		clrSortOrder.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		clrSortOrder.addActionParameter(GtnReportComparisonClearSortOrderAction.class.getName());
-		clrSortOrder.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_SEARCH_RESULTS_GRID);
+		clrSortOrder
+				.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_SEARCH_RESULTS_GRID);
 		resetActionConfigList.add(clrSortOrder);
 		componentList.add(reportDSResetButton);
 	}
@@ -953,14 +954,17 @@ public class GtnFrameworkReportDataSelectionComparisonLookup {
 		GtnUIFrameWorkActionConfig dsBeforeCloseAction = new GtnUIFrameWorkActionConfig();
 		dsBeforeCloseAction.setActionType(GtnUIFrameworkActionType.CUSTOM_ACTION);
 		dsBeforeCloseAction.addActionParameter(GtnReportComparisonProjectionBeforeCloseAction.class.getName());
-		dsBeforeCloseAction.addActionParameter(
-				GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_RESULTS_GRID);
+		dsBeforeCloseAction
+				.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_RESULTS_GRID);
 		dsBeforeCloseAction.addActionParameter("dataSelectionTab_comparisonLookup");
-		
+		dsBeforeCloseAction.addActionParameter("reportingDashboard_displaySelectionTabComparisonBasis");
+		dsBeforeCloseAction.addActionParameter(nameSpace);
+
 		GtnUIFrameWorkActionConfig closeAction = new GtnUIFrameWorkActionConfig();
 		closeAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
 		closeAction.addActionParameter(GtnFrameworkReportStringConstants.DATA_SELECTION_COMPARISON_LOOKUP_VIEW);
-		actionConfigList.add(closeAction);
+		dsBeforeCloseAction.addActionParameter(closeAction);
+		actionConfigList.add(dsBeforeCloseAction);
 
 		closeButton.setGtnUIFrameWorkActionConfigList(actionConfigList);
 

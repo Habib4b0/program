@@ -112,24 +112,6 @@ public class GtnWsProcessSchedulerControllerTest {
         GtnUIFrameworkWebserviceResponse result = gtnWsProcessSchedulerController.getProcesMonitorTableData(processSchedulerRequest);
         assertFalse(generalRequest.getUserId().isEmpty());
     }
-    
-    @Test
-    public void testGetProcesMonitorTableDataCount() throws Exception {
-        System.out.println("getProcesMonitorTableData");
-        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-        generalRequest.setComboBoxType("COMPANY_TYPE");
-        generalRequest.setUserId("20156");
-        generalRequest.setSessionId("767");
-        generalRequest.setExcel(false);
-        GtnUIFrameworkWebserviceRequest processSchedulerRequest = new GtnUIFrameworkWebserviceRequest();
-        GtnWsSearchRequest gtnWsSearchRequest=new GtnWsSearchRequest();
-        gtnWsSearchRequest.isCount();
-        gtnWsSearchRequest.setCount(true);
-        processSchedulerRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-        processSchedulerRequest.setGtnWsGeneralRequest(generalRequest);
-        GtnUIFrameworkWebserviceResponse result = gtnWsProcessSchedulerController.getProcesMonitorTableData(processSchedulerRequest);
-        assertFalse(generalRequest.getUserId().isEmpty());
-    }
 
     /**
      * Test of getScheduledProcessingTableData method, of class GtnWsProcessSchedulerController.
@@ -150,44 +132,5 @@ public class GtnWsProcessSchedulerControllerTest {
         processSchedulerRequest.setGtnWsGeneralRequest(generalRequest);
         GtnUIFrameworkWebserviceResponse result = gtnWsProcessSchedulerController.getScheduledProcessingTableData(processSchedulerRequest);
         assertFalse(generalRequest.getUserId().isEmpty());
-    }
-    
-    @Test
-    public void testGetScheduledProcessingTableDataCount() throws Exception {
-        System.out.println("getScheduledProcessingTableData");
-        GtnWsGeneralRequest generalRequest = new GtnWsGeneralRequest();
-        generalRequest.setComboBoxType("COMPANY_TYPE");
-        generalRequest.setUserId("20156");
-        generalRequest.setSessionId("767");
-        generalRequest.setExcel(false);
-        GtnUIFrameworkWebserviceRequest processSchedulerRequest = new GtnUIFrameworkWebserviceRequest();
-        GtnWsSearchRequest gtnWsSearchRequest=new GtnWsSearchRequest();
-        gtnWsSearchRequest.isCount();
-        gtnWsSearchRequest.setCount(true);
-        processSchedulerRequest.setGtnWsSearchRequest(gtnWsSearchRequest);
-        processSchedulerRequest.setGtnWsGeneralRequest(generalRequest);
-        GtnUIFrameworkWebserviceResponse result = gtnWsProcessSchedulerController.getScheduledProcessingTableData(processSchedulerRequest);
-        assertFalse(generalRequest.getUserId().isEmpty());
-    }
-
-    /**
-     * Test of getRunningProcess method, of class GtnWsProcessSchedulerController.
-     */
-    @Test
-    public void testGetRunningProcess() throws Exception {
-        System.out.println("getRunningProcess");
-        GtnUIFrameworkWebserviceRequest processSchedulerRequest = new GtnUIFrameworkWebserviceRequest();
-        GtnWsProcessSchedulerBean gtnWsProcessSchedulerBean=new GtnWsProcessSchedulerBean();
-        GtnWsProcessSchedulerRequest gtnWsProcessSchedulerRequest=new GtnWsProcessSchedulerRequest();
-        gtnWsProcessSchedulerBean.setPsSchemaName("BPI");
-        gtnWsProcessSchedulerBean.setPsProcessName("CFF_OUTBOUND_INTERFACE");
-        gtnWsProcessSchedulerRequest.setProcessSchedulerBean(gtnWsProcessSchedulerBean);
-        processSchedulerRequest.setProcessSchedulerRequest(gtnWsProcessSchedulerRequest);
-        List<Object[]> queryInputList1 = new ArrayList<>();
-        doReturn(queryInputList1).when(gtnWsProcessSchedularServiceUtil).executeQuery(Mockito.anyString());
-        doReturn(queryInputList1).when(gtnSqlQueryEngine).executeSelectQuery(Mockito.anyString());
-        GtnUIFrameworkWebserviceResponse result = gtnWsProcessSchedulerController.getRunningProcess(processSchedulerRequest);
-        assertFalse(gtnWsProcessSchedulerBean.getPsSchemaName().isEmpty());
-    }
-    
+    } 
 }

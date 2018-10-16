@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.stpl.gtn.gtn2o.ws.bean.GtnWsRecordBean;
+import java.util.ArrayList;
 
 public class GtnFrameworkForecastInputBean {
 
@@ -211,11 +212,11 @@ public class GtnFrameworkForecastInputBean {
 	}
 
 	public Date getForecastEligibleDate() {
-		return forecastEligibleDate;
+		return this.forecastEligibleDate;
 	}
 
 	public void setForecastEligibleDate(Date forecastEligibleDate) {
-		this.forecastEligibleDate = forecastEligibleDate;
+		this.forecastEligibleDate = forecastEligibleDate == null ? null : (Date) forecastEligibleDate.clone();
 	}
 
 	public int getCustomerHierarchySid() {
@@ -267,7 +268,7 @@ public class GtnFrameworkForecastInputBean {
 	}
 
 	public List<GtnWsRecordBean> getSelectedCustomerList() {
-		return selectedCustomerList;
+		return selectedCustomerList != null ? new ArrayList<>(selectedCustomerList) : selectedCustomerList;
 	}
 
 	public String getFromPeriod() {
@@ -287,15 +288,15 @@ public class GtnFrameworkForecastInputBean {
 	}
 
 	public void setSelectedCustomerList(List<GtnWsRecordBean> selectedCustomerList) {
-		this.selectedCustomerList = selectedCustomerList;
+		this.selectedCustomerList = selectedCustomerList != null ? new ArrayList<>(selectedCustomerList) : selectedCustomerList;
 	}
 
 	public List<GtnWsRecordBean> getSelectedProductList() {
-		return selectedProductList;
+		return selectedProductList != null ? new ArrayList<>(selectedProductList) : selectedProductList;
 	}
 
 	public void setSelectedProductList(List<GtnWsRecordBean> selectedProductList) {
-		this.selectedProductList = selectedProductList;
+		this.selectedProductList = selectedProductList != null ? new ArrayList<>(selectedProductList) : selectedProductList;
 	}
 
 	public String getUserId() {
@@ -331,19 +332,19 @@ public class GtnFrameworkForecastInputBean {
 	}
 
 	public Date getCreatedDate() {
-		return createdDate;
+		return this.createdDate;
 	}
 
 	public void setCreatedDate(Date createdDate) {
-		this.createdDate = createdDate;
+		this.createdDate = createdDate == null ? null : (Date) createdDate.clone();
 	}
 
 	public Date getModifiedDate() {
-		return modifiedDate;
+		return this.modifiedDate;
 	}
 
 	public void setModifiedDate(Date modifiedDate) {
-		this.modifiedDate = modifiedDate;
+		this.modifiedDate = modifiedDate == null ? null : (Date) modifiedDate.clone();
 	}
 
 	public String getModifiedBy() {
@@ -395,19 +396,19 @@ public class GtnFrameworkForecastInputBean {
 	}
 
 	public Date getFromDate() {
-		return fromDate;
+		return this.fromDate;
 	}
 
 	public void setFromDate(Date fromDate) {
-		this.fromDate = fromDate;
+		this.fromDate = fromDate == null ? null : (Date) fromDate.clone();
 	}
 
 	public Date getToDate() {
-		return toDate;
+		return this.toDate;
 	}
 
 	public void setToDate(Date toDate) {
-		this.toDate = toDate;
+		this.toDate = toDate == null ? null : (Date) toDate.clone();
 	}
 
 	public int getDeductionRelationVersion() {

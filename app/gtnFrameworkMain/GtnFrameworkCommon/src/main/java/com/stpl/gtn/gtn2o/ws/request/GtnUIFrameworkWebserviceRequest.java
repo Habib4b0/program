@@ -135,14 +135,14 @@ public class GtnUIFrameworkWebserviceRequest {
 
     private GtnWsAdjustmentDetailsSaveViewMasterRequest gtnWsAdjustmentDetailsSaveViewMasterRequest;
     
-    private GtnGeneralSearchRequest GtnGeneralSearchRequest;
+    private GtnGeneralSearchRequest gtnGeneralSearchReq;
 
-    public GtnGeneralSearchRequest getGtnGeneralSearchRequest() {
-        return GtnGeneralSearchRequest;
+    public GtnGeneralSearchRequest getGtnGeneralSearchReq() {
+        return gtnGeneralSearchReq;
     }
 
-    public void setGtnGeneralSearchRequest(GtnGeneralSearchRequest GtnGeneralSearchRequest) {
-        this.GtnGeneralSearchRequest = GtnGeneralSearchRequest;
+    public void setGtnGeneralSearchReq(GtnGeneralSearchRequest gtnGeneralSearchReq) {
+        this.gtnGeneralSearchReq = gtnGeneralSearchReq;
     }
 
     public GtnWsSearchRequest getGtnWsSearchRequest() {

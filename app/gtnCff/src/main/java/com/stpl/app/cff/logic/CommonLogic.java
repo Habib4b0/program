@@ -114,6 +114,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
     public static final String RELATIONSHIPJOIN = " JOIN RELATIONSHIP_LEVEL_DEFINITION RLD1 ON RLD1.HIERARCHY_NO=A.HIERARCHY_NO AND RELATIONSHIP_BUILDER_SID =";
     public static final String RELATIONSHIPVERSION = " AND RLD1.VERSION_NO=";
     private static final String RELATIONSHIP_BUILDER_SID = "' and relationship_builder_sid = ";
+    private static final String WHERE_FILTER_CCPD = " WHERE FILTER_CCPD = 1 ";
 
     /**
      * Get Customer Hierarchy
@@ -2290,6 +2291,7 @@ public static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(CommonLogi
         query = query.replace("[?HIERARCHY_COLUMN]", getColumnName(projSelDTO.getHierarchyIndicator()));
         query = query.replace("[?TAB_BASED_JOIN]", SQlUtil.getQuery("discount-join-filter"));
         query += CommonLogic.getRelJoinGenerate(projSelDTO.getHierarchyIndicator(),projSelDTO.getSessionDTO());
+        query += WHERE_FILTER_CCPD;
         query += SQlUtil.getQuery("custom-view-condition-query");
         query = query.replace("[?START]", String.valueOf(start));
         query = query.replace("[?END]", String.valueOf(end));
