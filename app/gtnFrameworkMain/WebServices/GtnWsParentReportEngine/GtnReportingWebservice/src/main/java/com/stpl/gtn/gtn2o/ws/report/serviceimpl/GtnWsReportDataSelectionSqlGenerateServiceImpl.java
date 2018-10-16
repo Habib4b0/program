@@ -200,6 +200,9 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 	private void variableHierarchyNoInsertProcedure(GtnWsReportDataSelectionBean dataSelectionBean)
 			throws GtnFrameworkGeneralException {
 		GTNLOGGER.info("Calling variable Insert Procedure");
+                GTNLOGGER.info("CustomViewMasterSid :"+dataSelectionBean.getCustomViewMasterSid());
+                GTNLOGGER.info("UserId :"+dataSelectionBean.getUserId());
+                GTNLOGGER.info("SessionId :"+dataSelectionBean.getSessionId());
 		Object[] input = { dataSelectionBean.getCustomViewMasterSid(), Integer.valueOf(dataSelectionBean.getUserId()),
 				dataSelectionBean.getSessionId() };
 		GtnFrameworkDataType[] type = { GtnFrameworkDataType.INTEGER, GtnFrameworkDataType.INTEGER,
@@ -879,7 +882,7 @@ public class GtnWsReportDataSelectionSqlGenerateServiceImpl implements GtnWsRepo
 			String indicator) {
 		boolean result = false;
                 hierarchyNoFromFile = hierarchyNoFromFile.replaceAll("([A-Z])", "");    
-                 hierarchyNoFromFile = hierarchyNoFromFile.replaceAll("\\..", "."); 
+                 hierarchyNoFromFile = hierarchyNoFromFile.replaceAll("\\.{2}", "."); 
 		if (filteredHierarchyNo.isEmpty() || filteredHierarchyNo.contains(hierarchyNoFromFile)) {
 			result = true;
 		} else if (indicator.equals("V")) {
