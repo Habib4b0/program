@@ -102,6 +102,7 @@ public class CFFLogic {
     public static final String CUSTOMER_CONSTANT = "CUSTOMER";
     public static final String CUSTOM_CONSTANT = "CUSTOM";
     public static final String PRODUCT_CONSTANT = "PRODUCT";
+    public static final String GET_DATE="GETDATE()";
     private ThreadPool service = ThreadPool.getInstance();
     /**
      * Gets latest approved CCP Projection
@@ -435,7 +436,7 @@ public class CFFLogic {
             }
             input.add(workFlowId);
             input.add(noOfLevel);
-            input.add("GETDATE()");
+            input.add(GET_DATE);
             CommonQueryUtils.updateAppData(input, "updatePendingdetails");
         } catch (NumberFormatException ex) {
             LOGGER.error(ex.getMessage());
@@ -482,18 +483,18 @@ public class CFFLogic {
             if (CommonUtils.WORKFLOW_STATUS_APPROVED.equals(status)) {
                 if (noOfLevel == currentLevel) {
                     callOutboundPrc = true;
-                    input.add("GETDATE()");
+                    input.add(GET_DATE);
                     input.add(CommonUtils.WORKFLOW_STATUS_APPROVED);
                     input.add(CommonUtils.WORKFLOW_STATUS_APPROVED);
                     updateActiveFromDate(cffId);
                 } else {
                     callOutboundPrc = false;
-                    input.add("GETDATE()");
+                    input.add(GET_DATE);
                     input.add(CommonUtils.WORKFLOW_STATUS_PENDING);
                     input.add(CommonUtils.WORKFLOW_STATUS_PENDING);
                 }
             } else {
-                input.add("GETDATE()");
+                input.add(GET_DATE);
                 input.add(status);
                 input.add(CommonUtils.WORKFLOW_STATUS_CANCELLED.equals(status) ? "Canceled" : status);
             }

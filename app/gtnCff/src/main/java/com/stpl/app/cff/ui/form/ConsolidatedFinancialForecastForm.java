@@ -728,7 +728,8 @@ public class ConsolidatedFinancialForecastForm extends CustomComponent {
                                 List inputList=new ArrayList();
                                 inputList.add(vSessionDTO.getProjectionId());
                                 final List<Object> loadDeduction = CommonQueryUtils.getAppData(inputList, "loadEditDeduction", null);
-                                vSessionDTO.setDeductionNo(loadDeduction.isEmpty() ? 1 : loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1);
+                                int loadDeductionResult=loadDeduction.get(0)!=null && !String.valueOf(loadDeduction.get(0)).equals("null") ?Integer.parseInt(String.valueOf(loadDeduction.get(0))):1;
+                                vSessionDTO.setDeductionNo(loadDeduction.isEmpty() ? 1 : loadDeductionResult);
 				dataSelectionDto.setCustomerHierSid(String.valueOf(vSessionDTO.getCustomerHierarchyId()));
 				dataSelectionDto
 						.setCustRelationshipBuilderSid(String.valueOf(vSessionDTO.getCustRelationshipBuilderSid()));
