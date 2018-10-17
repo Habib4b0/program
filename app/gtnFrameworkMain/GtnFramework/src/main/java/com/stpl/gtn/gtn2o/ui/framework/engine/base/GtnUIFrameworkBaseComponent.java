@@ -1088,12 +1088,7 @@ ListDataProvider<?> listDataProvider = ((ListDataProvider) vaadinMultiSelect.get
 		((Field<Object>) this.component).setValue(newValue);
 	}
         
-        @SuppressWarnings({ "unchecked" })
-	public void loadComboBoxComponentValue(String newValue) {
-		((Field<Object>) this.component).setValue(newValue);
-	}
-
-	public void loadV8ComboBoxComponentValue(Integer value) throws GtnFrameworkValidationFailedException {
+       	public void loadV8ComboBoxComponentValue(Integer value) throws GtnFrameworkValidationFailedException {
 		AbstractSingleSelect comboboxSelect = (AbstractSingleSelect) this.component;
 		comboboxSelect.setSelectedItem(value);
 	}
