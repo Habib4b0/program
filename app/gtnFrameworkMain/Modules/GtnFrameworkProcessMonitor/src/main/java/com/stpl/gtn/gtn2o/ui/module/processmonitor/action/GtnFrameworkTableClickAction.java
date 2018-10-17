@@ -56,7 +56,7 @@ public class GtnFrameworkTableClickAction
 		Object run3Ddlb = gtnWsRecordBean.getPropertyValueByIndex(12) == null ? 0
 				: String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(12));
 
-		Object calender = gtnWsRecordBean.getPropertyValueByIndex(13);
+		Object calender = gtnWsRecordBean.getPropertyValueByIndex(2);
 
 		Object minutesDdlbValue = gtnWsRecordBean.getPropertyValueByIndex(14) == null ? 0
 				: String.valueOf(gtnWsRecordBean.getPropertyValueByIndex(14));
@@ -71,7 +71,7 @@ public class GtnFrameworkTableClickAction
 				.loadComboBoxComponentValue((Integer) processType);
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("calender", componentId)
-				.loadComboBoxComponentValue((Integer) calender);
+				.loadComboBoxComponentValue((String) calender);
 
 		GtnUIFrameworkGlobalUI.getVaadinBaseComponent("startDate", componentId)
 				.loadDateValue(startDate != null ? new Date((long) startDate) : startDate);
