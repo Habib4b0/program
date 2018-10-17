@@ -1810,8 +1810,6 @@ public class SalesLogic {
             int frequency = 0;
 
             BigDecimal value = new BigDecimal(editedValueSave);
-            String hierarchyNo = salesDTO.getHierarchyNo();
-            int rowcount = getRowCountMap().get(hierarchyNo);
             String[] keyarr = propertyId.split("-");
             String startPeriodSid;
             String endPeriodSid;
@@ -1826,13 +1824,10 @@ public class SalesLogic {
             }
             if (frequencyDivision == 1) {
                 year = Integer.parseInt(keyarr[0]);
-                rowcount = rowcount * NumericConstants.TWELVE;
             } else if (frequencyDivision == NumericConstants.FOUR) {
                 keyarr[0] = (keyarr[0]).replace('q', ' ');
-                rowcount = rowcount * NumericConstants.THREE;
             } else if (frequencyDivision == NumericConstants.TWO) {
                 keyarr[0] = (keyarr[0]).replace('s', ' ');
-                rowcount = rowcount * NumericConstants.SIX;
             } else if (frequencyDivision == NumericConstants.TWELVE) {
                 keyarr[0] = (keyarr[0]).replace(keyarr[0], String.valueOf(getMonthNo(keyarr[0])));
             }
