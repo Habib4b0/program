@@ -447,9 +447,9 @@ public class NMProjectionResultsLogic {
     }
 
     public List<ProjectionResultsDTO> getCustomizedProjectionResultsSales(List<Object> list, ProjectionSelectionDTO projSelDTO) {
-        List<ProjectionResultsDTO> projDtoList = new ArrayList<>();
-        List<String> columnList = new ArrayList<>(projSelDTO.getColumns());
-        columnList.remove(Constant.GROUP);
+        List<ProjectionResultsDTO> projDtoListVal = new ArrayList<>();
+        List<String> columnListVal = new ArrayList<>(projSelDTO.getColumns());
+        columnListVal.remove(Constant.GROUP);
         ProjectionResultsDTO projSalesDTO = new ProjectionResultsDTO();
         ProjectionResultsDTO projUnitDTO = new ProjectionResultsDTO();
         projSalesDTO.setLevelNo(projSelDTO.getLevelNo());
@@ -462,54 +462,54 @@ public class NMProjectionResultsLogic {
         projUnitDTO.setGroup(UNIT_VOL.getConstant());
         projSalesDTO.setParent(0);
         projUnitDTO.setParent(0);
-        int frequencyDivision = projSelDTO.getFrequencyDivision();
+        int frequencyDivisionVal = projSelDTO.getFrequencyDivision();
         if (list != null && !list.isEmpty()) {
             for (Object list1 : list) {
                 final Object[] obj = (Object[]) list1;
                 String column;
-                int year = Integer.parseInt(String.valueOf(obj[0]));
-                int period = Integer.parseInt(String.valueOf(obj[1]));
-                List<String> common = getCommonColumnHeader(frequencyDivision, year, period);
-                String commonColumn = common.get(0);
-                int col = NumericConstants.TWO;
-                column = commonColumn + ACTUALS.getConstant();
+                int yearVal = Integer.parseInt(String.valueOf(obj[0]));
+                int periodVal = Integer.parseInt(String.valueOf(obj[1]));
+                List<String> common = getCommonColumnHeader(frequencyDivisionVal, yearVal, periodVal);
+                String commonColumnVal = common.get(0);
+                int colVal = NumericConstants.TWO;
+                column = commonColumnVal + ACTUALS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    String value = StringUtils.EMPTY + obj[col];
+                    String value = StringUtils.EMPTY + obj[colVal];
                     String value1;
                     value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
                     value1 = getFormatTwoDecimalValue(CUR_TWO, "0.00", CURRENCY);
-                    projSalesDTO.addStringProperties(column, obj[col]!=null && !"null".equals(obj[col]) ? value :value1);
-                    value = StringUtils.EMPTY + obj[col + NumericConstants.TWO];
+                    projSalesDTO.addStringProperties(column, obj[colVal]!=null && !"null".equals(obj[colVal]) ? value :value1);
+                    value = StringUtils.EMPTY + obj[colVal + NumericConstants.TWO];
                     value = getFormattedValue(NUM_ZERO, value);
                     value1 = getFormattedValue(NUM_ZERO, "0.00");
-                    projUnitDTO.addStringProperties(column, obj[col + NumericConstants.TWO]!=null && !"null".equals(obj[col + NumericConstants.TWO]) ? value :value1);
-                    columnList.remove(column);
+                    projUnitDTO.addStringProperties(column, obj[colVal + NumericConstants.TWO]!=null && !"null".equals(obj[colVal + NumericConstants.TWO]) ? value :value1);
+                    columnListVal.remove(column);
                 }
-                column = commonColumn + PROJECTIONS.getConstant();
+                column = commonColumnVal + PROJECTIONS.getConstant();
                 if (projSelDTO.hasColumn(column)) {
-                    String value = StringUtils.EMPTY + obj[col + 1];
+                    String valueVal = StringUtils.EMPTY + obj[colVal + 1];
                     String value1;
-                    value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                    value = getFormatTwoDecimalValue(CUR_TWO, value, CURRENCY);
-                    value1 = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                    projSalesDTO.addStringProperties(column, obj[col + 1]!=null && !"null".equals(obj[col + 1]) ? value :value1);
-                    value = StringUtils.EMPTY + obj[col + NumericConstants.THREE];
-                     value = !CommonUtils.setProjectionZero(projSelDTO, commonColumn) ? value : Constant.ZERO_STRING;
-                    value = getFormattedValue(NUM_ZERO, value);
+                    valueVal = !CommonUtils.setProjectionZero(projSelDTO, commonColumnVal) ? valueVal : Constant.ZERO_STRING;
+                    valueVal = getFormatTwoDecimalValue(CUR_TWO, valueVal, CURRENCY);
+                    value1 = !CommonUtils.setProjectionZero(projSelDTO, commonColumnVal) ? valueVal : Constant.ZERO_STRING;
+                    projSalesDTO.addStringProperties(column, obj[colVal + 1]!=null && !"null".equals(obj[colVal + 1]) ? valueVal :value1);
+                    valueVal = StringUtils.EMPTY + obj[colVal + NumericConstants.THREE];
+                     valueVal = !CommonUtils.setProjectionZero(projSelDTO, commonColumnVal) ? valueVal : Constant.ZERO_STRING;
+                    valueVal = getFormattedValue(NUM_ZERO, valueVal);
                     value1 = getFormattedValue(NUM_ZERO, "0.00");
-                    projUnitDTO.addStringProperties(column, obj[col + NumericConstants.THREE]!=null && !"null".equals(obj[col + NumericConstants.THREE]) ? value :value1);
-                    columnList.remove(column);
+                    projUnitDTO.addStringProperties(column, obj[colVal + NumericConstants.THREE]!=null && !"null".equals(obj[colVal + NumericConstants.THREE]) ? valueVal :value1);
+                    columnListVal.remove(column);
                 }
             }
 
         }
-        for (String columns : columnList) {
+        for (String columns : columnListVal) {
             projSalesDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
             projUnitDTO.addStringProperties(columns, getFormattedValue(CUR_ZERO, Constant.NULL));
         }
-        projDtoList.add(projSalesDTO);
-        projDtoList.add(projUnitDTO);
-        return projDtoList;
+        projDtoListVal.add(projSalesDTO);
+        projDtoListVal.add(projUnitDTO);
+        return projDtoListVal;
     }
 
     public List<ProjectionResultsDTO> getContractSalesAndUnits(ProjectionSelectionDTO projSelDTO) {

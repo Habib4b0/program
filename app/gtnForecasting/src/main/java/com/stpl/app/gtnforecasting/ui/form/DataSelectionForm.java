@@ -938,41 +938,41 @@ public class DataSelectionForm extends ForecastDataSelection {
 						}
 							
 							if (!newChildLevels.isEmpty()) {
-								int pos3 = 0;
-								String childHierarchyNo;
-								Leveldto childsParent = null;
-								for (Leveldto newLevel : newChildLevels) {
-									String tempHNo = newLevel.getHierarchyNo();
-									if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-										tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
+								int pos3Val = 0;
+								String childHierarchyNoVal;
+								Leveldto childsParentVal = null;
+								for (Leveldto newLevelVal : newChildLevels) {
+									String tempHNoVal = newLevelVal.getHierarchyNo();
+									if (tempHNoVal.length() > 0 && tempHNoVal.charAt(tempHNoVal.length() - 1) == '.') {
+										tempHNoVal = tempHNoVal.substring(0, tempHNoVal.length() - 1);
 									}
-									pos3 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
-									if (pos3 != -1) {
-										childHierarchyNo = tempHNo.substring(0, pos3) + ".";
+									pos3Val = tempHNoVal.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+									if (pos3Val != -1) {
+										childHierarchyNoVal = tempHNoVal.substring(0, pos3Val) + ".";
 									} else {
-										childHierarchyNo = tempHNo + ".";
+										childHierarchyNoVal = tempHNoVal + ".";
 									}
 									if (customerBeanList.isEmpty()
-											|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
-										customerBeanList.add(newLevel.getRelationshipLevelSid());
-										selectedCustomerContainer.addBean(newLevel);
-										if (forecastLevel != newLevel.getLevelNo()) {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, true);
+											|| !customerBeanList.contains(newLevelVal.getRelationshipLevelSid())) {
+										customerBeanList.add(newLevelVal.getRelationshipLevelSid());
+										selectedCustomerContainer.addBean(newLevelVal);
+										if (forecastLevel != newLevelVal.getLevelNo()) {
+											selectedCustomerContainer.setChildrenAllowed(newLevelVal, true);
 										} else {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, false);
+											selectedCustomerContainer.setChildrenAllowed(newLevelVal, false);
 										}
 									}
 
-									if (!StringUtils.isBlank(childHierarchyNo)) {
+									if (!StringUtils.isBlank(childHierarchyNoVal)) {
 										for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
-											if (childHierarchyNo
+											if (childHierarchyNoVal
 													.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
-												childsParent = selectedLevel;
+												childsParentVal = selectedLevel;
 												break;
 											}
 										}
 									}
-									selectedCustomerContainer.setParent(newLevel, childsParent);
+									selectedCustomerContainer.setParent(newLevelVal, childsParentVal);
 								}
 							}
 
@@ -1074,43 +1074,43 @@ public class DataSelectionForm extends ForecastDataSelection {
 								}
 							}
 							if (!newChildLevels.isEmpty()) {
-								int pos3 = 0;
-								String childHierarchyNo;
-								Leveldto childsParent = null;
-								for (Leveldto newLevel : newChildLevels) {
-									String tempHNo = newLevel.getHierarchyNo();
-									if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-										tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
+								int pos3Values = 0;
+								String childHierarchyNoValues;
+								Leveldto childsParentValues = null;
+								for (Leveldto newLevelValues : newChildLevels) {
+									String tempHNoValues = newLevelValues.getHierarchyNo();
+									if (tempHNoValues.length() > 0 && tempHNoValues.charAt(tempHNoValues.length() - 1) == '.') {
+										tempHNoValues = tempHNoValues.substring(0, tempHNoValues.length() - 1);
 									}
-									pos3 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
-									if (pos3 != -1) {
-										childHierarchyNo = tempHNo.substring(0, pos3) + ".";
+									pos3Values = tempHNoValues.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+									if (pos3Values != -1) {
+										childHierarchyNoValues = tempHNoValues.substring(0, pos3Values) + ".";
 									} else {
-										childHierarchyNo = tempHNo + ".";
+										childHierarchyNoValues = tempHNoValues + ".";
 									}
 
 									if (customerBeanList.isEmpty()
-											|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
-										customerBeanList.add(newLevel.getRelationshipLevelSid());
-										selectedCustomerContainer.addBean(newLevel);
-										if (forecastLevel != newLevel.getLevelNo()) {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, true);
+											|| !customerBeanList.contains(newLevelValues.getRelationshipLevelSid())) {
+										customerBeanList.add(newLevelValues.getRelationshipLevelSid());
+										selectedCustomerContainer.addBean(newLevelValues);
+										if (forecastLevel != newLevelValues.getLevelNo()) {
+											selectedCustomerContainer.setChildrenAllowed(newLevelValues, true);
 										} else {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, false);
+											selectedCustomerContainer.setChildrenAllowed(newLevelValues, false);
 										}
 									}
 
-									if (!StringUtils.isBlank(childHierarchyNo)) {
+									if (!StringUtils.isBlank(childHierarchyNoValues)) {
 										for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
-											if (childHierarchyNo
+											if (childHierarchyNoValues
 													.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
-												childsParent = selectedLevel;
+												childsParentValues = selectedLevel;
 												break;
 											}
 										}
 									}
 
-									selectedCustomerContainer.setParent(newLevel, childsParent);
+									selectedCustomerContainer.setParent(newLevelValues, childsParentValues);
 								}
 							}
 
@@ -1185,39 +1185,39 @@ public class DataSelectionForm extends ForecastDataSelection {
 							}
 						}
 						if (!newChildLevels.isEmpty()) {
-							int pos3 = 0;
-							String childHierarchyNo;
-							Leveldto childsParent = null;
-							for (Leveldto newLevel : newChildLevels) {
-								String tempHNo = newLevel.getHierarchyNo();
-								if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-									tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
+							int pos3Result = 0;
+							String childHierarchyNoResult;
+							Leveldto childsParentResult = null;
+							for (Leveldto newLevelResult : newChildLevels) {
+								String tempHNoResult = newLevelResult.getHierarchyNo();
+								if (tempHNoResult.length() > 0 && tempHNoResult.charAt(tempHNoResult.length() - 1) == '.') {
+									tempHNoResult = tempHNoResult.substring(0, tempHNoResult.length() - 1);
 								}
-								pos3 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
-								if (pos3 != -1) {
-									childHierarchyNo = tempHNo.substring(0, pos3) + ".";
+								pos3Result = tempHNoResult.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+								if (pos3Result != -1) {
+									childHierarchyNoResult = tempHNoResult.substring(0, pos3Result) + ".";
 								} else {
-									childHierarchyNo = tempHNo + ".";
+									childHierarchyNoResult = tempHNoResult + ".";
 								}
 								if (customerBeanList.isEmpty()
-										|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
-									customerBeanList.add(newLevel.getRelationshipLevelSid());
-									selectedCustomerContainer.addBean(newLevel);
-									if (forecastLevel != newLevel.getLevelNo()) {
-										selectedCustomerContainer.setChildrenAllowed(newLevel, true);
+										|| !customerBeanList.contains(newLevelResult.getRelationshipLevelSid())) {
+									customerBeanList.add(newLevelResult.getRelationshipLevelSid());
+									selectedCustomerContainer.addBean(newLevelResult);
+									if (forecastLevel != newLevelResult.getLevelNo()) {
+										selectedCustomerContainer.setChildrenAllowed(newLevelResult, true);
 									} else {
-										selectedCustomerContainer.setChildrenAllowed(newLevel, false);
+										selectedCustomerContainer.setChildrenAllowed(newLevelResult, false);
 									}
 								}
-								if (!StringUtils.isBlank(childHierarchyNo)) {
+								if (!StringUtils.isBlank(childHierarchyNoResult)) {
 									for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
-										if (childHierarchyNo.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
-											childsParent = selectedLevel;
+										if (childHierarchyNoResult.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
+											childsParentResult = selectedLevel;
 											break;
 										}
 									}
 								}
-								selectedCustomerContainer.setParent(newLevel, childsParent);
+								selectedCustomerContainer.setParent(newLevelResult, childsParentResult);
 							}
 						}
 
@@ -1677,39 +1677,39 @@ public class DataSelectionForm extends ForecastDataSelection {
 									forecastEligibleDate.getValue(), false);
 						}
 						if ((newChildLevels != null) && (!newChildLevels.isEmpty())) {
-							int pos3 = 0;
-							String childHierarchyNo;
-							Leveldto childsParent = null;
-							for (Leveldto newLevel : newChildLevels) {
-								String tempHNo = newLevel.getHierarchyNo();
-								if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-									tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
+							int pos3Res = 0;
+							String childHierarchyNoRes;
+							Leveldto childsParentRes = null;
+							for (Leveldto newLevelRes : newChildLevels) {
+								String tempHNoRes = newLevelRes.getHierarchyNo();
+								if (tempHNoRes.length() > 0 && tempHNoRes.charAt(tempHNoRes.length() - 1) == '.') {
+									tempHNoRes = tempHNoRes.substring(0, tempHNoRes.length() - 1);
 								}
-								pos3 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
-								if (pos3 != -1) {
-									childHierarchyNo = tempHNo.substring(0, pos3) + ".";
+								pos3Res = tempHNoRes.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+								if (pos3Res != -1) {
+									childHierarchyNoRes = tempHNoRes.substring(0, pos3Res) + ".";
 								} else {
-									childHierarchyNo = tempHNo + ".";
+									childHierarchyNoRes = tempHNoRes + ".";
 								}
 								if (customerBeanList.isEmpty()
-										|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
-									customerBeanList.add(newLevel.getRelationshipLevelSid());
-									selectedCustomerContainer.addBean(newLevel);
-									if (selecetedLevel != newLevel.getLevelNo()) {
-										selectedCustomerContainer.setChildrenAllowed(newLevel, true);
+										|| !customerBeanList.contains(newLevelRes.getRelationshipLevelSid())) {
+									customerBeanList.add(newLevelRes.getRelationshipLevelSid());
+									selectedCustomerContainer.addBean(newLevelRes);
+									if (selecetedLevel != newLevelRes.getLevelNo()) {
+										selectedCustomerContainer.setChildrenAllowed(newLevelRes, true);
 									} else {
-										selectedCustomerContainer.setChildrenAllowed(newLevel, false);
+										selectedCustomerContainer.setChildrenAllowed(newLevelRes, false);
 									}
 								}
-								if (!StringUtils.isBlank(childHierarchyNo)) {
+								if (!StringUtils.isBlank(childHierarchyNoRes)) {
 									for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
-										if (childHierarchyNo.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
-											childsParent = selectedLevel;
+										if (childHierarchyNoRes.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
+											childsParentRes = selectedLevel;
 											break;
 										}
 									}
 								}
-								selectedCustomerContainer.setParent(newLevel, childsParent);
+								selectedCustomerContainer.setParent(newLevelRes, childsParentRes);
 							}
 						}
 					}
@@ -1812,40 +1812,40 @@ public class DataSelectionForm extends ForecastDataSelection {
 								}
 							}
 							if (!newChildLevels.isEmpty()) {
-								int pos3 = 0;
-								String childHierarchyNo;
-								Leveldto childsParent = null;
-								for (Leveldto newLevel : newChildLevels) {
-									String tempHNo = newLevel.getHierarchyNo();
-									if (tempHNo.length() > 0 && tempHNo.charAt(tempHNo.length() - 1) == '.') {
-										tempHNo = tempHNo.substring(0, tempHNo.length() - 1);
+								int pos3Results = 0;
+								String childHierarchyNoResults;
+								Leveldto childsParentResults = null;
+								for (Leveldto newLevelResults : newChildLevels) {
+									String tempHNoResults = newLevelResults.getHierarchyNo();
+									if (tempHNoResults.length() > 0 && tempHNoResults.charAt(tempHNoResults.length() - 1) == '.') {
+										tempHNoResults = tempHNoResults.substring(0, tempHNoResults.length() - 1);
 									}
-									pos3 = tempHNo.lastIndexOf(Constants.StringConstants.DOT.getConstant());
-									if (pos3 != -1) {
-										childHierarchyNo = tempHNo.substring(0, pos3) + ".";
+									pos3Results = tempHNoResults.lastIndexOf(Constants.StringConstants.DOT.getConstant());
+									if (pos3Results != -1) {
+										childHierarchyNoResults = tempHNoResults.substring(0, pos3Results) + ".";
 									} else {
-										childHierarchyNo = tempHNo + ".";
+										childHierarchyNoResults = tempHNoResults + ".";
 									}
 									if (customerBeanList.isEmpty()
-											|| !customerBeanList.contains(newLevel.getRelationshipLevelSid())) {
-										customerBeanList.add(newLevel.getRelationshipLevelSid());
-										selectedCustomerContainer.addBean(newLevel);
-										if (selecetedLevel != newLevel.getLevelNo()) {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, true);
+											|| !customerBeanList.contains(newLevelResults.getRelationshipLevelSid())) {
+										customerBeanList.add(newLevelResults.getRelationshipLevelSid());
+										selectedCustomerContainer.addBean(newLevelResults);
+										if (selecetedLevel != newLevelResults.getLevelNo()) {
+											selectedCustomerContainer.setChildrenAllowed(newLevelResults, true);
 										} else {
-											selectedCustomerContainer.setChildrenAllowed(newLevel, false);
+											selectedCustomerContainer.setChildrenAllowed(newLevelResults, false);
 										}
 									}
-									if (!StringUtils.isBlank(childHierarchyNo)) {
+									if (!StringUtils.isBlank(childHierarchyNoResults)) {
 										for (Leveldto selectedLevel : selectedCustomerContainer.getItemIds()) {
-											if (childHierarchyNo
+											if (childHierarchyNoResults
 													.equals(String.valueOf(selectedLevel.getHierarchyNo()))) {
-												childsParent = selectedLevel;
+												childsParentResults = selectedLevel;
 												break;
 											}
 										}
 									}
-									selectedCustomerContainer.setParent(newLevel, childsParent);
+									selectedCustomerContainer.setParent(newLevelResults, childsParentResults);
 								}
 							}
 
