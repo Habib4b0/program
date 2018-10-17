@@ -873,6 +873,8 @@ public class GtnFrameworkReportDashboardComparisonLookup {
 		rdBeforeCloseAction.addActionParameter(
 				GtnFrameworkReportStringConstants.COMPARISON_LOOKUP_PROJECTIONS_RESULTS_PAGED_TABLE_COMPONENT);
 		rdBeforeCloseAction.addActionParameter("reportingDashboardTab_reportingDashboardComparisonConfig");
+		rdBeforeCloseAction.addActionParameter("reportingDashboard_displaySelectionTabComparisonBasis");
+		rdBeforeCloseAction.addActionParameter(nameSpace);
 
 		GtnUIFrameWorkActionConfig rdCloseAction = new GtnUIFrameWorkActionConfig();
 		rdCloseAction.setActionType(GtnUIFrameworkActionType.POPUP_CLOSE_ACTION);
