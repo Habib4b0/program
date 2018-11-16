@@ -3,8 +3,8 @@ package com.stpl.gtn.gtn2o.ws.module.forecastdataseletion.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.LogManager;
+//import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class GtnFrameworkSelectedTblLoadService {
 
 	@Autowired
 	private GtnFrameworkSqlQueryEngine gtnFrameworkSqlQueryEngine;
-	private static final Logger logger = LogManager.getLogger(GtnFrameworkSelectedTblLoadService.class);
+	//private static final Logger logger = LogManager.getLogger(GtnFrameworkSelectedTblLoadService.class);
 
 	public GtnFrameworkSelectedTblLoadService() {
 		super();
@@ -67,7 +67,7 @@ public class GtnFrameworkSelectedTblLoadService {
 			}
 
 		} catch (Exception ex) {
-			logger.error(ex.getMessage(), ex);
+			//logger.error(ex.getMessage(), ex);
 		}
 		return sql.toString();
 	}
